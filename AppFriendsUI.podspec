@@ -3,8 +3,8 @@ Pod::Spec.new do |s|
 # 1
 s.platform = :ios
 s.ios.deployment_target = '8.0'
-s.name = "AppFriendsCore"
-s.summary = "Core SDK for AppFriends."
+s.name = "AppFriendsUI"
+s.summary = "UI components for AppFriends."
 s.requires_arc = true
 
 # 2
