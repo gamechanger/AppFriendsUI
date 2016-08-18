@@ -21,7 +21,7 @@ s.homepage = "http://appfriends.me"
 
 # 6 - framework location
 s.source = { :git => "https://github.com/laeroah/AppFriendsUI.git", :tag => "v1.0"}
-s.source_files 	= "*.swift"
+s.source_files 	= "**/*.{swift,xib}"
 s.resource	 	= "AppFriendsResources.bundle"
 
 # 7
@@ -34,5 +34,6 @@ s.dependency 'CLTokenInputView'
 s.dependency 'JGProgressHUD'
 s.dependency 'SESlideTableViewCell'
 s.dependency 'DZNEmptyDataSet'
+s.dependency 'AppFriendsCore'
 
 end

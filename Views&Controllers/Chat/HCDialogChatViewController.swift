@@ -8,14 +8,14 @@
 
 import UIKit
 
-class HCDialogChatViewController: HCBaseChatViewController {
+public class HCDialogChatViewController: HCBaseChatViewController {
 
     
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
     }
 
-    override func didReceiveMemoryWarning() {
+    override public func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }

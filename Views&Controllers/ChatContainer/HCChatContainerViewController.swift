@@ -10,11 +10,11 @@ import UIKit
 import FontAwesome_swift
 import Google_Material_Design_Icons_Swift
 
-class HCChatContainerViewController: HCBaseViewController, HCGroupCreatorViewControllerDelegate {
+public class HCChatContainerViewController: HCBaseViewController, HCGroupCreatorViewControllerDelegate {
     
-    static let channelTabTitle = "Channels"
-    static let dialogsTabTitle = "Dialogs"
-    static let contactsTabTitle = "Contacts"
+    public static let channelTabTitle = "Channels"
+    public static let dialogsTabTitle = "Dialogs"
+    public static let contactsTabTitle = "Contacts"
     
     let channelsList = HCChannelsListViewController()
     let dialogsList = HCDialogsListViewController()
@@ -27,16 +27,16 @@ class HCChatContainerViewController: HCBaseViewController, HCGroupCreatorViewCon
     
     private var _tabs = [HCChatContainerViewController.channelTabTitle, HCChatContainerViewController.dialogsTabTitle, HCChatContainerViewController.contactsTabTitle]
     
-    init(tabs: [String]) {
+    public init(tabs: [String]) {
         _tabs = tabs
-        super.init(nibName: "HCChatContainerViewController", bundle: nil)
+        super.init(nibName: "HCChatContainerViewController", bundle: HCUtils.xibBundle())
     }
     
-    required init(coder decoder: NSCoder) {
+    required public init(coder decoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
 
         self.addSegmentedControler()
@@ -59,7 +59,7 @@ class HCChatContainerViewController: HCBaseViewController, HCGroupCreatorViewCon
         self.switchTabs(_segmentView)
     }
 
-    override func didReceiveMemoryWarning() {
+    override public func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
@@ -187,7 +187,7 @@ class HCChatContainerViewController: HCBaseViewController, HCGroupCreatorViewCon
     
     // MARK: HCGroupCreatorViewControllerDelegate
     
-    func usersSelected(users: [String]) {
+    public func usersSelected(users: [String]) {
         
         self.dismissVC { 
             
@@ -210,7 +210,7 @@ class HCChatContainerViewController: HCBaseViewController, HCGroupCreatorViewCon
         }
     }
     
-    func closeButtonTapped(selectVC: HCGroupCreatorViewController) {
+    public func closeButtonTapped(selectVC: HCGroupCreatorViewController) {
         
         self.dismissVC(completion: nil)
     }

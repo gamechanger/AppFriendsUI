@@ -8,18 +8,17 @@
 
 import UIKit
 
-class HCChannelsListViewController: HCBaseViewController, UITableViewDelegate, UITableViewDataSource {
+public class HCChannelsListViewController: HCBaseViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var tableView: UITableView!
     
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
-
-        tableView.registerNib(UINib(nibName: "HCChannelTableViewCell", bundle: nil), forCellReuseIdentifier: "HCChannelTableViewCell")
         
+        HCUtils.registerNib(self.tableView, nibName: "HCChannelTableViewCell", forCellReuseIdentifier: "HCChannelTableViewCell")
     }
 
-    override func didReceiveMemoryWarning() {
+    override public func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
@@ -27,7 +26,7 @@ class HCChannelsListViewController: HCBaseViewController, UITableViewDelegate, U
 
     // MARK: UITableViewDelegate, UITableViewDataSource
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let cell: HCChannelTableViewCell = tableView.dequeueReusableCellWithIdentifier("HCChannelTableViewCell", forIndexPath: indexPath) as! HCChannelTableViewCell
         cell.selectionStyle = .None
@@ -35,15 +34,15 @@ class HCChannelsListViewController: HCBaseViewController, UITableViewDelegate, U
         return cell
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    public func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 10
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return 180
     }
 

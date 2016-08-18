@@ -9,21 +9,20 @@
 import UIKit
 import CoreStore
 
-class CoreStoreManager: NSObject {
+public class CoreStoreManager: NSObject {
     
-    static let sharedInstance = CoreStoreManager()
+    public static let sharedInstance = CoreStoreManager()
     
     var _dataStack: DataStack?
     
-    static func store() -> DataStack? {
+    public static func store() -> DataStack? {
         
         return sharedInstance._dataStack
     }
     
-    func initialize(completion: ((success: Bool, error: NSError?) -> ())? = nil)
+    public func initialize(completion: ((success: Bool, error: NSError?) -> ())? = nil)
     {
-        guard let bundleID = NSBundle.mainBundle().bundleIdentifier else { return }
-        guard let bundle = NSBundle(identifier: bundleID) else { return }
+        guard let bundle = HCUtils.appFriendsBundle() else { return }
         _dataStack = DataStack(modelName: "AppFriendsUIModels", bundle: bundle, migrationChain: nil)
         
         if let dataStack = _dataStack {

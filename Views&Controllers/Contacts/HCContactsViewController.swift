@@ -12,14 +12,14 @@ import FontAwesome_swift
 import AppFriendsCore
 import Kingfisher
 
-class HCContactsViewController: HCBaseViewController, ListObjectObserver {
+public class HCContactsViewController: HCBaseViewController, ListObjectObserver {
     
     var monitor: ListMonitor<HCUser>?
     
     @IBOutlet weak var tableView: UITableView!
     var currentUserID: String?
     
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         
         currentUserID = HCSDKCore.sharedInstance.currentUserID()
@@ -29,7 +29,7 @@ class HCContactsViewController: HCBaseViewController, ListObjectObserver {
         self.tableView.backgroundColor = HCColorPalette.chatBackgroundColor
         self.view.backgroundColor = HCColorPalette.chatBackgroundColor
         self.tableView.tableFooterView = UIView()
-        self.tableView.registerNib(UINib(nibName: "HCContactTableViewCell", bundle: nil), forCellReuseIdentifier: "HCContactTableViewCell")
+        HCUtils.registerNib(self.tableView, nibName: "HCContactTableViewCell", forCellReuseIdentifier: "HCContactTableViewCell")
         
         let user = CoreStoreManager.store()?.fetchOne(From(HCUser),
                                                       Where("userID", isEqualTo: currentUserID!))
@@ -55,7 +55,7 @@ class HCContactsViewController: HCBaseViewController, ListObjectObserver {
         }
     }
 
-    override func didReceiveMemoryWarning() {
+    override public func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
@@ -121,40 +121,40 @@ class HCContactsViewController: HCBaseViewController, ListObjectObserver {
     
     // MARK: ListObserver
     
-    func listMonitorWillChange(monitor: ListMonitor<HCUser>) {
+    public func listMonitorWillChange(monitor: ListMonitor<HCUser>) {
         self.tableView.beginUpdates()
     }
     
-    func listMonitorDidChange(monitor: ListMonitor<HCUser>) {
+    public func listMonitorDidChange(monitor: ListMonitor<HCUser>) {
         self.tableView.endUpdates()
     }
     
-    func listMonitorWillRefetch(monitor: ListMonitor<HCUser>) {
+    public func listMonitorWillRefetch(monitor: ListMonitor<HCUser>) {
     }
     
-    func listMonitorDidRefetch(monitor: ListMonitor<HCUser>) {
+    public func listMonitorDidRefetch(monitor: ListMonitor<HCUser>) {
         self.tableView.reloadData()
     }
     
     // MARK: ListObjectObserver
     
-    func listMonitor(monitor: ListMonitor<HCUser>, didInsertObject object: HCUser, toIndexPath indexPath: NSIndexPath) {
+    public func listMonitor(monitor: ListMonitor<HCUser>, didInsertObject object: HCUser, toIndexPath indexPath: NSIndexPath) {
         
         self.tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
     }
     
-    func listMonitor(monitor: ListMonitor<HCUser>, didDeleteObject object: HCUser, fromIndexPath indexPath: NSIndexPath) {
+    public func listMonitor(monitor: ListMonitor<HCUser>, didDeleteObject object: HCUser, fromIndexPath indexPath: NSIndexPath) {
         
         self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
     }
     
-    func listMonitor(monitor: ListMonitor<HCUser>, didUpdateObject object: HCUser, atIndexPath indexPath: NSIndexPath) {
+    public func listMonitor(monitor: ListMonitor<HCUser>, didUpdateObject object: HCUser, atIndexPath indexPath: NSIndexPath) {
         
         self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
     }
     
     
-    func listMonitor(monitor: ListMonitor<HCUser>, didMoveObject object: HCUser, fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
+    public func listMonitor(monitor: ListMonitor<HCUser>, didMoveObject object: HCUser, fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
         
         self.tableView.deleteRowsAtIndexPaths([fromIndexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
         self.tableView.insertRowsAtIndexPaths([toIndexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
@@ -163,14 +163,14 @@ class HCContactsViewController: HCBaseViewController, ListObjectObserver {
     
     // MARK: ListSectionObserver
     
-    func listMonitor(monitor: ListMonitor<HCUser>, didInsertSection sectionInfo: NSFetchedResultsSectionInfo, toSectionIndex sectionIndex: Int) {
+    public func listMonitor(monitor: ListMonitor<HCUser>, didInsertSection sectionInfo: NSFetchedResultsSectionInfo, toSectionIndex sectionIndex: Int) {
         
         let sectionIndexSet = NSIndexSet(index: sectionIndex)
         self.tableView.insertSections(sectionIndexSet, withRowAnimation: UITableViewRowAnimation.Fade)
         
     }
     
-    func listMonitor(monitor: ListMonitor<HCUser>, didDeleteSection sectionInfo: NSFetchedResultsSectionInfo, fromSectionIndex sectionIndex: Int) {
+    public func listMonitor(monitor: ListMonitor<HCUser>, didDeleteSection sectionInfo: NSFetchedResultsSectionInfo, fromSectionIndex sectionIndex: Int) {
         
         let sectionIndexSet = NSIndexSet(index: sectionIndex)
         self.tableView.deleteSections(sectionIndexSet, withRowAnimation: UITableViewRowAnimation.Fade)

@@ -12,7 +12,7 @@ import EZSwiftExtensions
 import NSDate_TimeAgo
 import Google_Material_Design_Icons_Swift
 
-class HCChatTableViewCell: UITableViewCell {
+public class HCChatTableViewCell: UITableViewCell {
 
     static let kChatCellTopMargin: CGFloat = 56.0
     static let kChatCellBottomMargin: CGFloat = 20.0
@@ -32,7 +32,7 @@ class HCChatTableViewCell: UITableViewCell {
     
     var messageTime: NSDate?
     
-    override func awakeFromNib() {
+    override public func awakeFromNib() {
         super.awakeFromNib()
         
         userAvatarImageView.layer.cornerRadius = 4
@@ -51,6 +51,8 @@ class HCChatTableViewCell: UITableViewCell {
         
         self.separatorInset = UIEdgeInsetsZero
         self.layoutMargins = UIEdgeInsetsZero
+        
+        self.contentBackgroundBubble.image = HCUtils.imageInHCBundle("bubble1")
 
         NSTimer.runThisEvery(seconds: 30) { [weak self](timer) in
             self?.updateTime()
@@ -65,7 +67,7 @@ class HCChatTableViewCell: UITableViewCell {
         }
     }
     
-    override func setSelected(selected: Bool, animated: Bool) {
+    override public func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state

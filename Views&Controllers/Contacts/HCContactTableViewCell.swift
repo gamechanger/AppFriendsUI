@@ -8,14 +8,14 @@
 
 import UIKit
 
-class HCContactTableViewCell: UITableViewCell {
+public class HCContactTableViewCell: UITableViewCell {
 
     @IBOutlet weak var userAvatar: UIImageView!
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var rightImageView: UIImageView!
     
     
-    override func awakeFromNib() {
+    override public func awakeFromNib() {
         super.awakeFromNib()
         
         self.contentView.backgroundColor = HCColorPalette.chatBackgroundColor
@@ -30,7 +30,7 @@ class HCContactTableViewCell: UITableViewCell {
         userAvatar.contentMode = .ScaleAspectFit
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
+    override public func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state

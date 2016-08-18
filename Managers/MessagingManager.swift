@@ -11,11 +11,11 @@ import CoreStore
 import EZSwiftExtensions
 import AppFriendsCore
 
-class MessagingManager: NSObject, HCSDKCoreSyncDelegate {
+public class MessagingManager: NSObject, HCSDKCoreSyncDelegate {
     
-    static let sharedInstance = MessagingManager()
+    public static let sharedInstance = MessagingManager()
     
-    static func startReceivingMessage()
+    public static func startReceivingMessage()
     {
         HCSDKCore.sharedInstance.syncDelegate = sharedInstance
     }
@@ -27,7 +27,7 @@ class MessagingManager: NSObject, HCSDKCoreSyncDelegate {
     
     // MARK: HCSDKCoreSyncDelegate
     
-    func messagesReceived(messages: [[String : AnyObject]]) {
+    public func messagesReceived(messages: [[String : AnyObject]]) {
         
         for messageJSON in messages
         {
@@ -37,7 +37,7 @@ class MessagingManager: NSObject, HCSDKCoreSyncDelegate {
     
     // MARK: Sending Text Message
 
-    func sendTextMessage(text: String, userID: String) {
+    public func sendTextMessage(text: String, userID: String) {
         
         let messageJSON = createTextMessageJSON(text, dialogID: userID)
         CoreStoreManager.store()?.beginAsynchronous({ (transaction) in
@@ -62,7 +62,7 @@ class MessagingManager: NSObject, HCSDKCoreSyncDelegate {
         }
     }
     
-    func sendTextMessage(text: String, dialogID: String) {
+    public func sendTextMessage(text: String, dialogID: String) {
         
         let messageJSON = createTextMessageJSON(text, dialogID: dialogID)
         CoreStoreManager.store()?.beginAsynchronous({ (transaction) in
@@ -89,7 +89,7 @@ class MessagingManager: NSObject, HCSDKCoreSyncDelegate {
     
     // MARK: Create message JSON
     
-    func createTextMessageJSON(text: String, dialogID: String) -> [String: AnyObject]
+    public func createTextMessageJSON(text: String, dialogID: String) -> [String: AnyObject]
     {
         var messageJSON = [String: AnyObject]()
         messageJSON["temp_id"] = HCUtils.createUniqueID() // create a global unique id here for your message
@@ -103,7 +103,7 @@ class MessagingManager: NSObject, HCSDKCoreSyncDelegate {
         return messageJSON
     }
     
-    func createSenderJSON() -> NSDictionary {
+    public func createSenderJSON() -> NSDictionary {
         
         let messageJSON = NSMutableDictionary()
         messageJSON["id"] = HCSDKCore.sharedInstance.currentUserID()
@@ -124,7 +124,7 @@ class MessagingManager: NSObject, HCSDKCoreSyncDelegate {
     
     // MARK: process message response
     
-    func failMessage(tempID: String)
+    public func failMessage(tempID: String)
     {
         CoreStoreManager.store()?.beginAsynchronous({ (transaction) in
             if let message = HCMessage.findMessage(tempID, transaction: transaction)

@@ -9,7 +9,7 @@
 import UIKit
 import CLTokenInputView
 
-class HCContactSelectField: CLTokenInputView {
+public class HCContactSelectField: CLTokenInputView {
 
     
     

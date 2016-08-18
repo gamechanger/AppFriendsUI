@@ -39,4 +39,33 @@ class HCUtils: NSObject {
         }
         return nil
     }
+    
+    // MARK: resources bundle
+    
+    public static func imageInHCBundle(name: String) -> UIImage? {
+        
+        let bundle = self.appFriendsBundle()
+        return UIImage(named: name, inBundle: bundle, compatibleWithTraitCollection: nil)
+    }
+    
+    public static func xibBundle() -> NSBundle? {
+        return NSBundle(forClass: self)
+    }
+    
+    public static func appFriendsBundle() -> NSBundle? {
+        
+        let bundle = NSBundle(forClass: self)
+        let sourcePath = bundle.pathForResource("AppFriendsResources", ofType: "bundle")
+        if let path = sourcePath {
+            return NSBundle(path: path)
+        }else {
+            return nil
+        }
+    }
+    
+    public static func registerNib(tableView: UITableView, nibName nibName: String, forCellReuseIdentifier identifier: String)
+    {
+        tableView.registerNib(UINib(nibName: nibName, bundle: HCUtils.xibBundle()), forCellReuseIdentifier: identifier)
+    }
 }
+

@@ -34,7 +34,7 @@ class HCDialogsListViewController: HCBaseViewController, UITableViewDelegate, UI
         self.view.backgroundColor = HCColorPalette.chatBackgroundColor
         self.tableView.tableFooterView = UIView()
         
-        self.tableView.registerNib(UINib(nibName: "HCDialogTableViewCell", bundle: nil), forCellReuseIdentifier: "HCDialogTableViewCell")
+        HCUtils.registerNib(self.tableView, nibName: "HCDialogTableViewCell", forCellReuseIdentifier: "HCDialogTableViewCell")
         
         let monitor = CoreStoreManager.store()!.monitorList(
             From(HCChatDialog),

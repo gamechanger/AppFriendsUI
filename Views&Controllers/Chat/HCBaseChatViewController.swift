@@ -14,7 +14,7 @@ import AppFriendsCore
 import Kingfisher
 import NSDate_TimeAgo
 
-class HCBaseChatViewController: SLKTextViewController, ListObjectObserver {
+public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver {
     
     var monitor: ListMonitor<HCMessage>?
     var currentUserID: String?
@@ -31,18 +31,19 @@ class HCBaseChatViewController: SLKTextViewController, ListObjectObserver {
         super.init(tableViewStyle: .Plain)
     }
     
-    required init(coder decoder: NSCoder) {
+    required public init(coder decoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         
         currentUserID = HCSDKCore.sharedInstance.currentUserID()
         
         self.tableView.separatorStyle = .None
         self.tableView.tableFooterView = UIView()
-        self.tableView.registerNib(UINib(nibName: "HCChatTextTableViewCell", bundle: nil), forCellReuseIdentifier: "HCChatTextTableViewCell")
+        
+        HCUtils.registerNib(self.tableView, nibName: "HCChatTextTableViewCell", forCellReuseIdentifier: "HCChatTextTableViewCell")
         
         if let monitor = CoreStoreManager.store()?.monitorList(
             From(HCMessage),
@@ -60,20 +61,20 @@ class HCBaseChatViewController: SLKTextViewController, ListObjectObserver {
         configChatView()
     }
 
-    override func didReceiveMemoryWarning() {
+    override public func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
     // override methods
     
-    override var tableView: UITableView {
+    override public  var tableView: UITableView {
         get {
             return super.tableView!
         }
     }
     
-    override func didPressRightButton(sender: AnyObject?) {
+    override public func didPressRightButton(sender: AnyObject?) {
         
         if let text = self.textView.text
         {
@@ -180,12 +181,12 @@ class HCBaseChatViewController: SLKTextViewController, ListObjectObserver {
     
     // MARK: UITableViewDelegate, UITableViewDataSource
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         return self.messagingCell(atIndexPath: indexPath)
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         guard let numberOfRows = self.monitor?.numberOfObjects() else {
             return 0
@@ -194,11 +195,11 @@ class HCBaseChatViewController: SLKTextViewController, ListObjectObserver {
         return numberOfRows
     }
     
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override public func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
     
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    override public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
         if tableView == self.tableView, let message = self.monitor?.objectsInSection(safeSectionIndex: indexPath.section)![indexPath.row]
         {
@@ -230,11 +231,11 @@ class HCBaseChatViewController: SLKTextViewController, ListObjectObserver {
     
     // MARK: ListObserver
     
-    func listMonitorWillChange(monitor: ListMonitor<HCMessage>) {
+    public func listMonitorWillChange(monitor: ListMonitor<HCMessage>) {
         self.tableView.beginUpdates()
     }
     
-    func listMonitorDidChange(monitor: ListMonitor<HCMessage>) {
+    public func listMonitorDidChange(monitor: ListMonitor<HCMessage>) {
         self.tableView.endUpdates()
         
         // auto scroll
@@ -247,16 +248,16 @@ class HCBaseChatViewController: SLKTextViewController, ListObjectObserver {
         self.tableView.reloadData()
     }
     
-    func listMonitorWillRefetch(monitor: ListMonitor<HCMessage>) {
+    public func listMonitorWillRefetch(monitor: ListMonitor<HCMessage>) {
     }
     
-    func listMonitorDidRefetch(monitor: ListMonitor<HCMessage>) {
+    public func listMonitorDidRefetch(monitor: ListMonitor<HCMessage>) {
         self.tableView.reloadData()
     }
     
     // MARK: ListObjectObserver
     
-    func listMonitor(monitor: ListMonitor<HCMessage>, didInsertObject object: HCMessage, toIndexPath indexPath: NSIndexPath) {
+    public func listMonitor(monitor: ListMonitor<HCMessage>, didInsertObject object: HCMessage, toIndexPath indexPath: NSIndexPath) {
         
         
         let firstIndexPath = NSIndexPath(forRow: 0, inSection: 0)
@@ -266,18 +267,18 @@ class HCBaseChatViewController: SLKTextViewController, ListObjectObserver {
         
     }
     
-    func listMonitor(monitor: ListMonitor<HCMessage>, didDeleteObject object: HCMessage, fromIndexPath indexPath: NSIndexPath) {
+    public func listMonitor(monitor: ListMonitor<HCMessage>, didDeleteObject object: HCMessage, fromIndexPath indexPath: NSIndexPath) {
         
         self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
     }
     
-    func listMonitor(monitor: ListMonitor<HCMessage>, didUpdateObject object: HCMessage, atIndexPath indexPath: NSIndexPath) {
+    public func listMonitor(monitor: ListMonitor<HCMessage>, didUpdateObject object: HCMessage, atIndexPath indexPath: NSIndexPath) {
         
         self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
     }
     
     
-    func listMonitor(monitor: ListMonitor<HCMessage>, didMoveObject object: HCMessage, fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
+    public func listMonitor(monitor: ListMonitor<HCMessage>, didMoveObject object: HCMessage, fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
         
         self.tableView.deleteRowsAtIndexPaths([fromIndexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
         self.tableView.insertRowsAtIndexPaths([toIndexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
@@ -286,14 +287,14 @@ class HCBaseChatViewController: SLKTextViewController, ListObjectObserver {
     
     // MARK: ListSectionObserver
     
-    func listMonitor(monitor: ListMonitor<HCMessage>, didInsertSection sectionInfo: NSFetchedResultsSectionInfo, toSectionIndex sectionIndex: Int) {
+    public func listMonitor(monitor: ListMonitor<HCMessage>, didInsertSection sectionInfo: NSFetchedResultsSectionInfo, toSectionIndex sectionIndex: Int) {
         
         let sectionIndexSet = NSIndexSet(index: sectionIndex)
         self.tableView.insertSections(sectionIndexSet, withRowAnimation: UITableViewRowAnimation.Fade)
         
     }
     
-    func listMonitor(monitor: ListMonitor<HCMessage>, didDeleteSection sectionInfo: NSFetchedResultsSectionInfo, fromSectionIndex sectionIndex: Int) {
+    public func listMonitor(monitor: ListMonitor<HCMessage>, didDeleteSection sectionInfo: NSFetchedResultsSectionInfo, fromSectionIndex sectionIndex: Int) {
         
         let sectionIndexSet = NSIndexSet(index: sectionIndex)
         self.tableView.deleteSections(sectionIndexSet, withRowAnimation: UITableViewRowAnimation.Fade)

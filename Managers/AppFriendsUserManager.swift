@@ -7,14 +7,14 @@
 //
 
 import UIKit
-import AppFriendsCore
 import CoreStore
+import AppFriendsCore
 
-class AppFriendsUserManager: NSObject {
+public class AppFriendsUserManager: NSObject {
 
-    static let sharedInstance = AppFriendsUserManager()
+    public static let sharedInstance = AppFriendsUserManager()
     
-    func fetchUserFriends(userID: String, completion: ((response: AnyObject?, error: NSError?) -> ())? = nil) {
+    public func fetchUserFriends(userID: String, completion: ((response: AnyObject?, error: NSError?) -> ())? = nil) {
         
         let appFriendsCore = HCSDKCore.sharedInstance
         appFriendsCore.startRequest(httpMethod: "GET", path: "/users/\(userID)/friends", parameters: nil) { (response, error) in
@@ -66,7 +66,7 @@ class AppFriendsUserManager: NSObject {
         }
     }
     
-    func updateUserInfo(userID: String, userInfo:[String: AnyObject], completion: ((response: AnyObject?, error: NSError?) -> ())? = nil)
+    public func updateUserInfo(userID: String, userInfo:[String: AnyObject], completion: ((response: AnyObject?, error: NSError?) -> ())? = nil)
     {
         let appFriendsCore = HCSDKCore.sharedInstance
         appFriendsCore.startRequest(httpMethod: "PUT", path: "/users/\(userID)", parameters: userInfo) { (response, error) in
@@ -103,7 +103,7 @@ class AppFriendsUserManager: NSObject {
         }
     }
     
-    func fetchUserInfo(userID: String, completion: ((response: AnyObject?, error: NSError?) -> ())? = nil)
+    public func fetchUserInfo(userID: String, completion: ((response: AnyObject?, error: NSError?) -> ())? = nil)
     {
         let appFriendsCore = HCSDKCore.sharedInstance
         appFriendsCore.startRequest(httpMethod: "GET", path: "/users/\(userID)", parameters: nil) { (response, error) in

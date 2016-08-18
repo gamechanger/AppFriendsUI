@@ -12,18 +12,18 @@ import FontAwesome_swift
 import Google_Material_Design_Icons_Swift
 
 @objc
-protocol HCGroupCreatorViewControllerDelegate {
+public protocol HCGroupCreatorViewControllerDelegate {
     func usersSelected(users:[String])
     func closeButtonTapped(selectVC: HCGroupCreatorViewController)
 }
 
-class HCGroupCreatorViewController: HCContactsViewController, CLTokenInputViewDelegate {
+public class HCGroupCreatorViewController: HCContactsViewController, CLTokenInputViewDelegate {
     
     @IBOutlet weak var tokenField: HCContactSelectField!
     
     weak var delegate: HCGroupCreatorViewControllerDelegate?
     
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         
         let titleLabel = UILabel(x: 0, y: 0, w: 150, h: 30, fontSize: 17)
@@ -55,7 +55,7 @@ class HCGroupCreatorViewController: HCContactsViewController, CLTokenInputViewDe
         self.navigationItem.rightBarButtonItem?.tintColor = HCColorPalette.navigationBarIconColor
     }
 
-    override func didReceiveMemoryWarning() {
+    override public func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
@@ -123,11 +123,11 @@ class HCGroupCreatorViewController: HCContactsViewController, CLTokenInputViewDe
     
     // MARK: CLTokenInputViewDelegate
     
-    func tokenInputView(view: CLTokenInputView, didAddToken token: CLToken) {
+    public func tokenInputView(view: CLTokenInputView, didAddToken token: CLToken) {
         
     }
     
-    func tokenInputView(view: CLTokenInputView, didRemoveToken token: CLToken) {
+    public func tokenInputView(view: CLTokenInputView, didRemoveToken token: CLToken) {
         
     }
 }

@@ -9,17 +9,28 @@
 import UIKit
 import JGProgressHUD
 
-class HCBaseViewController: UIViewController {
+public class HCBaseViewController: UIViewController {
     
     static var HUD: JGProgressHUD?
     
-    override func viewDidLoad() {
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+        
+        
+        let bundle = HCUtils.xibBundle()
+        super.init(nibName: nibNameOrNil, bundle: bundle)
+    }
+    
+    required public init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override public func viewDidLoad() {
         super.viewDidLoad()
 
         self.automaticallyAdjustsScrollViewInsets = false
     }
 
-    override func didReceiveMemoryWarning() {
+    override public func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
