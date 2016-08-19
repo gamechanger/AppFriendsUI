@@ -3,56 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>files</key>
-	<dict>
-		<key>Resources/AppFriendsUIModels.momd/AppFriendsUIModels.mom</key>
-		<data>
-		UpzfB3EF7xplRWaIauh4DRUOgBg=
-		</data>
-		<key>Resources/AppFriendsUIModels.momd/VersionInfo.plist</key>
-		<data>
-		cf2Rc1etA8LrcxgbgOUVVgBlFyw=
-		</data>
-		<key>Resources/Assets.car</key>
-		<data>
-		gVSMPrLVq4oFFAZX2NQcjU1XK1s=
-		</data>
-	</dict>
+	<dict/>
 	<key>files2</key>
-	<dict>
-		<key>Resources/AppFriendsUIModels.momd/AppFriendsUIModels.mom</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			UpzfB3EF7xplRWaIauh4DRUOgBg=
-			</data>
-			<key>hash2</key>
-			<data>
-			T5knJYNJdg4UKrS/hozrUGpitaSqbnOjGtegm+qgNNs=
-			</data>
-		</dict>
-		<key>Resources/AppFriendsUIModels.momd/VersionInfo.plist</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			cf2Rc1etA8LrcxgbgOUVVgBlFyw=
-			</data>
-			<key>hash2</key>
-			<data>
-			Ylpz6B7HifUvZErnrgs4CfMnWz+vDMCOFKYhuzO99Hg=
-			</data>
-		</dict>
-		<key>Resources/Assets.car</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			gVSMPrLVq4oFFAZX2NQcjU1XK1s=
-			</data>
-			<key>hash2</key>
-			<data>
-			5st7hTV3uqtNquSTwZJrezP4KmAc9aDsN6U2Rf7FhP0=
-			</data>
-		</dict>
-	</dict>
+	<dict/>
 	<key>rules</key>
 	<dict>
 		<key>^Resources/</key>

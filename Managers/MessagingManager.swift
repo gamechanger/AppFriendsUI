@@ -275,6 +275,13 @@ public class MessagingManager: NSObject, HCSDKCoreSyncDelegate {
                         })
                     }
                 }
+                else if dialogType == HCSDKConstants.kDialogTypeSystem {
+                    
+                    if let dialogID = returnedJSON["dialog_id"] as? String
+                    {
+                        self.processChatMessageJSON(returnedJSON)
+                    }
+                }
             }
             
         }

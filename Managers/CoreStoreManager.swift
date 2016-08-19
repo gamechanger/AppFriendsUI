@@ -22,7 +22,7 @@ public class CoreStoreManager: NSObject {
     
     public func initialize(completion: ((success: Bool, error: NSError?) -> ())? = nil)
     {
-        guard let bundle = HCUtils.appFriendsBundle() else { return }
+        guard let bundle = HCUtils.coreDataBundle() else { return }
         _dataStack = DataStack(modelName: "AppFriendsUIModels", bundle: bundle, migrationChain: nil)
         
         if let dataStack = _dataStack {

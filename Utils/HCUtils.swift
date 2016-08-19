@@ -52,6 +52,10 @@ public class HCUtils: NSObject {
         return NSBundle(forClass: self)
     }
     
+    public static func coreDataBundle() -> NSBundle? {
+        return NSBundle(forClass: self)
+    }
+    
     public static func appFriendsBundle() -> NSBundle? {
         
         let bundle = NSBundle(forClass: self)

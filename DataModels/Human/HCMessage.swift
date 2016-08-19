@@ -107,6 +107,10 @@ public class HCMessage: _HCMessage {
         {
             HCChatDialog.updateDialogLastMessage(dialogID, transaction: transaction)
         }
+        if let metadata = messageJSON["meta_data"] as? NSDictionary
+        {
+            message.metadata = metadata
+        }
         
         if let dialogType = messageJSON["dialog_type"] as? String
         {
