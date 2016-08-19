@@ -3,9 +3,41 @@
 <plist version="1.0">
 <dict>
 	<key>files</key>
-	<dict/>
+	<dict>
+		<key>Resources/AppFriendsUIModels.momd/AppFriendsUIModels.mom</key>
+		<data>
+		6Wjc66GDuMCEUNNEVmbq4DMWD20=
+		</data>
+		<key>Resources/AppFriendsUIModels.momd/VersionInfo.plist</key>
+		<data>
+		FuYFbUeu7gJIJR6UxpE8n3Z86KE=
+		</data>
+	</dict>
 	<key>files2</key>
-	<dict/>
+	<dict>
+		<key>Resources/AppFriendsUIModels.momd/AppFriendsUIModels.mom</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			6Wjc66GDuMCEUNNEVmbq4DMWD20=
+			</data>
+			<key>hash2</key>
+			<data>
+			vuausNVJH/4HekLCeqaNFcWp0N0EKVK3pkY6G1l3ol0=
+			</data>
+		</dict>
+		<key>Resources/AppFriendsUIModels.momd/VersionInfo.plist</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			FuYFbUeu7gJIJR6UxpE8n3Z86KE=
+			</data>
+			<key>hash2</key>
+			<data>
+			YcfARdLMmM9+vOcpNQebiVe0lbs2yipj/5JvodbYlYQ=
+			</data>
+		</dict>
+	</dict>
 	<key>rules</key>
 	<dict>
 		<key>^Resources/</key>

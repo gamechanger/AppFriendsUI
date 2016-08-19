@@ -15,6 +15,7 @@ struct HCColorPalette {
     static let chatContentTextColor = UIColor.whiteColor()
     static let chatUserNamelTextColor = UIColor.whiteColor()
     static let chatTimeLabelTextColor = UIColor.lightGrayColor()
+    static let chatSystemMessageColor = UIColor.lightGrayColor()
     static let chatSendButtonColor = UIColor(hexString: "0d0e28")
     static let chatOutMessageBubbleColor = UIColor(hexString: "93d4f0")
     static let chatInMessageBubbleColor = UIColor(hexString: "5e62bc")

@@ -67,7 +67,7 @@ public class _HCMessage: NSManagedObject {
     var messageID: String?
 
     @NSManaged public
-    var messageType: NSNumber?
+    var messageType: String?
 
     @NSManaged public
     var metadata: AnyObject?

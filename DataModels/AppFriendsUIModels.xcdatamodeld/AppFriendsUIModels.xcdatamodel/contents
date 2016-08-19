@@ -22,7 +22,7 @@
         <attribute name="failed" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="handled" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="messageID" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="messageType" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="messageType" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="metadata" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="read" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="receiveTime" optional="YES" attributeType="Date" syncable="YES"/>

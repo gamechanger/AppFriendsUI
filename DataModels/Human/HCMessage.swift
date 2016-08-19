@@ -114,6 +114,8 @@ public class HCMessage: _HCMessage {
         
         if let dialogType = messageJSON["dialog_type"] as? String
         {
+            message.messageType = dialogType
+            
             if dialogType == HCSDKConstants.kDialogTypeIndividual, let dialogID = messageJSON["dialog_id"] as? String
             {
                 let user = HCUser.findOrCreateUser(dialogID, transaction: transaction)

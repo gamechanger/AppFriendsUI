@@ -50,6 +50,7 @@ public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver
         
         HCUtils.registerNib(self.tableView, nibName: "HCChatTextTableViewCell", forCellReuseIdentifier: "HCChatTextTableViewCell")
         HCUtils.registerNib(self.tableView, nibName: "HCChatImageTableViewCell", forCellReuseIdentifier: "HCChatImageTableViewCell")
+        HCUtils.registerNib(self.tableView, nibName: "HCChatSystemMessageTableViewCell", forCellReuseIdentifier: "HCChatSystemMessageTableViewCell")
         
         let twoDaysAgo = NSDate().dateBySubtractingDays(2)
         
@@ -155,10 +156,16 @@ public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver
         let message = self.monitor?.objectsInSection(safeSectionIndex: indexPath.section)![indexPath.row]
         
         var tableCell: HCChatTableViewCell?
+        var isSystemMessage = false
         
         if let m = message
         {
-            if let customData = m.customData {
+            if m.messageType == HCSDKConstants.kDialogTypeSystem {
+                
+                isSystemMessage = true
+                tableCell = self.tableView.dequeueReusableCellWithIdentifier("HCChatSystemMessageTableViewCell", forIndexPath: indexPath) as? HCChatTableViewCell
+                
+            }else if let customData = m.customData {
                 
                 if let attachment = HCMessageAttachment.getAttachmentFromMessage(dataString: customData) where attachment.attachmentType == HCMessageAttachmentType.Image.name()
                 {
@@ -180,8 +187,15 @@ public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver
             cell.selectionStyle = .None
             
             if let text = message?.text {
-                let attributedText = NSAttributedString(string: text, attributes: self.messagingCellAttributes())
-                cell.messageContentLabel?.attributedText = attributedText
+                
+                if isSystemMessage {
+                    let attributedText = NSAttributedString(string: text, attributes: self.systemMessagingCellAttributes())
+                    cell.messageContentLabel?.attributedText = attributedText
+                }
+                else {
+                    let attributedText = NSAttributedString(string: text, attributes: self.messagingCellAttributes())
+                    cell.messageContentLabel?.attributedText = attributedText
+                }
             }
             
             cell.transform = self.tableView.transform
@@ -228,6 +242,18 @@ public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver
         
         let pointSize = HCChatTableViewCell.defaultPointSize()
         let attributes = [NSFontAttributeName: UIFont(name: HCFont.ChatCellContentFontName, size: pointSize)!, NSParagraphStyleAttributeName: paragraphStyle, NSForegroundColorAttributeName: HCColorPalette.chatContentTextColor]
+        
+        return attributes
+    }
+    
+    func systemMessagingCellAttributes() -> [String: AnyObject] {
+        
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineBreakMode = .ByWordWrapping
+        paragraphStyle.alignment = .Center
+        
+        let pointSize = HCChatTableViewCell.defaultPointSize()
+        let attributes = [NSFontAttributeName: UIFont(name: HCFont.ChatCellContentFontName, size: pointSize)!, NSParagraphStyleAttributeName: paragraphStyle, NSForegroundColorAttributeName: HCColorPalette.chatSystemMessageColor]
         
         return attributes
     }

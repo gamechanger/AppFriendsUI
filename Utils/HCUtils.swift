@@ -53,7 +53,14 @@ public class HCUtils: NSObject {
     }
     
     public static func coreDataBundle() -> NSBundle? {
-        return NSBundle(forClass: self)
+        
+        let bundle = NSBundle(forClass: self)
+        let sourcePath = bundle.pathForResource("AppFriendsResources", ofType: "bundle")
+        if let path = sourcePath {
+            return NSBundle(path: path)
+        }else {
+            return nil
+        }
     }
     
     public static func appFriendsBundle() -> NSBundle? {

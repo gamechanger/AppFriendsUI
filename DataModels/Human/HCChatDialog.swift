@@ -18,6 +18,7 @@ public class HCChatDialog: _HCChatDialog {
         }
         
         dialog!.title = dialogTitle
+        dialog!.removeMembers(dialog!.members)
         
         for userID in members
         {

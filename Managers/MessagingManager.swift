@@ -277,13 +277,38 @@ public class MessagingManager: NSObject, HCSDKCoreSyncDelegate {
                 }
                 else if dialogType == HCSDKConstants.kDialogTypeSystem {
                     
-                    if let dialogID = returnedJSON["dialog_id"] as? String
+                    if let data = returnedJSON["meta_data"] as? NSDictionary
                     {
+                        self.processMessageMetadata(data)
                         self.processChatMessageJSON(returnedJSON)
                     }
                 }
             }
             
+        }
+    }
+    
+    
+    func processMessageMetadata(metadata: NSDictionary)
+    {
+        var action = ""
+        var actionType = ""
+        
+        if let systemAction = metadata["action"] as? String
+        {
+            action = systemAction
+        }
+        if let systemActionType = metadata["action_type"] as? String
+        {
+            actionType = systemActionType
+        }
+        
+        if action == "g"
+        {
+            if let dialogID = metadata["dialog"] as? String
+            {
+                DialogsManager.sharedInstance.fetchDialogInfo(dialogID, completion: nil)
+            }
         }
     }
 }
