@@ -62,6 +62,33 @@ public class HCChatDialog: _HCChatDialog {
         })
     }
     
+    func defaultGroupName() -> String
+    {
+        var title = ""
+        let currentUserID = HCSDKCore.sharedInstance.currentUserID()
+        for (index, user) in self.members.enumerate()
+        {
+            if let member = user as? HCUser
+            {
+                let notCurrentUser = member.userID != currentUserID
+                
+                if notCurrentUser
+                {
+                    if let userName = member.userName
+                    {
+                        title += "\(userName)"
+                        if index < members.count - 1
+                        {
+                            title += ", "
+                        }
+                    }
+                }
+            }
+        }
+        
+        return title
+    }
+    
     static func groupNameFromMembers(members: [String], transaction: AsynchronousDataTransaction? = nil) -> String
     {
         var title = ""

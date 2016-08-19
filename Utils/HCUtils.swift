@@ -8,14 +8,14 @@
 
 import UIKit
 
-class HCUtils: NSObject {
+public class HCUtils: NSObject {
 
-    static func createUniqueID() -> String
+    public static func createUniqueID() -> String
     {
         return NSUUID().UUIDString
     }
  
-    static func jsonStringFromDictionary() -> String
+    public static func jsonStringFromDictionary() -> String
     {
         do {
             let data = try NSJSONSerialization.dataWithJSONObject(self, options:[])
@@ -28,7 +28,7 @@ class HCUtils: NSObject {
         return ""
     }
     
-    static func dictionaryFromJsonString(text: String) -> [String:AnyObject]?
+    public static func dictionaryFromJsonString(text: String) -> [String:AnyObject]?
     {
         if let data = text.dataUsingEncoding(NSUTF8StringEncoding) {
             do {
@@ -63,7 +63,7 @@ class HCUtils: NSObject {
         }
     }
     
-    public static func registerNib(tableView: UITableView, nibName nibName: String, forCellReuseIdentifier identifier: String)
+    public static func registerNib(tableView: UITableView, nibName: String, forCellReuseIdentifier identifier: String)
     {
         tableView.registerNib(UINib(nibName: nibName, bundle: HCUtils.xibBundle()), forCellReuseIdentifier: identifier)
     }

@@ -114,7 +114,12 @@ class HCDialogsListViewController: HCBaseViewController, UITableViewDelegate, UI
         
         if let dialog = self.monitor?.objectsInSection(safeSectionIndex: indexPath.section)![indexPath.row]
         {
-            cell.userNameLabel.text = dialog.title
+            if let groupTitle = dialog.title where groupTitle.length > 1 {
+                cell.userNameLabel.text = dialog.title
+            }
+            else {
+                cell.userNameLabel.text = dialog.defaultGroupName()
+            }
             cell.lastMessageLabel.text = dialog.lastMessageText
             cell.dialogAvatarImageView.image = nil
             if let messageText = dialog.lastMessageText where !messageText.isEmpty {
@@ -125,7 +130,7 @@ class HCDialogsListViewController: HCBaseViewController, UITableViewDelegate, UI
                 cell.messageTime = nil
             }
             
-            if dialog.members.count > 2 {
+            if dialog.type == HCSDKConstants.kDialogTypeGroup {
                 let groupDialogImage = UIImage.fontAwesomeIconWithName(FontAwesome.Group, textColor: UIColor.grayColor(), size: CGSizeMake(44, 44))
                 cell.dialogAvatarImageView.image = groupDialogImage
             }

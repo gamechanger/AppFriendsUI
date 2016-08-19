@@ -14,13 +14,14 @@ import AppFriendsCore
 import Kingfisher
 import NSDate_TimeAgo
 
-public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver {
-    
+public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver, UIImagePickerControllerDelegate, UINavigationControllerDelegate
+{
     var monitor: ListMonitor<HCMessage>?
     var currentUserID: String?
     private var _isIndividualChat: Bool = false
     private (set) var _dialogID: String = ""
     
+    let imagePicker = UIImagePickerController()
     
     init(dialog: String) {
         _dialogID = dialog
@@ -28,7 +29,9 @@ public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver
         {
             _isIndividualChat = dialog.type == HCSDKConstants.kDialogTypeIndividual
         }
+        
         super.init(tableViewStyle: .Plain)
+        imagePicker.delegate = self
     }
     
     required public init(coder decoder: NSCoder) {
@@ -44,6 +47,7 @@ public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver
         self.tableView.tableFooterView = UIView()
         
         HCUtils.registerNib(self.tableView, nibName: "HCChatTextTableViewCell", forCellReuseIdentifier: "HCChatTextTableViewCell")
+        HCUtils.registerNib(self.tableView, nibName: "HCChatImageTableViewCell", forCellReuseIdentifier: "HCChatImageTableViewCell")
         
         if let monitor = CoreStoreManager.store()?.monitorList(
             From(HCMessage),
@@ -88,6 +92,31 @@ public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver
         super.didPressRightButton(sender)
     }
 
+    public override func didPressLeftButton(sender: AnyObject?) {
+        
+        if UIImagePickerController.isSourceTypeAvailable(.Camera)
+        {
+            let popup = UIAlertController(title: "Pick image", message: "", preferredStyle: .ActionSheet)
+            
+            popup.addAction(UIAlertAction(title: "Take a new picture", style: .Default, handler: { (action) in
+                self.imagePicker.sourceType = .Camera
+                self.imagePicker.allowsEditing = false
+                self.presentViewController(self.imagePicker, animated: true, completion: nil)
+            }))
+            popup.addAction(UIAlertAction(title: "Choose from photo library", style: .Default, handler: { (action) in
+                self.imagePicker.sourceType = .PhotoLibrary
+                self.imagePicker.allowsEditing = false
+                self.presentViewController(self.imagePicker, animated: true, completion: nil)
+            }))
+            self.presentVC(popup)
+        }
+        else {
+            self.imagePicker.sourceType = .PhotoLibrary
+            self.imagePicker.allowsEditing = true
+            self.presentViewController(self.imagePicker, animated: true, completion: nil)
+        }
+    }
+    
     // MARK: Config Chat View
     
     func configChatView() {
@@ -123,48 +152,72 @@ public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver
     
     func messagingCell(atIndexPath indexPath:NSIndexPath) -> HCChatTableViewCell {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("HCChatTextTableViewCell", forIndexPath: indexPath) as! HCChatTableViewCell
-        cell.selectionStyle = .None
-        
         let message = self.monitor?.objectsInSection(safeSectionIndex: indexPath.section)![indexPath.row]
         
-        if let text = message?.text {
-            let attributedText = NSAttributedString(string: text, attributes: self.messagingCellAttributes())
-            cell.messageContentLabel.attributedText = attributedText
-        }
+        var tableCell: HCChatTableViewCell?
         
-        cell.transform = self.tableView.transform
-        cell.contentView.backgroundColor = HCColorPalette.chatBackgroundColor
-        
-        if let senderID = message?.senderID where senderID == self.currentUserID
+        if let m = message
         {
-            cell.setbubbleColor(HCColorPalette.chatOutMessageBubbleColor!)
-        }else {
-            cell.setbubbleColor(HCColorPalette.chatInMessageBubbleColor!)
+            if let customData = m.customData {
+                
+                if let attachment = HCMessageAttachment.getAttachmentFromMessage(dataString: customData) where attachment.attachmentType == HCMessageAttachmentType.Image.name()
+                {
+                    tableCell = self.tableView.dequeueReusableCellWithIdentifier("HCChatImageTableViewCell", forIndexPath: indexPath) as? HCChatTableViewCell
+                    if let url = attachment.url {
+                        tableCell?.contentImageView?.kf_setImageWithURL(NSURL(string: url))
+                    }
+                }
+
+            }
         }
         
-        cell.userNameLabel.text = message?.senderName
-        cell.userAvatarImageView.image = nil
-        cell.timeLabel.text = message?.messageDisplayTime()?.timeAgo()
-        cell.messageTime = message?.messageDisplayTime()
-        if let avatar = message?.senderAvatar
+        if tableCell == nil {
+            tableCell = self.tableView.dequeueReusableCellWithIdentifier("HCChatTextTableViewCell", forIndexPath: indexPath) as? HCChatTableViewCell
+        }
+        
+        if let cell = tableCell
         {
-            cell.userAvatarImageView.kf_setImageWithURL(NSURL(string: avatar))
-        }
-        
-        if let failed = message?.sendingFailed() where failed == true {
+            cell.selectionStyle = .None
             
-            cell.messageLeadingEdge.constant = 24
-            cell.failedButton.alpha = 1
-            cell.failedButton.enabled = true
-        }
-        else {
-            cell.messageLeadingEdge.constant = 5
-            cell.failedButton.alpha = 0
-            cell.failedButton.enabled = false
+            if let text = message?.text {
+                let attributedText = NSAttributedString(string: text, attributes: self.messagingCellAttributes())
+                cell.messageContentLabel?.attributedText = attributedText
+            }
+            
+            cell.transform = self.tableView.transform
+            cell.contentView.backgroundColor = HCColorPalette.chatBackgroundColor
+            
+            if let senderID = message?.senderID where senderID == self.currentUserID
+            {
+                cell.setbubbleColor(HCColorPalette.chatOutMessageBubbleColor!)
+            }else {
+                cell.setbubbleColor(HCColorPalette.chatInMessageBubbleColor!)
+            }
+            
+            cell.userNameLabel?.text = message?.senderName
+            cell.userAvatarImageView.image = nil
+            cell.timeLabel.text = message?.messageDisplayTime()?.timeAgo()
+            cell.messageTime = message?.messageDisplayTime()
+            if let avatar = message?.senderAvatar
+            {
+                cell.userAvatarImageView.kf_setImageWithURL(NSURL(string: avatar))
+            }
+            
+            if let failed = message?.sendingFailed() where failed == true {
+                
+                cell.failedButton?.alpha = 1
+                cell.failedButton?.enabled = true
+            }
+            else {
+                cell.failedButton?.alpha = 0
+                cell.failedButton?.enabled = false
+            }
+            
+            return cell
         }
         
-        return cell
+        return HCChatTableViewCell()
+        
     }
     
     func messagingCellAttributes() -> [String: AnyObject] {
@@ -181,8 +234,8 @@ public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver
     
     // MARK: UITableViewDelegate, UITableViewDataSource
     
-    override public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
+    override public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
+    {
         return self.messagingCell(atIndexPath: indexPath)
     }
     
@@ -203,6 +256,16 @@ public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver
         
         if tableView == self.tableView, let message = self.monitor?.objectsInSection(safeSectionIndex: indexPath.section)![indexPath.row]
         {
+            if let customData = message.customData
+            {
+                if let attachment = HCMessageAttachment.getAttachmentFromMessage(dataString: customData) where attachment.attachmentType == HCMessageAttachmentType.Image.name()
+                {
+                    return HCChatTableViewCell.kImageCellHeight
+                }
+            }
+            
+            // Text message
+            
             let attributes = self.messagingCellAttributes()
             
             var width = tableView.frame.size.width - HCChatTableViewCell.kChatCellLeftMargin - HCChatTableViewCell.kChatCellRightMargin
@@ -299,4 +362,24 @@ public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver
         let sectionIndexSet = NSIndexSet(index: sectionIndex)
         self.tableView.deleteSections(sectionIndexSet, withRowAnimation: UITableViewRowAnimation.Fade)
     }
+    
+    // MARK: UIImagePickerControllerDelegate
+    
+    public func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+        picker.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    public func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+        if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            
+            let resultImage = pickedImage.resizeWithWidth(400)
+            
+            MessagingManager.sharedInstance.sendImageMessage("http://0314c3a.netsolhost.com/wordpress1/wp-content/uploads/2012/05/SoccerSport.jpg", dialogID: _dialogID)
+        }
+        
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    // MARK: Helpers
+    
 }

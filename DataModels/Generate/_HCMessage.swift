@@ -9,8 +9,10 @@ public enum HCMessageAttributes: String {
     case customData = "customData"
     case dialogID = "dialogID"
     case failed = "failed"
+    case handled = "handled"
     case messageID = "messageID"
     case messageType = "messageType"
+    case read = "read"
     case receiveTime = "receiveTime"
     case senderAvatar = "senderAvatar"
     case senderID = "senderID"
@@ -58,10 +60,16 @@ public class _HCMessage: NSManagedObject {
     var failed: NSNumber?
 
     @NSManaged public
+    var handled: NSNumber?
+
+    @NSManaged public
     var messageID: String?
 
     @NSManaged public
     var messageType: NSNumber?
+
+    @NSManaged public
+    var read: NSNumber?
 
     @NSManaged public
     var receiveTime: NSDate?

@@ -101,20 +101,20 @@ public class HCMessage: _HCMessage {
                     }
                     HCUser.processUserInfo(senderInfo, transaction: transaction)
                 }
-                
-                if let dialogType = messageJSON["dialog_type"] as? String
-                {
-                    if dialogType == HCSDKConstants.kDialogTypeIndividual, let dialogID = messageJSON["dialog_id"] as? String
-                    {
-                        let user = HCUser.findOrCreateUser(dialogID, transaction: transaction)
-                        HCChatDialog.findOrCreateDialog(dialogID, members: [dialogID], dialogTitle: user.userName, dialogType: HCSDKConstants.kDialogTypeIndividual, transaction: transaction)
-                    }
-                }
             }
         }
         if let dialogID = messageJSON["dialog_id"] as? String
         {
             HCChatDialog.updateDialogLastMessage(dialogID, transaction: transaction)
+        }
+        
+        if let dialogType = messageJSON["dialog_type"] as? String
+        {
+            if dialogType == HCSDKConstants.kDialogTypeIndividual, let dialogID = messageJSON["dialog_id"] as? String
+            {
+                let user = HCUser.findOrCreateUser(dialogID, transaction: transaction)
+                HCChatDialog.findOrCreateDialog(dialogID, members: [dialogID], dialogTitle: user.userName, dialogType: HCSDKConstants.kDialogTypeIndividual, transaction: transaction)
+            }
         }
     }
     
@@ -131,7 +131,6 @@ public class HCMessage: _HCMessage {
             return message
         }
     }
-    
     
     static func createMessage(messageJSON: NSDictionary, transaction: AsynchronousDataTransaction!) -> HCMessage
     {
