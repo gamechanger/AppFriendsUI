@@ -35,5 +35,6 @@ s.dependency 'JGProgressHUD'
 s.dependency 'SESlideTableViewCell'
 s.dependency 'DZNEmptyDataSet'
 s.dependency 'AppFriendsCore'
+s.dependency 'AFDateHelper'
 
 end

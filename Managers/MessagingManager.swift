@@ -37,7 +37,7 @@ public class MessagingManager: NSObject, HCSDKCoreSyncDelegate {
     
     // MARK: Sending Image Message
     
-    public func sendImageMessage(imageURL: String, dialogID: String)
+    public func sendImageMessage(imageURL: String, dialogID: String, dialogType: String)
     {
         let messageJSON = createImageMessageJSON(imageURL, dialogID: dialogID)
         CoreStoreManager.store()?.beginAsynchronous({ (transaction) in
@@ -46,50 +46,45 @@ public class MessagingManager: NSObject, HCSDKCoreSyncDelegate {
             transaction.commit()
         })
         
-        HCSDKCore.sharedInstance.sendMessage(messageJSON, dialogID: dialogID) { (response, error) in
-            
-            if let _ = error
-            {
-                // report error?
-                if let tempID = messageJSON["temp_id"] as? String
+        if dialogType == HCSDKConstants.kDialogTypeGroup
+        {
+            HCSDKCore.sharedInstance.sendMessage(messageJSON, dialogID: dialogID) { (response, error) in
+                
+                if let _ = error
                 {
-                    self.failMessage(tempID)
+                    // report error?
+                    if let tempID = messageJSON["temp_id"] as? String
+                    {
+                        self.failMessage(tempID)
+                    }
+                }
+                else {
+                    self.processMessageJSONFromServer(response as? [String: AnyObject])
                 }
             }
-            else {
-                self.processMessageJSONFromServer(response as? [String: AnyObject])
+        }
+        else if dialogType == HCSDKConstants.kDialogTypeIndividual
+        {
+            HCSDKCore.sharedInstance.sendMessage(messageJSON, userID: dialogID) { (response, error) in
+                
+                if let _ = error
+                {
+                    // report error?
+                    if let tempID = messageJSON["temp_id"] as? String
+                    {
+                        self.failMessage(tempID)
+                    }
+                }
+                else {
+                    self.processMessageJSONFromServer(response as? [String: AnyObject])
+                }
             }
         }
     }
     
     // MARK: Sending Text Message
 
-    public func sendTextMessage(text: String, userID: String) {
-        
-        let messageJSON = createTextMessageJSON(text, dialogID: userID)
-        CoreStoreManager.store()?.beginAsynchronous({ (transaction) in
-            HCMessage.createMessage(messageJSON, transaction: transaction)
-            HCChatDialog.updateDialogLastMessage(userID, transaction: transaction)
-            transaction.commit()
-        })
-        
-        HCSDKCore.sharedInstance.sendMessage(messageJSON, userID: userID) { (response, error) in
-            
-            if let _ = error
-            {
-                // report error?
-                if let tempID = messageJSON["temp_id"] as? String
-                {
-                    self.failMessage(tempID)
-                }
-            }
-            else {
-                self.processMessageJSONFromServer(response as? [String: AnyObject])
-            }
-        }
-    }
-    
-    public func sendTextMessage(text: String, dialogID: String) {
+    public func sendTextMessage(text: String, dialogID: String, dialogType: String) {
         
         let messageJSON = createTextMessageJSON(text, dialogID: dialogID)
         CoreStoreManager.store()?.beginAsynchronous({ (transaction) in
@@ -98,20 +93,42 @@ public class MessagingManager: NSObject, HCSDKCoreSyncDelegate {
             transaction.commit()
         })
         
-        HCSDKCore.sharedInstance.sendMessage(messageJSON, dialogID: dialogID) { (response, error) in
-            
-            if let _ = error
-            {
-                // report error?
-                if let tempID = messageJSON["temp_id"] as? String
+        
+        if dialogType == HCSDKConstants.kDialogTypeGroup
+        {
+            HCSDKCore.sharedInstance.sendMessage(messageJSON, dialogID: dialogID) { (response, error) in
+                
+                if let _ = error
                 {
-                    self.failMessage(tempID)
+                    // report error?
+                    if let tempID = messageJSON["temp_id"] as? String
+                    {
+                        self.failMessage(tempID)
+                    }
+                }
+                else {
+                    self.processMessageJSONFromServer(response as? [String: AnyObject])
                 }
             }
-            else {
-                self.processMessageJSONFromServer(response as? [String: AnyObject])
+        }
+        else if dialogType == HCSDKConstants.kDialogTypeIndividual
+        {
+            HCSDKCore.sharedInstance.sendMessage(messageJSON, userID: dialogID) { (response, error) in
+                
+                if let _ = error
+                {
+                    // report error?
+                    if let tempID = messageJSON["temp_id"] as? String
+                    {
+                        self.failMessage(tempID)
+                    }
+                }
+                else {
+                    self.processMessageJSONFromServer(response as? [String: AnyObject])
+                }
             }
         }
+        
     }
     
     // MARK: Create message JSON

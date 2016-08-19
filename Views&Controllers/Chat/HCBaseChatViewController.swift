@@ -13,12 +13,14 @@ import FontAwesome_swift
 import AppFriendsCore
 import Kingfisher
 import NSDate_TimeAgo
+import EZSwiftExtensions
+import AFDateHelper
 
 public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver, UIImagePickerControllerDelegate, UINavigationControllerDelegate
 {
     var monitor: ListMonitor<HCMessage>?
     var currentUserID: String?
-    private var _isIndividualChat: Bool = false
+    private var _dialogType: String = HCSDKConstants.kDialogTypeIndividual
     private (set) var _dialogID: String = ""
     
     let imagePicker = UIImagePickerController()
@@ -27,7 +29,7 @@ public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver
         _dialogID = dialog
         if let dialog = CoreStoreManager.store()?.fetchOne(From(HCChatDialog), Where("dialogID", isEqualTo:_dialogID))
         {
-            _isIndividualChat = dialog.type == HCSDKConstants.kDialogTypeIndividual
+            _dialogType = dialog.type!
         }
         
         super.init(tableViewStyle: .Plain)
@@ -49,9 +51,11 @@ public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver
         HCUtils.registerNib(self.tableView, nibName: "HCChatTextTableViewCell", forCellReuseIdentifier: "HCChatTextTableViewCell")
         HCUtils.registerNib(self.tableView, nibName: "HCChatImageTableViewCell", forCellReuseIdentifier: "HCChatImageTableViewCell")
         
+        let twoDaysAgo = NSDate().dateBySubtractingDays(2)
+        
         if let monitor = CoreStoreManager.store()?.monitorList(
             From(HCMessage),
-            Where("dialogID", isEqualTo: _dialogID),
+            Where("dialogID", isEqualTo: _dialogID) && Where("receiveTime > %@", twoDaysAgo),
             OrderBy(.Descending("receiveTime")),
             Tweak { (fetchRequest) -> Void in
                 fetchRequest.fetchBatchSize = 20
@@ -82,11 +86,7 @@ public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver
         
         if let text = self.textView.text
         {
-            if _isIndividualChat {
-                MessagingManager.sharedInstance.sendTextMessage(text, userID: _dialogID)
-            } else {
-                MessagingManager.sharedInstance.sendTextMessage(text, dialogID: _dialogID)
-            }
+            MessagingManager.sharedInstance.sendTextMessage(text, dialogID: _dialogID, dialogType: _dialogType)
         }
         
         super.didPressRightButton(sender)
@@ -195,12 +195,12 @@ public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver
             }
             
             cell.userNameLabel?.text = message?.senderName
-            cell.userAvatarImageView.image = nil
-            cell.timeLabel.text = message?.messageDisplayTime()?.timeAgo()
+            cell.userAvatarImageView?.image = nil
+            cell.timeLabel?.text = message?.messageDisplayTime()?.timeAgo()
             cell.messageTime = message?.messageDisplayTime()
             if let avatar = message?.senderAvatar
             {
-                cell.userAvatarImageView.kf_setImageWithURL(NSURL(string: avatar))
+                cell.userAvatarImageView?.kf_setImageWithURL(NSURL(string: avatar))
             }
             
             if let failed = message?.sendingFailed() where failed == true {
@@ -374,7 +374,8 @@ public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver
             
             let resultImage = pickedImage.resizeWithWidth(400)
             
-            MessagingManager.sharedInstance.sendImageMessage("http://0314c3a.netsolhost.com/wordpress1/wp-content/uploads/2012/05/SoccerSport.jpg", dialogID: _dialogID)
+            
+            MessagingManager.sharedInstance.sendImageMessage("http://0314c3a.netsolhost.com/wordpress1/wp-content/uploads/2012/05/SoccerSport.jpg", dialogID: _dialogID, dialogType: _dialogType)
         }
         
         dismissViewControllerAnimated(true, completion: nil)

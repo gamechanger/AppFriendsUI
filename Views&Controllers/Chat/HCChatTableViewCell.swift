@@ -24,8 +24,8 @@ public class HCChatTableViewCell: UITableViewCell {
     
     @IBOutlet weak var userNameLabel: UILabel?
     @IBOutlet weak var messageContentLabel: UILabel?
-    @IBOutlet weak var timeLabel: UILabel!
-    @IBOutlet weak var userAvatarImageView: UIImageView!
+    @IBOutlet weak var timeLabel: UILabel?
+    @IBOutlet weak var userAvatarImageView: UIImageView?
     @IBOutlet weak var contentBackgroundBubble: UIImageView?
     @IBOutlet weak var contentImageView: UIImageView?
     @IBOutlet weak var failedButton: UIButton?
@@ -35,15 +35,18 @@ public class HCChatTableViewCell: UITableViewCell {
     override public func awakeFromNib() {
         super.awakeFromNib()
         
-        userAvatarImageView.layer.cornerRadius = userAvatarImageView.w/2
-        userAvatarImageView.layer.masksToBounds = true
-        userAvatarImageView.layer.borderColor = UIColor.whiteColor().CGColor
-        userAvatarImageView.layer.borderWidth = 1
-        userAvatarImageView.backgroundColor = HCColorPalette.avatarBackgroundColor
-        userAvatarImageView.contentMode = .ScaleAspectFit
+        if let avatarView = userAvatarImageView
+        {
+            userAvatarImageView?.layer.cornerRadius = avatarView.w/2
+        }
+        userAvatarImageView?.layer.masksToBounds = true
+        userAvatarImageView?.layer.borderColor = UIColor.whiteColor().CGColor
+        userAvatarImageView?.layer.borderWidth = 1
+        userAvatarImageView?.backgroundColor = HCColorPalette.avatarBackgroundColor
+        userAvatarImageView?.contentMode = .ScaleAspectFit
         
         userNameLabel?.textColor = HCColorPalette.chatUserNamelTextColor
-        timeLabel.textColor = HCColorPalette.chatTimeLabelTextColor
+        timeLabel?.textColor = HCColorPalette.chatTimeLabelTextColor
         messageContentLabel?.numberOfLines = 0
         
         failedButton?.setGMDIcon(GMDType.GMDError, forState: .Normal)
@@ -67,7 +70,7 @@ public class HCChatTableViewCell: UITableViewCell {
     {
         if let messageTime = self.messageTime
         {
-            self.timeLabel.text = messageTime.timeAgo()
+            self.timeLabel?.text = messageTime.timeAgo()
         }
     }
     
