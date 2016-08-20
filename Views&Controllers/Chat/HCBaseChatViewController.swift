@@ -15,9 +15,11 @@ import Kingfisher
 import NSDate_TimeAgo
 import EZSwiftExtensions
 import AFDateHelper
+import JGProgressHUD
 
 public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver, UIImagePickerControllerDelegate, UINavigationControllerDelegate
 {
+    static var HUD: JGProgressHUD?
     var monitor: ListMonitor<HCMessage>?
     var currentUserID: String?
     private var _dialogType: String = HCSDKConstants.kDialogTypeIndividual
@@ -400,13 +402,85 @@ public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver
             
             let resultImage = pickedImage.resizeWithWidth(400)
             
+            HCSDKCore.sharedInstance.uploadImage(resultImage, completion: { (imagePublicID, error) in
+                
+                let fullImageURL = HCSDKCore.sharedInstance.fullImage(imagePublicID)
+                MessagingManager.sharedInstance.sendImageMessage(fullImageURL, dialogID: self._dialogID, dialogType: self._dialogType)
+                
+            }, progress: { (percentage) in
+                
+                let progress = Float(percentage)/100.0
+                self.showProgress(progress, message: "Uploading ...")
+            })
             
-            MessagingManager.sharedInstance.sendImageMessage("http://0314c3a.netsolhost.com/wordpress1/wp-content/uploads/2012/05/SoccerSport.jpg", dialogID: _dialogID, dialogType: _dialogType)
         }
         
         dismissViewControllerAnimated(true, completion: nil)
     }
     
-    // MARK: Helpers
+    // MARK: HUD
+    
+    func hud() -> JGProgressHUD! {
+        
+        if HCBaseViewController.HUD == nil {
+            HCBaseViewController.HUD = JGProgressHUD(style: .Dark)
+        }
+        
+        return HCBaseViewController.HUD
+    }
+    
+    func showProgress(progress: Float, message: String) {
+        
+        let HUD = self.hud()
+        HUD.textLabel.text = message
+        
+        HUD.indicatorView = JGProgressHUDPieIndicatorView(HUDStyle: .Dark)
+        HUD.setProgress(progress, animated: true)
+        
+        if progress >= 1 {
+            
+            HUD.dismiss()
+            HCBaseViewController.HUD = nil
+        }
+        else {
+            HUD.showInView(self.view)
+        }
+    }
+    
+    func showLoading (message: String?)
+    {
+        let HUD = self.hud()
+        HUD.textLabel.text = message
+        HUD.indicatorView = JGProgressHUDIndeterminateIndicatorView(HUDStyle: .Dark)
+        HUD.showInView(self.view)
+    }
+    
+    func showErrorWithMessage(message: String?) {
+        
+        let HUD = self.hud()
+        
+        HUD.textLabel.text = message
+        HUD.indicatorView = JGProgressHUDErrorIndicatorView()
+        
+        HUD.showInView(self.view)
+        HUD.dismissAfterDelay(2)
+    }
+    
+    func showSuccessWithMessage(message: String?) {
+        
+        let HUD = self.hud()
+        
+        HUD.textLabel.text = message
+        HUD.indicatorView = JGProgressHUDSuccessIndicatorView()
+        
+        HUD.showInView(self.view)
+        HUD.dismissAfterDelay(2)
+    }
+    
+    func hideHUD () {
+        let HUD = self.hud()
+        HUD.dismiss()
+        HCBaseViewController.HUD = nil
+    }
     
 }

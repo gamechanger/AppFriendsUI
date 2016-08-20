@@ -8,6 +8,7 @@
 
 import UIKit
 import CLTokenInputView
+import CoreStore
 import FontAwesome_swift
 import Google_Material_Design_Icons_Swift
 
@@ -22,12 +23,36 @@ public class HCGroupCreatorViewController: HCContactsViewController, CLTokenInpu
     @IBOutlet weak var tokenField: HCContactSelectField!
     
     weak var delegate: HCGroupCreatorViewControllerDelegate?
+    var dialogID: String?
     
     override public func viewDidLoad() {
-        super.viewDidLoad()
+        
+        if let groupID = dialogID
+        {
+            if let groupDialog = CoreStoreManager.store()?.fetchOne(From(HCChatDialog), Where("dialogID", isEqualTo: groupID))
+            {
+                for member in groupDialog.members{
+                    if let user = member as? HCUser
+                    {
+                        if let userID = user.userID where userID != currentUserID
+                        {
+                            hiddenUsers.append(userID)
+                        }
+                    }
+                }
+            }
+            super.viewDidLoad()
+        }
         
         let titleLabel = UILabel(x: 0, y: 0, w: 150, h: 30, fontSize: 17)
-        titleLabel.text = "Create a Group"
+        if let currentTitle = self.title {
+            if currentTitle.isEmpty {
+                titleLabel.text = "Create a Group"
+            }
+            else {
+                titleLabel.text = currentTitle
+            }
+        }
         titleLabel.backgroundColor = UIColor.clearColor()
         titleLabel.textAlignment = .Center
         titleLabel.textColor = UIColor.whiteColor()

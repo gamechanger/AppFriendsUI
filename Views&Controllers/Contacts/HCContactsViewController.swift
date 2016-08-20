@@ -18,6 +18,7 @@ public class HCContactsViewController: HCBaseViewController, ListObjectObserver 
     
     @IBOutlet weak var tableView: UITableView!
     var currentUserID: String?
+    var hiddenUsers = [String]()
     
     override public func viewDidLoad() {
         super.viewDidLoad()
@@ -32,7 +33,8 @@ public class HCContactsViewController: HCBaseViewController, ListObjectObserver 
         HCUtils.registerNib(self.tableView, nibName: "HCContactTableViewCell", forCellReuseIdentifier: "HCContactTableViewCell")
         
         let user = CoreStoreManager.store()?.fetchOne(From(HCUser),
-                                                      Where("userID", isEqualTo: currentUserID!))
+                                                      Where("userID", isEqualTo: currentUserID!) &&
+                                                      Where("NOT (userID IN %@)", hiddenUsers))
         
         if let friends = user?.friends as? [String]
         {
