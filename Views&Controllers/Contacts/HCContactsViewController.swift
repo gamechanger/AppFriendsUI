@@ -33,15 +33,14 @@ public class HCContactsViewController: HCBaseViewController, ListObjectObserver 
         HCUtils.registerNib(self.tableView, nibName: "HCContactTableViewCell", forCellReuseIdentifier: "HCContactTableViewCell")
         
         let user = CoreStoreManager.store()?.fetchOne(From(HCUser),
-                                                      Where("userID", isEqualTo: currentUserID!) &&
-                                                      Where("NOT (userID IN %@)", hiddenUsers))
+                                                      Where("userID", isEqualTo: currentUserID!))
         
         if let friends = user?.friends as? [String]
         {
             
             let monitor = CoreStoreManager.store()!.monitorList(
                 From(HCUser),
-                Where("userID IN %@", friends),
+                Where("userID IN %@", friends) && Where("NOT (userID IN %@)", hiddenUsers),
                 OrderBy(.Ascending("userName")),
                 Tweak { (fetchRequest) -> Void in
                     fetchRequest.fetchBatchSize = 20

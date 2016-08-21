@@ -67,7 +67,8 @@ public class HCChatDialog: _HCChatDialog {
     {
         var title = ""
         let currentUserID = HCSDKCore.sharedInstance.currentUserID()
-        for (index, user) in self.members.enumerate()
+        let userNames = NSMutableArray()
+        for (_, user) in self.members.enumerate()
         {
             if let member = user as? HCUser
             {
@@ -77,14 +78,13 @@ public class HCChatDialog: _HCChatDialog {
                 {
                     if let userName = member.userName
                     {
-                        title += "\(userName)"
-                        if index < members.count - 1
-                        {
-                            title += ", "
-                        }
+                        userNames.addObject(userName)
                     }
                 }
             }
+        }
+        if userNames.count > 0 {
+            title = userNames.componentsJoinedByString(", ")
         }
         
         return title

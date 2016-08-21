@@ -32,6 +32,7 @@ struct HCColorPalette {
     static let contactsTableSeparatorColor = UIColor(hexString: "1F203D")
     
     static let navigationBarIconColor = UIColor.whiteColor()
+    static let navigationBarTitleColor = UIColor.whiteColor()
 }
 
 struct HCSize {

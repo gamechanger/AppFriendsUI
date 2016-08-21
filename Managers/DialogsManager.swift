@@ -18,6 +18,31 @@ class DialogsManager: NSObject {
     
     // MARK: Dialogs
     
+    func updateDialogName(dialogID: String, dialogName: String, completion: ((error: NSError?) -> ())? = nil)
+    {
+        HCSDKCore.sharedInstance.startRequest(httpMethod: "PUT", path: "/dialogs/\(dialogID)", parameters: ["name": dialogName])
+        { (response, error) in
+            
+            
+            if let err = error {
+                completion?(error: err)
+            }
+            else
+            {
+                CoreStoreManager.store()?.beginAsynchronous({ (transaction) in
+                    
+                    if let dialog = transaction.fetchOne(From(HCChatDialog), Where("dialogID", isEqualTo: dialogID))
+                    {
+                        dialog.title = dialogName
+                        transaction.commit({ (result) in
+                            completion?(error: nil)
+                        })
+                    }
+                })
+            }
+        }
+    }
+    
     func fetchDialogInfo(dialogID: String, completion: ((error: NSError?) -> ())? = nil)
     {
         HCSDKCore.sharedInstance.startRequest(httpMethod: "GET", path: "/dialogs/\(dialogID)", parameters: nil) { (response, error) in
@@ -46,6 +71,43 @@ class DialogsManager: NSObject {
             }else {
                 completion?(error:nil)
             }
+        }
+    }
+    
+    
+    func addMembersToDialog(dialogID: String, members newMembers:[String], completion: ((error: NSError?) -> ())? = nil)
+    {
+        if newMembers.count > 0 {
+            HCSDKCore.sharedInstance.startRequest(httpMethod: "POST", path: "/dialogs/\(dialogID)/members", parameters: ["members": newMembers], completion: { (response, error) in
+                
+                if let err = error {
+                    completion?(error:err)
+                }
+                else {
+                    
+                    CoreStoreManager.store()?.beginAsynchronous({ (transaction) in
+                        
+                        for userID in newMembers
+                        {
+                            let dialog = HCChatDialog.findDialog(dialogID, transaction: transaction)
+                            let user = HCUser.findOrCreateUser(userID, transaction: transaction)
+                            dialog?.addMembersObject(user)
+                        }
+                        
+                        transaction.commit({ (result) in
+                            
+                            if result.boolValue {
+                                completion?(error: nil)
+                            }
+                            else {
+                                let coreDataError = NSError(domain: "AppFriendsError", code: 1000, userInfo: [NSLocalizedDescriptionKey: result.debugDescription, NSLocalizedFailureReasonErrorKey: result.debugDescription])
+                                completion?(error: coreDataError)
+                            }
+                        })
+                    })
+                }
+                
+            })
         }
     }
     

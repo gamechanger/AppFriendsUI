@@ -41,8 +41,8 @@ public class HCGroupCreatorViewController: HCContactsViewController, CLTokenInpu
                     }
                 }
             }
-            super.viewDidLoad()
         }
+        super.viewDidLoad()
         
         let titleLabel = UILabel(x: 0, y: 0, w: 150, h: 30, fontSize: 17)
         if let currentTitle = self.title {
@@ -55,7 +55,7 @@ public class HCGroupCreatorViewController: HCContactsViewController, CLTokenInpu
         }
         titleLabel.backgroundColor = UIColor.clearColor()
         titleLabel.textAlignment = .Center
-        titleLabel.textColor = UIColor.whiteColor()
+        titleLabel.textColor = HCColorPalette.navigationBarTitleColor
         self.navigationItem.titleView = titleLabel
         
         self.edgesForExtendedLayout = .None
