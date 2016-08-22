@@ -33,6 +33,8 @@ struct HCColorPalette {
     
     static let navigationBarIconColor = UIColor.whiteColor()
     static let navigationBarTitleColor = UIColor.whiteColor()
+    
+    static let badgeBackgroundColor = UIColor(hexString: "f2433d")
 }
 
 struct HCSize {

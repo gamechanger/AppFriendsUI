@@ -151,6 +151,9 @@ class HCDialogsListViewController: HCBaseViewController, UITableViewDelegate, UI
             }
         }
         
+        cell.dialogAvatarImageView.badge = "1"
+        
+        
         return cell
     }
     
