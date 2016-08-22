@@ -122,6 +122,19 @@ public class HCChatDialog: _HCChatDialog {
         return title
     }
     
+    static func incrementUnreadCount(dialogID: String, transaction: AsynchronousDataTransaction)
+    {
+        if let dialog = HCChatDialog.findDialog(dialogID, transaction: transaction) {
+            if let unreadCount = dialog.unreadMessages?.integerValue
+            {
+                dialog.unreadMessages = unreadCount + 1
+            }
+            else {
+                dialog.unreadMessages = 1
+            }
+        }
+    }
+    
     static func updateDialogLastMessage(dialogID: String, transaction: AsynchronousDataTransaction)
     {
         let dialog = transaction.fetchOne(From(HCChatDialog), Where("dialogID", isEqualTo: dialogID))
@@ -147,19 +160,25 @@ public class HCChatDialog: _HCChatDialog {
     {
         CoreStoreManager.store()?.beginAsynchronous({ (transaction) in
             
-            if let dialog = transaction.fetchOne(From(HCChatDialog), Where("dialogID", isEqualTo: dialogID))
-            {
-                // update the lastMessageReadTime, if the time is later than saved time
-                if let readTime = dialog.lastMessageReadTime where readTime > time {
-                    
-                }
-                else {
-                    dialog.lastMessageReadTime = time
-                    dialog.updateUnreadMessageCount(transaction)
-                }
-                
-                transaction.commit()
-            }
+            self.updateReadMessageAtTime(time, dialogID: dialogID, transaction: transaction)
+            transaction.commit()
         })
+    }
+    
+    static func updateReadMessageAtTime(time: NSDate, dialogID: String, transaction: AsynchronousDataTransaction)
+    {
+        
+        if let dialog = transaction.fetchOne(From(HCChatDialog), Where("dialogID", isEqualTo: dialogID))
+        {
+            // update the lastMessageReadTime, if the time is later than saved time
+            if let readTime = dialog.lastMessageReadTime where readTime > time {
+                
+            }
+            else {
+                dialog.lastMessageReadTime = time
+                dialog.updateUnreadMessageCount(transaction)
+            }
+            
+        }
     }
 }

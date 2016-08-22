@@ -214,6 +214,13 @@ public class MessagingManager: NSObject, HCSDKCoreSyncDelegate {
                 let message = HCMessage.findOrCreateMessage(tempID: tempID, transaction: transaction)
                 HCMessage.updateMessage(messageJSON, message: message, transaction: transaction)
                 message.failed = false
+                
+                // update dialog unread message info
+                if let dialogID = messageJSON["dialog_id"] as? String
+                {
+                    HCChatDialog.incrementUnreadCount(dialogID, transaction: transaction)
+                }
+                
                 transaction.commit()
             })
         }
@@ -223,6 +230,13 @@ public class MessagingManager: NSObject, HCSDKCoreSyncDelegate {
                 let message = HCMessage.findOrCreateMessage(serverID: "\(messageID)", transaction: transaction)
                 HCMessage.updateMessage(messageJSON, message: message, transaction: transaction)
                 message.failed = false
+                
+                // update dialog unread message info
+                if let dialogID = messageJSON["dialog_id"] as? String
+                {
+                    HCChatDialog.incrementUnreadCount(dialogID, transaction: transaction)
+                }
+                
                 transaction.commit()
             })
         }
