@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
 # 1
-s.platform = :ios
+s.platform = :ios, '8.0'
 s.ios.deployment_target = '8.0'
 s.name = "AppFriendsUI"
 s.summary = "UI components for AppFriends."
@@ -11,7 +11,7 @@ s.requires_arc = true
 s.version = "1.0.0"
 
 # 3
-s.license = { :type => "MIT", :file => "LICENSE" }
+s.license = { :type => "MIT" }
 
 # 4 - author
 s.author = { "Hao Wang" => "hao.wang@hacknocraft.com" }

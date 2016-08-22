@@ -1,6 +1,7 @@
 import Foundation
 import CoreStore
 import AppFriendsCore
+import EZSwiftExtensions
 
 @objc(HCChatDialog)
 public class HCChatDialog: _HCChatDialog {
@@ -129,5 +130,36 @@ public class HCChatDialog: _HCChatDialog {
             dialog?.lastMessageText = message.text
             dialog?.lastMessageTime = message.receiveTime
         }
+    }
+    
+    func updateUnreadMessageCount(transaction: AsynchronousDataTransaction) {
+        
+        if let readTime = self.lastMessageReadTime
+        {
+            if let unreadMessages = transaction.fetchAll(From(HCMessage), Where("receiveTime > %@", readTime))
+            {
+                self.unreadMessages = unreadMessages.count
+            }
+        }
+    }
+    
+    static func updateReadMessageAtTime(time: NSDate, dialogID: String)
+    {
+        CoreStoreManager.store()?.beginAsynchronous({ (transaction) in
+            
+            if let dialog = transaction.fetchOne(From(HCChatDialog), Where("dialogID", isEqualTo: dialogID))
+            {
+                // update the lastMessageReadTime, if the time is later than saved time
+                if let readTime = dialog.lastMessageReadTime where readTime > time {
+                    
+                }
+                else {
+                    dialog.lastMessageReadTime = time
+                    dialog.updateUnreadMessageCount(transaction)
+                }
+                
+                transaction.commit()
+            }
+        })
     }
 }

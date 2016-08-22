@@ -15,6 +15,7 @@ class DialogsManager: NSObject {
     
     
     static let sharedInstance = DialogsManager()
+    var totalUnreadMessages:Int = 0
     
     // MARK: Dialogs
     

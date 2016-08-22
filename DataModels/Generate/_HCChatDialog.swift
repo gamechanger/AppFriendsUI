@@ -8,10 +8,12 @@ public enum HCChatDialogAttributes: String {
     case createTime = "createTime"
     case customData = "customData"
     case dialogID = "dialogID"
+    case lastMessageReadTime = "lastMessageReadTime"
     case lastMessageText = "lastMessageText"
     case lastMessageTime = "lastMessageTime"
     case title = "title"
     case type = "type"
+    case unreadMessages = "unreadMessages"
 }
 
 public enum HCChatDialogRelationships: String {
@@ -53,6 +55,9 @@ public class _HCChatDialog: NSManagedObject {
     var dialogID: String?
 
     @NSManaged public
+    var lastMessageReadTime: NSDate?
+
+    @NSManaged public
     var lastMessageText: String?
 
     @NSManaged public
@@ -63,6 +68,9 @@ public class _HCChatDialog: NSManagedObject {
 
     @NSManaged public
     var type: String?
+
+    @NSManaged public
+    var unreadMessages: NSNumber?
 
     // MARK: - Relationships
 

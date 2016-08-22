@@ -229,6 +229,8 @@ public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver
                 cell.failedButton?.enabled = false
             }
             
+            
+            
             return cell
         }
         
