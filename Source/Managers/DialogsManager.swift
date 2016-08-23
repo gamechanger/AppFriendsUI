@@ -11,15 +11,55 @@ import CoreStore
 import EZSwiftExtensions
 import AppFriendsCore
 
-class DialogsManager: NSObject {
+public class DialogsManager: NSObject {
     
+    public static let sharedInstance = DialogsManager()
     
-    static let sharedInstance = DialogsManager()
-    var totalUnreadMessages:Int = 0
+    public dynamic var totalUnreadMessages:Int = 0
+    
+    override init()
+    {
+        super.init()
+        
+        NSTimer.runThisEvery(seconds: 5) { (timer) in
+            
+            self.getTotalUnreadMessageCount({ (count) in
+                
+                self.totalUnreadMessages = count
+            })
+            
+        }
+    }
+    
+    public func getTotalUnreadMessageCount(completion: ((count: Int) -> ()))
+    {
+        if !HCSDKCore.sharedInstance.isLogin()
+        {
+            completion(count: 0)
+        }
+        else {
+            CoreStoreManager.store()?.beginAsynchronous({ (transaction) in
+                
+                var total = 0
+                let currentUserID = HCSDKCore.sharedInstance.currentUserID()
+                if let dialogs = transaction.fetchAll(From(HCChatDialog),
+                    Where("ANY members.userID == %@", currentUserID!))
+                {
+                    for dialog in dialogs where dialog.unreadMessages != nil{
+                        total += dialog.unreadMessages!.integerValue
+                    }
+                }
+                
+                dispatch_async(dispatch_get_main_queue(), {
+                    completion(count: total)
+                })
+            })
+        }
+    }
     
     // MARK: Dialogs
     
-    func updateDialogName(dialogID: String, dialogName: String, completion: ((error: NSError?) -> ())? = nil)
+    public func updateDialogName(dialogID: String, dialogName: String, completion: ((error: NSError?) -> ())? = nil)
     {
         HCSDKCore.sharedInstance.startRequest(httpMethod: "PUT", path: "/dialogs/\(dialogID)", parameters: ["name": dialogName])
         { (response, error) in
@@ -44,7 +84,7 @@ class DialogsManager: NSObject {
         }
     }
     
-    func fetchDialogInfo(dialogID: String, completion: ((error: NSError?) -> ())? = nil)
+    public func fetchDialogInfo(dialogID: String, completion: ((error: NSError?) -> ())? = nil)
     {
         HCSDKCore.sharedInstance.startRequest(httpMethod: "GET", path: "/dialogs/\(dialogID)", parameters: nil) { (response, error) in
             
@@ -76,7 +116,7 @@ class DialogsManager: NSObject {
     }
     
     
-    func addMembersToDialog(dialogID: String, members newMembers:[String], completion: ((error: NSError?) -> ())? = nil)
+    public func addMembersToDialog(dialogID: String, members newMembers:[String], completion: ((error: NSError?) -> ())? = nil)
     {
         if newMembers.count > 0 {
             HCSDKCore.sharedInstance.startRequest(httpMethod: "POST", path: "/dialogs/\(dialogID)/members", parameters: ["members": newMembers], completion: { (response, error) in
@@ -112,7 +152,7 @@ class DialogsManager: NSObject {
         }
     }
     
-    func leaveGroupDialog(dialogID: String, completion: ((error: NSError?) -> ())? = nil)
+    public func leaveGroupDialog(dialogID: String, completion: ((error: NSError?) -> ())? = nil)
     {
         
         if let currentUserID = HCSDKCore.sharedInstance.currentUserID()
@@ -146,7 +186,7 @@ class DialogsManager: NSObject {
      
      - parameter completion: complete block, invoked when the request is completed
      */
-    func fetchDialogs(completion: ((error: NSError?) -> ())? = nil)
+    public func fetchDialogs(completion: ((error: NSError?) -> ())? = nil)
     {
         HCSDKCore.sharedInstance.startRequest(httpMethod: "GET", path: "/dialogs", parameters: nil) { (response, error) in
             
@@ -183,7 +223,7 @@ class DialogsManager: NSObject {
         }
     }
     
-    func createGroupDialog(users: [String], completion: ((response: AnyObject?, error: NSError?) -> ())? = nil) {
+    public func createGroupDialog(users: [String], completion: ((response: AnyObject?, error: NSError?) -> ())? = nil) {
         
         var params = [String: AnyObject]()
         var userIDs = [String]()

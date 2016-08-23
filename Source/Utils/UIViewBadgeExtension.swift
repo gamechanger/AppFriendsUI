@@ -15,7 +15,7 @@ private let hcBadgeViewTag = 19317
 private let hcBadgeSize = CGSizeMake(15, 15)
 
 extension UIView {
-
+    
     var badge: String? {
         get {
             return objc_getAssociatedObject(self, &hcBadgeCountAssociationKey) as? String
@@ -36,24 +36,35 @@ extension UIView {
         
         // add badge label if needed
         
-        let existingBadgeLabel = self.viewWithTag(hcBadgeViewTag) as? UILabel
+        var existingBadgeLabel = self.viewWithTag(hcBadgeViewTag) as? UILabel
         if existingBadgeLabel == nil
         {
             let badgeLabel = UILabel()
             badgeLabel.tag = hcBadgeViewTag
             let height = max(20, Double(hcBadgeSize.height) + 5.0)
-            let width = max(height, Double(hcBadgeSize.width) + 10.0)
+            let width = max(height, Double(hcBadgeSize.width) + 5.0)
             
             let x = CGRectGetWidth(self.frame) - CGFloat((width / 2.0))
             let y = CGFloat(-(height / 2.0))
+            
             badgeLabel.frame = CGRectMake(x, y, CGFloat(width), CGFloat(height))
             self.setupBadgeStyle(badgeLabel)
             badgeLabel.text = text
             self.addSubview(badgeLabel)
+            existingBadgeLabel = badgeLabel
         }
         else {
             existingBadgeLabel?.text = text
         }
+        
+        if text == nil || text == "0" {
+            existingBadgeLabel?.hidden = true
+        }
+        else
+        {
+            existingBadgeLabel?.hidden = false
+        }
+        
         
     }
     
@@ -64,7 +75,7 @@ extension UIView {
         badgeLabel.layer.cornerRadius = badgeLabel.bounds.size.height / 2
         badgeLabel.font = UIFont.systemFontOfSize(12)
         badgeLabel.textAlignment = .Center
-        badgeLabel.sizeToFit()
+        //badgeLabel.sizeToFit()
         badgeLabel.clipsToBounds = true
     }
     

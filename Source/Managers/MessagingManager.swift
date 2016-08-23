@@ -83,7 +83,7 @@ public class MessagingManager: NSObject, HCSDKCoreSyncDelegate {
     }
     
     // MARK: Sending Text Message
-
+    
     public func sendTextMessage(text: String, dialogID: String, dialogType: String) {
         
         let messageJSON = createTextMessageJSON(text, dialogID: dialogID)
@@ -215,10 +215,14 @@ public class MessagingManager: NSObject, HCSDKCoreSyncDelegate {
                 HCMessage.updateMessage(messageJSON, message: message, transaction: transaction)
                 message.failed = false
                 
+                let currentUserID = HCSDKCore.sharedInstance.currentUserID()
                 // update dialog unread message info
                 if let dialogID = messageJSON["dialog_id"] as? String
                 {
-                    HCChatDialog.incrementUnreadCount(dialogID, transaction: transaction)
+                    if message.senderID != currentUserID
+                    {
+                        HCChatDialog.incrementUnreadCount(dialogID, transaction: transaction)
+                    }
                 }
                 
                 transaction.commit()
@@ -230,11 +234,14 @@ public class MessagingManager: NSObject, HCSDKCoreSyncDelegate {
                 let message = HCMessage.findOrCreateMessage(serverID: "\(messageID)", transaction: transaction)
                 HCMessage.updateMessage(messageJSON, message: message, transaction: transaction)
                 message.failed = false
-                
+                let currentUserID = HCSDKCore.sharedInstance.currentUserID()
                 // update dialog unread message info
                 if let dialogID = messageJSON["dialog_id"] as? String
                 {
-                    HCChatDialog.incrementUnreadCount(dialogID, transaction: transaction)
+                    if message.senderID != currentUserID
+                    {
+                        HCChatDialog.incrementUnreadCount(dialogID, transaction: transaction)
+                    }
                 }
                 
                 transaction.commit()

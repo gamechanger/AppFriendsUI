@@ -214,6 +214,12 @@ public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver
             cell.userAvatarImageView?.image = nil
             cell.timeLabel?.text = message?.messageDisplayTime()?.timeAgo()
             cell.messageTime = message?.messageDisplayTime()
+            if let messageTime = message?.messageDisplayTime()
+            {
+                // update read time for this dialog. Badge will clear all messages are read
+                HCChatDialog.updateReadMessageAtTime(messageTime, dialogID: _dialogID)
+            }
+            
             if let avatar = message?.senderAvatar
             {
                 cell.userAvatarImageView?.kf_setImageWithURL(NSURL(string: avatar))

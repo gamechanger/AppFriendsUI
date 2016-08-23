@@ -149,7 +149,8 @@ public class HCChatDialog: _HCChatDialog {
         
         if let readTime = self.lastMessageReadTime
         {
-            if let unreadMessages = transaction.fetchAll(From(HCMessage), Where("receiveTime > %@", readTime))
+            let currentUserID = HCSDKCore.sharedInstance.currentUserID()
+            if let unreadMessages = transaction.fetchAll(From(HCMessage), Where("receiveTime > %@", readTime) && Where("dialogID", isEqualTo: self.dialogID) && Where("senderID != %@", currentUserID!))
             {
                 self.unreadMessages = unreadMessages.count
             }
@@ -163,6 +164,16 @@ public class HCChatDialog: _HCChatDialog {
             self.updateReadMessageAtTime(time, dialogID: dialogID, transaction: transaction)
             transaction.commit()
         })
+    }
+    
+    static func getLastMessageTime(dialogID: String) -> NSDate?
+    {
+        return  CoreStoreManager.store()?.queryValue(
+            From(HCMessage),
+            Select<NSDate>(.Maximum("receiveTime")),
+            Where("dialogID == %@", dialogID)
+        )
+        
     }
     
     static func updateReadMessageAtTime(time: NSDate, dialogID: String, transaction: AsynchronousDataTransaction)

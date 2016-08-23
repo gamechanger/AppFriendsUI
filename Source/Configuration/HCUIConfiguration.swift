@@ -9,40 +9,40 @@
 import UIKit
 import EZSwiftExtensions
 
-struct HCColorPalette {
+class HCColorPalette {
     
-    static let chatBackgroundColor = UIColor(hexString: "0d0e28")
-    static let chatContentTextColor = UIColor.whiteColor()
-    static let chatUserNamelTextColor = UIColor.whiteColor()
-    static let chatTimeLabelTextColor = UIColor.lightGrayColor()
-    static let chatSystemMessageColor = UIColor.lightGrayColor()
-    static let chatSendButtonColor = UIColor(hexString: "0d0e28")
-    static let chatOutMessageBubbleColor = UIColor(hexString: "93d4f0")
-    static let chatInMessageBubbleColor = UIColor(hexString: "5e62bc")
-    static let chatMessageFailedButtonColor = UIColor(hexString: "f2433d")
+    static var chatBackgroundColor = UIColor(hexString: "0d0e28")
+    static var chatContentTextColor = UIColor.whiteColor()
+    static var chatUserNamelTextColor = UIColor.whiteColor()
+    static var chatTimeLabelTextColor = UIColor.lightGrayColor()
+    static var chatSystemMessageColor = UIColor.lightGrayColor()
+    static var chatSendButtonColor = UIColor(hexString: "0d0e28")
+    static var chatOutMessageBubbleColor = UIColor(hexString: "93d4f0")
+    static var chatInMessageBubbleColor = UIColor(hexString: "5e62bc")
+    static var chatMessageFailedButtonColor = UIColor(hexString: "f2433d")
     
-    static let avatarBackgroundColor = UIColor.init(white: 1, alpha: 0.3)
+    static var avatarBackgroundColor = UIColor.init(white: 1, alpha: 0.3)
     
-    static let SegmentSelectorColor = UIColor.whiteColor()
-    static let SegmentSelectorOnBgColor = UIColor(hexString: "a5bac3")
-    static let SegmentSelectorOffBgColor = UIColor.clearColor()
-    static let SegmentSelectorOnTextColor = UIColor.whiteColor()
-    static let SegmentSelectorOffTextColor = UIColor.whiteColor()
+    static var SegmentSelectorColor = UIColor.whiteColor()
+    static var SegmentSelectorOnBgColor = UIColor(hexString: "a5bac3")
+    static var SegmentSelectorOffBgColor = UIColor.clearColor()
+    static var SegmentSelectorOnTextColor = UIColor.whiteColor()
+    static var SegmentSelectorOffTextColor = UIColor.whiteColor()
     
-    static let contactsTableSeparatorColor = UIColor(hexString: "1F203D")
+    static var contactsTableSeparatorColor = UIColor(hexString: "1F203D")
     
-    static let navigationBarIconColor = UIColor.whiteColor()
-    static let navigationBarTitleColor = UIColor.whiteColor()
+    static var navigationBarIconColor = UIColor.whiteColor()
+    static var navigationBarTitleColor = UIColor.whiteColor()
     
-    static let badgeBackgroundColor = UIColor(hexString: "f2433d")
+    static var badgeBackgroundColor = UIColor(hexString: "f2433d")
 }
 
-struct HCSize {
-    static let ChatCellContentDefaultPointSize: CGFloat = 16.0
+class HCSize {
+    static var ChatCellContentDefaultPointSize: CGFloat = 16.0
 }
 
-struct HCFont {
-    static let SegmentSelectorFont = UIFont.systemFontOfSize(15)
-    static let EmptyTableViewLabelFont = UIFont.systemFontOfSize(15)
-    static let ChatCellContentFontName = "Helvetica Neue"
+class HCFont {
+    static var SegmentSelectorFont = UIFont.systemFontOfSize(15)
+    static var EmptyTableViewLabelFont = UIFont.systemFontOfSize(15)
+    static var ChatCellContentFontName = "Helvetica Neue"
 }

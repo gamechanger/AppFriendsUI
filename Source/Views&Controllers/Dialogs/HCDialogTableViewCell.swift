@@ -28,9 +28,6 @@ class HCDialogTableViewCell: SESlideTableViewCell {
         self.layoutMargins = UIEdgeInsetsZero
         
         dialogAvatarImageView.layer.cornerRadius = 4
-        dialogAvatarImageView.layer.masksToBounds = true
-        dialogAvatarImageView.layer.borderColor = UIColor.whiteColor().CGColor
-        dialogAvatarImageView.layer.borderWidth = 3
         dialogAvatarImageView.backgroundColor = HCColorPalette.avatarBackgroundColor
         dialogAvatarImageView.contentMode = .ScaleAspectFit
         
