@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AppFriendsCore
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDelegate {
@@ -15,11 +16,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        
+        let appFriendsCore = HCSDKCore.sharedInstance
+        appFriendsCore.enableDebug()
+        appFriendsCore.initialize(key: "U9x5pl32dZ7u87Nr75Wx0wtt", secret: "CSegECsEOz0E7PrR2SJ78wtt") { (success, error) in
+            
+            if !success {
+                NSLog("AppFriends initialization error:\(error?.localizedDescription)")
+            }
+        }
+        
         // Override point for customization after application launch.
         let splitViewController = self.window!.rootViewController as! UISplitViewController
         let navigationController = splitViewController.viewControllers[splitViewController.viewControllers.count-1] as! UINavigationController
         navigationController.topViewController!.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem()
         splitViewController.delegate = self
+        
         return true
     }
 

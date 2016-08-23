@@ -12,9 +12,9 @@ import Google_Material_Design_Icons_Swift
 
 public class HCChatContainerViewController: HCBaseViewController, HCGroupCreatorViewControllerDelegate {
     
-    public static let channelTabTitle = "Channels"
-    public static let dialogsTabTitle = "Dialogs"
-    public static let contactsTabTitle = "Contacts"
+    public static var channelTabTitle = "Channels"
+    public static var dialogsTabTitle = "Dialogs"
+    public static var contactsTabTitle = "Contacts"
     
     let channelsList = HCChannelsListViewController()
     let dialogsList = HCDialogsListViewController()
