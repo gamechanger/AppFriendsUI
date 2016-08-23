@@ -12,10 +12,6 @@ import Google_Material_Design_Icons_Swift
 
 public class HCChatContainerViewController: HCBaseViewController, HCGroupCreatorViewControllerDelegate {
     
-    public static var channelTabTitle = "Channels"
-    public static var dialogsTabTitle = "Dialogs"
-    public static var contactsTabTitle = "Contacts"
-    
     let channelsList = HCChannelsListViewController()
     let dialogsList = HCDialogsListViewController()
     let contactsList = HCContactsViewController()
@@ -25,7 +21,7 @@ public class HCChatContainerViewController: HCBaseViewController, HCGroupCreator
     
     var currentDisplayingVC: UIViewController? = nil
     
-    private var _tabs = [HCChatContainerViewController.channelTabTitle, HCChatContainerViewController.dialogsTabTitle, HCChatContainerViewController.contactsTabTitle]
+    private var _tabs = [HCTitles.channelTabTitle, HCTitles.dialogsTabTitle, HCTitles.contactsTabTitle]
     
     public init(tabs: [String]) {
         _tabs = tabs
@@ -106,13 +102,13 @@ public class HCChatContainerViewController: HCBaseViewController, HCGroupCreator
             
             if _tabs.count < 3
             {
-                if tabTitle == HCChatContainerViewController.channelTabTitle {
+                if tabTitle == HCTitles.channelTabTitle {
                     tabImage = UIImage.fontAwesomeIconWithName(FontAwesome.Hashtag, textColor: UIColor.whiteColor(), size: CGSizeMake(25, 25))
                 }
-                else if tabTitle == HCChatContainerViewController.dialogsTabTitle {
+                else if tabTitle == HCTitles.dialogsTabTitle {
                     tabImage = UIImage.fontAwesomeIconWithName(FontAwesome.ListUL, textColor: UIColor.whiteColor(), size: CGSizeMake(25, 25))
                 }
-                else if tabTitle == HCChatContainerViewController.contactsTabTitle {
+                else if tabTitle == HCTitles.contactsTabTitle {
                     tabImage = UIImage.fontAwesomeIconWithName(FontAwesome.Comments, textColor: UIColor.whiteColor(), size: CGSizeMake(25, 25))
                 }
             }
@@ -135,17 +131,17 @@ public class HCChatContainerViewController: HCBaseViewController, HCGroupCreator
     
     func switchTabs(segmentView: SMSegmentView) {
         
-        if segmentView.selectedSegmentIndex == _tabs.indexOf(HCChatContainerViewController.dialogsTabTitle)
+        if segmentView.selectedSegmentIndex == _tabs.indexOf(HCTitles.dialogsTabTitle)
         {
             removeVC(currentDisplayingVC)
             displayDialogsList()
         }
-        else if segmentView.selectedSegmentIndex == _tabs.indexOf(HCChatContainerViewController.channelTabTitle)
+        else if segmentView.selectedSegmentIndex == _tabs.indexOf(HCTitles.channelTabTitle)
         {
             removeVC(currentDisplayingVC)
             displayChannelsList()
         }
-        else if segmentView.selectedSegmentIndex == _tabs.indexOf(HCChatContainerViewController.contactsTabTitle)
+        else if segmentView.selectedSegmentIndex == _tabs.indexOf(HCTitles.contactsTabTitle)
         {
             removeVC(currentDisplayingVC)
             displayContactsList()
