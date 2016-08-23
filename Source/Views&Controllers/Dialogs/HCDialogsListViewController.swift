@@ -131,7 +131,7 @@ class HCDialogsListViewController: HCBaseViewController, UITableViewDelegate, UI
                 cell.messageTime = nil
             }
             
-            if dialog.type == HCSDKConstants.kDialogTypeGroup {
+            if dialog.type == HCSDKConstants.kMessageTypeGroup {
                 let groupDialogImage = UIImage.fontAwesomeIconWithName(FontAwesome.Group, textColor: UIColor.grayColor(), size: CGSizeMake(44, 44))
                 cell.dialogAvatarImageView.image = groupDialogImage
             }
@@ -169,7 +169,7 @@ class HCDialogsListViewController: HCBaseViewController, UITableViewDelegate, UI
             {
                 if let dialogID = dialog.dialogID {
                     
-                    if dialog.type == HCSDKConstants.kDialogTypeGroup
+                    if dialog.type == HCSDKConstants.kMessageTypeGroup
                     {
                         DialogsManager.sharedInstance.leaveGroupDialog(dialogID, completion: { (error) in
                             
@@ -178,7 +178,7 @@ class HCDialogsListViewController: HCBaseViewController, UITableViewDelegate, UI
                             }
                         })
                     }
-                    else if dialog.type == HCSDKConstants.kDialogTypeIndividual
+                    else if dialog.type == HCSDKConstants.kMessageTypeIndividual
                     {
                         let dialogObjectID = dialog.objectID
                         CoreStoreManager.store()?.beginAsynchronous({ (transaction) in

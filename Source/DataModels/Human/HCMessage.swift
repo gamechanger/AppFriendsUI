@@ -116,10 +116,10 @@ public class HCMessage: _HCMessage {
         {
             message.messageType = dialogType
             
-            if dialogType == HCSDKConstants.kDialogTypeIndividual, let dialogID = messageJSON["dialog_id"] as? String
+            if dialogType == HCSDKConstants.kMessageTypeIndividual, let dialogID = messageJSON["dialog_id"] as? String
             {
                 let user = HCUser.findOrCreateUser(dialogID, transaction: transaction)
-                HCChatDialog.findOrCreateDialog(dialogID, members: [dialogID], dialogTitle: user.userName, dialogType: HCSDKConstants.kDialogTypeIndividual, transaction: transaction)
+                HCChatDialog.findOrCreateDialog(dialogID, members: [dialogID], dialogTitle: user.userName, dialogType: HCSDKConstants.kMessageTypeIndividual, transaction: transaction)
             }
         }
     }

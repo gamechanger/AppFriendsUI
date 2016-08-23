@@ -60,7 +60,7 @@ public class HCDialogChatViewController: HCBaseChatViewController, HCGroupCreato
             self?.presentVC(nav)
             }))
         
-        if _dialogType == HCSDKConstants.kDialogTypeGroup {
+        if _dialogType == HCSDKConstants.kMessageTypeGroup {
             moreActionPopup.addAction(UIAlertAction(title: "Change Conversation Name", style: .Default, handler: {[weak self] (action) in
                 
                 self?.showNameChangePopup()

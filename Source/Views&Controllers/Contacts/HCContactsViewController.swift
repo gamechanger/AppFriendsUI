@@ -91,7 +91,7 @@ public class HCContactsViewController: HCBaseViewController, ListObjectObserver 
             // find the existing or create an individual chat dialog
             CoreStoreManager.store()?.beginAsynchronous({ (transaction) in
                 
-                HCChatDialog.findOrCreateDialog(userID, members: [userID], dialogTitle: contact?.userName, dialogType: HCSDKConstants.kDialogTypeIndividual, transaction: transaction)
+                HCChatDialog.findOrCreateDialog(userID, members: [userID], dialogTitle: contact?.userName, dialogType: HCSDKConstants.kMessageTypeIndividual, transaction: transaction)
                 
                 transaction.commit({ (result) in
                     

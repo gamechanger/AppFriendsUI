@@ -22,7 +22,7 @@ public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver
     static var HUD: JGProgressHUD?
     var monitor: ListMonitor<HCMessage>?
     var currentUserID: String?
-    private (set) var _dialogType: String = HCSDKConstants.kDialogTypeIndividual
+    private (set) var _dialogType: String = HCSDKConstants.kMessageTypeIndividual
     private (set) var _dialogID: String = ""
     
     let imagePicker = UIImagePickerController()
@@ -162,7 +162,7 @@ public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver
         
         if let m = message
         {
-            if m.messageType == HCSDKConstants.kDialogTypeSystem {
+            if m.messageType == HCSDKConstants.kMessageTypeSystem {
                 
                 isSystemMessage = true
                 tableCell = self.tableView.dequeueReusableCellWithIdentifier("HCChatSystemMessageTableViewCell", forIndexPath: indexPath) as? HCChatTableViewCell

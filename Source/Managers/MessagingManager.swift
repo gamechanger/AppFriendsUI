@@ -46,7 +46,7 @@ public class MessagingManager: NSObject, HCSDKCoreSyncDelegate {
             transaction.commit()
         })
         
-        if dialogType == HCSDKConstants.kDialogTypeGroup
+        if dialogType == HCSDKConstants.kMessageTypeGroup
         {
             HCSDKCore.sharedInstance.sendMessage(messageJSON, dialogID: dialogID) { (response, error) in
                 
@@ -63,7 +63,7 @@ public class MessagingManager: NSObject, HCSDKCoreSyncDelegate {
                 }
             }
         }
-        else if dialogType == HCSDKConstants.kDialogTypeIndividual
+        else if dialogType == HCSDKConstants.kMessageTypeIndividual
         {
             HCSDKCore.sharedInstance.sendMessage(messageJSON, userID: dialogID) { (response, error) in
                 
@@ -94,7 +94,7 @@ public class MessagingManager: NSObject, HCSDKCoreSyncDelegate {
         })
         
         
-        if dialogType == HCSDKConstants.kDialogTypeGroup
+        if dialogType == HCSDKConstants.kMessageTypeGroup
         {
             HCSDKCore.sharedInstance.sendMessage(messageJSON, dialogID: dialogID) { (response, error) in
                 
@@ -111,7 +111,7 @@ public class MessagingManager: NSObject, HCSDKCoreSyncDelegate {
                 }
             }
         }
-        else if dialogType == HCSDKConstants.kDialogTypeIndividual
+        else if dialogType == HCSDKConstants.kMessageTypeIndividual
         {
             HCSDKCore.sharedInstance.sendMessage(messageJSON, userID: dialogID) { (response, error) in
                 
@@ -255,7 +255,7 @@ public class MessagingManager: NSObject, HCSDKCoreSyncDelegate {
         {
             if let dialogType = returnedJSON["dialog_type"] as? String
             {
-                if dialogType == HCSDKConstants.kDialogTypeGroup {
+                if dialogType == HCSDKConstants.kMessageTypeGroup {
                     
                     if let dialogID = returnedJSON["dialog_id"] as? String
                     {
@@ -277,7 +277,7 @@ public class MessagingManager: NSObject, HCSDKCoreSyncDelegate {
                         })
                     }
                 }
-                else if dialogType == HCSDKConstants.kDialogTypeIndividual {
+                else if dialogType == HCSDKConstants.kMessageTypeIndividual {
                     
                     if let dialogID = returnedJSON["dialog_id"] as? String
                     {
@@ -296,7 +296,7 @@ public class MessagingManager: NSObject, HCSDKCoreSyncDelegate {
                         })
                     }
                 }
-                else if dialogType == HCSDKConstants.kDialogTypeSystem {
+                else if dialogType == HCSDKConstants.kMessageTypeSystem {
                     
                     if let data = returnedJSON["meta_data"] as? NSDictionary
                     {
