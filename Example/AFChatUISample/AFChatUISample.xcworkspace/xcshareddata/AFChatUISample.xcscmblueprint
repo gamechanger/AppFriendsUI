@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "5A3C8BA89D43098B762E3DBBE1D4ABDCEA8EF644",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "5A3C8BA89D43098B762E3DBBE1D4ABDCEA8EF644" : 0,
+    "9B597723D7091FEA6B42FFC3D3D6949A7739E748" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "5E58540A-D0EC-4B79-ADC4-4E1277A3E379",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "5A3C8BA89D43098B762E3DBBE1D4ABDCEA8EF644" : "AppFriendsUI\/",
+    "9B597723D7091FEA6B42FFC3D3D6949A7739E748" : ""
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "AFChatUISample",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Example\/AFChatUISample\/AFChatUISample.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/laeroah\/AppFriendsUI.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "5A3C8BA89D43098B762E3DBBE1D4ABDCEA8EF644"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/laeroah\/AppFriendsCore.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "9B597723D7091FEA6B42FFC3D3D6949A7739E748"
+    }
+  ]
+}
