@@ -21,6 +21,7 @@
 /* Begin PBXFileReference section */
 		6D56BF437310542A82748575 /* Pods_AFChatUISample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AFChatUISample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7792E9AAE8ADD14358CB08B9 /* Pods-AFChatUISample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AFChatUISample.release.xcconfig"; path = "Pods/Target Support Files/Pods-AFChatUISample/Pods-AFChatUISample.release.xcconfig"; sourceTree = "<group>"; };
+		AF2490B71D6CB09D00CBAD84 /* AppFriendsUI.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; name = AppFriendsUI.podspec; path = ../../AppFriendsUI.podspec; sourceTree = "<group>"; };
 		AFC3F5861D6BE1970098C316 /* AFChatUISample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AFChatUISample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AFC3F5891D6BE1970098C316 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AFC3F58B1D6BE1970098C316 /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
@@ -66,6 +67,7 @@
 		AFC3F57D1D6BE1970098C316 = {
 			isa = PBXGroup;
 			children = (
+				AF2490B71D6CB09D00CBAD84 /* AppFriendsUI.podspec */,
 				AFC3F5881D6BE1970098C316 /* AFChatUISample */,
 				AFC3F5871D6BE1970098C316 /* Products */,
 				1905ECFDD5A384C522C4E2A3 /* Pods */,
