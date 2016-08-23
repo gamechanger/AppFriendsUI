@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		29B5490EA424595616E85FCD /* Pods_AFChatUISample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D56BF437310542A82748575 /* Pods_AFChatUISample.framework */; };
 		AFC3F58A1D6BE1970098C316 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFC3F5891D6BE1970098C316 /* AppDelegate.swift */; };
 		AFC3F58C1D6BE1970098C316 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFC3F58B1D6BE1970098C316 /* MasterViewController.swift */; };
 		AFC3F58E1D6BE1970098C316 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFC3F58D1D6BE1970098C316 /* DetailViewController.swift */; };
@@ -16,6 +17,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6D56BF437310542A82748575 /* Pods_AFChatUISample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AFChatUISample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7792E9AAE8ADD14358CB08B9 /* Pods-AFChatUISample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AFChatUISample.release.xcconfig"; path = "Pods/Target Support Files/Pods-AFChatUISample/Pods-AFChatUISample.release.xcconfig"; sourceTree = "<group>"; };
 		AFC3F5861D6BE1970098C316 /* AFChatUISample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AFChatUISample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AFC3F5891D6BE1970098C316 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AFC3F58B1D6BE1970098C316 /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
@@ -24,6 +27,7 @@
 		AFC3F5921D6BE1970098C316 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AFC3F5951D6BE1970098C316 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AFC3F5971D6BE1970098C316 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C514A5F553B260DB346A3F55 /* Pods-AFChatUISample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AFChatUISample.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AFChatUISample/Pods-AFChatUISample.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,17 +35,37 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				29B5490EA424595616E85FCD /* Pods_AFChatUISample.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1905ECFDD5A384C522C4E2A3 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				C514A5F553B260DB346A3F55 /* Pods-AFChatUISample.debug.xcconfig */,
+				7792E9AAE8ADD14358CB08B9 /* Pods-AFChatUISample.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		7581B759ABE4DA765A6F7BF6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6D56BF437310542A82748575 /* Pods_AFChatUISample.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		AFC3F57D1D6BE1970098C316 = {
 			isa = PBXGroup;
 			children = (
 				AFC3F5881D6BE1970098C316 /* AFChatUISample */,
 				AFC3F5871D6BE1970098C316 /* Products */,
+				1905ECFDD5A384C522C4E2A3 /* Pods */,
+				7581B759ABE4DA765A6F7BF6 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -74,9 +98,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = AFC3F59A1D6BE1970098C316 /* Build configuration list for PBXNativeTarget "AFChatUISample" */;
 			buildPhases = (
+				5363F601812465640507A40B /* [CP] Check Pods Manifest.lock */,
 				AFC3F5821D6BE1970098C316 /* Sources */,
 				AFC3F5831D6BE1970098C316 /* Frameworks */,
 				AFC3F5841D6BE1970098C316 /* Resources */,
+				3CA8AD8499CFD826D2A6F831 /* [CP] Embed Pods Frameworks */,
+				4A4B407BF2635B69952B0DDC /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -132,6 +159,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3CA8AD8499CFD826D2A6F831 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AFChatUISample/Pods-AFChatUISample-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		4A4B407BF2635B69952B0DDC /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AFChatUISample/Pods-AFChatUISample-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		5363F601812465640507A40B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		AFC3F5821D6BE1970098C316 /* Sources */ = {
@@ -251,6 +326,7 @@
 		};
 		AFC3F59B1D6BE1970098C316 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C514A5F553B260DB346A3F55 /* Pods-AFChatUISample.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = AFChatUISample/Info.plist;
@@ -262,6 +338,7 @@
 		};
 		AFC3F59C1D6BE1970098C316 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7792E9AAE8ADD14358CB08B9 /* Pods-AFChatUISample.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = AFChatUISample/Info.plist;
@@ -290,6 +367,7 @@
 				AFC3F59C1D6BE1970098C316 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

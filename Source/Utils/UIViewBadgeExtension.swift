@@ -16,7 +16,7 @@ private let hcBadgeSize = CGSizeMake(15, 15)
 
 extension UIView {
     
-    var badge: String? {
+    public var badge: String? {
         get {
             return objc_getAssociatedObject(self, &hcBadgeCountAssociationKey) as? String
         }
