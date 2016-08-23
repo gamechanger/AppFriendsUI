@@ -14,6 +14,8 @@
 		AFC3F5911D6BE1970098C316 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AFC3F58F1D6BE1970098C316 /* Main.storyboard */; };
 		AFC3F5931D6BE1970098C316 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AFC3F5921D6BE1970098C316 /* Assets.xcassets */; };
 		AFC3F5961D6BE1970098C316 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AFC3F5941D6BE1970098C316 /* LaunchScreen.storyboard */; };
+		AFE100681D6C3585002BA79D /* UserProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE100661D6C3585002BA79D /* UserProfileTableViewCell.swift */; };
+		AFE100691D6C3585002BA79D /* UserProfileTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFE100671D6C3585002BA79D /* UserProfileTableViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +29,8 @@
 		AFC3F5921D6BE1970098C316 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AFC3F5951D6BE1970098C316 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AFC3F5971D6BE1970098C316 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AFE100661D6C3585002BA79D /* UserProfileTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileTableViewCell.swift; sourceTree = "<group>"; };
+		AFE100671D6C3585002BA79D /* UserProfileTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserProfileTableViewCell.xib; sourceTree = "<group>"; };
 		C514A5F553B260DB346A3F55 /* Pods-AFChatUISample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AFChatUISample.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AFChatUISample/Pods-AFChatUISample.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -87,6 +91,8 @@
 				AFC3F5921D6BE1970098C316 /* Assets.xcassets */,
 				AFC3F5941D6BE1970098C316 /* LaunchScreen.storyboard */,
 				AFC3F5971D6BE1970098C316 /* Info.plist */,
+				AFE100661D6C3585002BA79D /* UserProfileTableViewCell.swift */,
+				AFE100671D6C3585002BA79D /* UserProfileTableViewCell.xib */,
 			);
 			path = AFChatUISample;
 			sourceTree = "<group>";
@@ -152,6 +158,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AFE100691D6C3585002BA79D /* UserProfileTableViewCell.xib in Resources */,
 				AFC3F5961D6BE1970098C316 /* LaunchScreen.storyboard in Resources */,
 				AFC3F5931D6BE1970098C316 /* Assets.xcassets in Resources */,
 				AFC3F5911D6BE1970098C316 /* Main.storyboard in Resources */,
@@ -213,6 +220,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AFE100681D6C3585002BA79D /* UserProfileTableViewCell.swift in Sources */,
 				AFC3F58E1D6BE1970098C316 /* DetailViewController.swift in Sources */,
 				AFC3F58C1D6BE1970098C316 /* MasterViewController.swift in Sources */,
 				AFC3F58A1D6BE1970098C316 /* AppDelegate.swift in Sources */,

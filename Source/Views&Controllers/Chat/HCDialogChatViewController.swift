@@ -18,10 +18,13 @@ public class HCDialogChatViewController: HCBaseChatViewController, HCGroupCreato
         super.viewDidLoad()
         
         // more button
-        let moreItem = UIBarButtonItem(image: nil, style: .Plain, target: self, action: #selector(HCDialogChatViewController.moreButtonTapped))
-        moreItem.setGMDIcon(GMDType.GMDMoreVert, iconSize: 20)
-        self.navigationItem.rightBarButtonItem = moreItem
-        self.navigationItem.rightBarButtonItem?.tintColor = HCColorPalette.navigationBarIconColor
+        
+        if _dialogType == HCSDKConstants.kMessageTypeGroup {
+            let moreItem = UIBarButtonItem(image: nil, style: .Plain, target: self, action: #selector(HCDialogChatViewController.moreButtonTapped))
+            moreItem.setGMDIcon(GMDType.GMDMoreVert, iconSize: 20)
+            self.navigationItem.rightBarButtonItem = moreItem
+            self.navigationItem.rightBarButtonItem?.tintColor = HCColorPalette.navigationBarIconColor
+        }
         
         updateTitle()
     }

@@ -9,19 +9,26 @@
 import UIKit
 import AppFriendsUI
 import AppFriendsCore
+import CoreStore
+import Kingfisher
 import Google_Material_Design_Icons_Swift
 
 class MasterViewController: UITableViewController {
     
     var detailViewController: DetailViewController? = nil
-    var objects = [AnyObject]()
     var _chatButton: UIButton?
+    
+    var _userAvatarUR: String?
+    var _userName: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.title = "AppFriends UI"
+        self.view.backgroundColor = UIColor(r: 13, g: 14, b: 40)
         
+        self.tableView.registerNib(UINib(nibName: "UserProfileTableViewCell", bundle: nil), forCellReuseIdentifier: "UserProfileTableViewCell")
+            
         // create chat button
         layoutNavigationBarItem()
         
@@ -38,8 +45,8 @@ class MasterViewController: UITableViewController {
                 
                 // Hard code user info
                 appFriendsCore.loginWithUserInfo([
-                    HCSDKConstants.kUserID: "2000",
-                    HCSDKConstants.kUserName: "wshucn"
+                    HCSDKConstants.kUserID: "1000",
+                    HCSDKConstants.kUserName: "Hacknocraft"
                     ])
                 { (response, error) in
                     
@@ -50,16 +57,31 @@ class MasterViewController: UITableViewController {
                         
                         MessagingManager.startReceivingMessage()
                         
-                        AppFriendsUserManager.sharedInstance.fetchUserInfo("2000") { (response, error) in
-                            
-                        }
                         
-                        AppFriendsUserManager.sharedInstance.updateUserInfo("2000", userInfo: ["avatar": "https://robohash.org/1"], completion: { (response, error) in
+                        AppFriendsUserManager.sharedInstance.updateUserInfo("1000", userInfo: ["avatar": "http://findicons.com/files/icons/178/popo_emotions/128/hell_boy.png"], completion: { (response, error) in
                             
+                            
+                            
+                            AppFriendsUserManager.sharedInstance.fetchUserInfo("1000") { (response, error) in
+                                
+                                if let json = response as? [String: AnyObject] {
+                                    
+                                    if let avatar = json["avatar"] as? String {
+                                        self._userAvatarUR = avatar
+                                    }
+                                    
+                                    if let userName = json["user_name"] as? String {
+                                        self._userName = userName
+                                    }
+                                    
+                                    self.tableView.reloadData()
+                                }
+                                
+                            }
                             
                         })
                         
-                        AppFriendsUserManager.sharedInstance.fetchUserFriends("2000", completion: { (response, error) in
+                        AppFriendsUserManager.sharedInstance.fetchUserFriends("1000", completion: { (response, error) in
                             
                         })
                         
@@ -67,6 +89,7 @@ class MasterViewController: UITableViewController {
                         DialogsManager.sharedInstance.getTotalUnreadMessageCount({ (count) in
                             self._chatButton?.badge = "\(count)"
                         })
+                        
                     }
                 }
             }
@@ -124,7 +147,7 @@ class MasterViewController: UITableViewController {
     
     func chat(sender: AnyObject) {
         
-        let chatContainer = HCChatContainerViewController(tabs: [HCChatContainerViewController.dialogsTabTitle, HCChatContainerViewController.contactsTabTitle])
+        let chatContainer = HCChatContainerViewController(tabs: [HCTitles.dialogsTabTitle, HCTitles.contactsTabTitle])
         let nav = UINavigationController(rootViewController: chatContainer)
         nav.navigationBar.tintColor = UIColor.whiteColor()
         self.presentVC(nav)
@@ -137,31 +160,34 @@ class MasterViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return objects.count
-    }
-    
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath)
         
-        let object = objects[indexPath.row] as! NSDate
-        cell.textLabel!.text = object.description
-        return cell
-    }
-    
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            objects.removeAtIndex(indexPath.row)
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
+        if HCSDKCore.sharedInstance.isLogin() {
+            
+            return 1
         }
+        
+        return 0
     }
     
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
+    {
+        let userProfileCell = tableView.dequeueReusableCellWithIdentifier("UserProfileTableViewCell", forIndexPath: indexPath) as! UserProfileTableViewCell
+        
+        userProfileCell.usernameLabel.text = _userName
+        if let avatar = _userAvatarUR {
+            userProfileCell.userAvatarView.kf_setImageWithURL(NSURL(string: avatar))
+        }
+        
+        return userProfileCell
+    }
     
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        
+        if indexPath.row == 0 {
+            return 200
+        }
+        
+        return 40
+    }
 }
 

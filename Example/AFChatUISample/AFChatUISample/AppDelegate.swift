@@ -17,6 +17,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
+        styleApp ()
+        
         let appFriendsCore = HCSDKCore.sharedInstance
         appFriendsCore.enableDebug()
         appFriendsCore.initialize(key: "U9x5pl32dZ7u87Nr75Wx0wtt", secret: "CSegECsEOz0E7PrR2SJ78wtt") { (success, error) in
@@ -67,6 +69,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
             return true
         }
         return false
+    }
+    
+    func styleApp () {
+        
+        let navigationBarAppearace = UINavigationBar.appearance()
+        navigationBarAppearace.setBackgroundImage(UIImage(), forBarMetrics: .Default)
+        navigationBarAppearace.translucent = true
+        navigationBarAppearace.shadowImage = UIImage()
+        navigationBarAppearace.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
+        
+        UIApplication.sharedApplication().statusBarStyle = .LightContent
+        UINavigationBar.appearance().tintColor = UIColor(r: 151, g: 160, b: 188)
+        
     }
 
 }
