@@ -111,6 +111,7 @@ class HCDialogsListViewController: HCBaseViewController, UITableViewDelegate, UI
         
         cell.delegate = self
         cell.showsRightSlideIndicator = false
+        cell.dialogAvatarImageView.badge = nil
         
         if let dialog = self.monitor?.objectsInSection(safeSectionIndex: indexPath.section)![indexPath.row]
         {
@@ -149,10 +150,12 @@ class HCDialogsListViewController: HCBaseViewController, UITableViewDelegate, UI
                     }
                 }
             }
+            
+            if let unreadMessageCount = dialog.unreadMessages{
+                cell.dialogAvatarImageView.badge = "\(unreadMessageCount)"
+            }
+            
         }
-        
-        cell.dialogAvatarImageView.badge = "1"
-        
         
         return cell
     }
