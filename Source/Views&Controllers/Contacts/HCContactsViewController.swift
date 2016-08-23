@@ -32,27 +32,30 @@ public class HCContactsViewController: HCBaseViewController, ListObjectObserver 
         self.tableView.tableFooterView = UIView()
         HCUtils.registerNib(self.tableView, nibName: "HCContactTableViewCell", forCellReuseIdentifier: "HCContactTableViewCell")
         
-        let user = CoreStoreManager.store()?.fetchOne(From(HCUser),
-                                                      Where("userID", isEqualTo: currentUserID!))
-        
-        if let friends = user?.friends as? [String]
-        {
-            
-            let monitor = CoreStoreManager.store()!.monitorList(
-                From(HCUser),
-                Where("userID IN %@", friends) && Where("NOT (userID IN %@)", hiddenUsers),
-                OrderBy(.Ascending("userName")),
-                Tweak { (fetchRequest) -> Void in
-                    fetchRequest.fetchBatchSize = 20
-                }
-            )
-            
-            monitor.addObserver(self)
-            self.monitor = monitor
-        }
-        
         if let userID = currentUserID {
-            AppFriendsUserManager.sharedInstance.fetchUserFriends(userID)
+            
+            AppFriendsUserManager.sharedInstance.fetchUserFriends(userID, completion: { (response, error) in
+                let user = CoreStoreManager.store()?.fetchOne(From(HCUser),
+                    Where("userID", isEqualTo: self.currentUserID!))
+                
+                if let friends = user?.friends as? [String]
+                {
+                    
+                    let monitor = CoreStoreManager.store()!.monitorList(
+                        From(HCUser),
+                        Where("userID IN %@", friends) && Where("NOT (userID IN %@)", self.hiddenUsers),
+                        OrderBy(.Ascending("userName")),
+                        Tweak { (fetchRequest) -> Void in
+                            fetchRequest.fetchBatchSize = 20
+                        }
+                    )
+                    
+                    monitor.addObserver(self)
+                    self.monitor = monitor
+                    self.tableView.reloadData()
+                }
+                
+            })
         }
     }
 
