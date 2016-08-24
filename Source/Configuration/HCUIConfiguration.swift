@@ -35,6 +35,9 @@ public class HCColorPalette {
     public static var navigationBarTitleColor = UIColor.whiteColor()
     
     public static var badgeBackgroundColor = UIColor(hexString: "f2433d")
+    
+    public static var closeButtonBgColor = UIColor.whiteColor()
+    public static var closeButtonIconColor = UIColor.blackColor()
 }
 
 public class HCSize {

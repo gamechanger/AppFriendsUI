@@ -12,6 +12,11 @@ import EZSwiftExtensions
 import NSDate_TimeAgo
 import Google_Material_Design_Icons_Swift
 
+@objc
+public protocol HCChatTableViewCellDelegate {
+    func imageTapped(cell: HCChatTableViewCell)
+}
+
 public class HCChatTableViewCell: UITableViewCell {
 
     static let kChatCellTopMargin: CGFloat = 16.0
@@ -30,6 +35,8 @@ public class HCChatTableViewCell: UITableViewCell {
     @IBOutlet weak var contentImageView: UIImageView?
     @IBOutlet weak var failedButton: UIButton?
     
+    weak var delegate: HCChatTableViewCellDelegate?
+    
     var messageTime: NSDate?
     
     override public func awakeFromNib() {
@@ -44,6 +51,9 @@ public class HCChatTableViewCell: UITableViewCell {
         userAvatarImageView?.layer.borderWidth = 1
         userAvatarImageView?.backgroundColor = HCColorPalette.avatarBackgroundColor
         userAvatarImageView?.contentMode = .ScaleAspectFit
+        
+        contentImageView?.userInteractionEnabled = true
+        contentImageView?.addTapGesture(target: self, action: #selector(HCChatTableViewCell.imageTapped))
         
         userNameLabel?.textColor = HCColorPalette.chatUserNamelTextColor
         timeLabel?.textColor = HCColorPalette.chatTimeLabelTextColor
@@ -63,6 +73,13 @@ public class HCChatTableViewCell: UITableViewCell {
         
         NSTimer.runThisEvery(seconds: 30) { [weak self](timer) in
             self?.updateTime()
+        }
+    }
+    
+    func imageTapped() {
+        
+        if let d = self.delegate {
+            d.imageTapped(self)
         }
     }
     

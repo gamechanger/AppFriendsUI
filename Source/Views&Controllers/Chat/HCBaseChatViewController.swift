@@ -17,7 +17,7 @@ import EZSwiftExtensions
 import AFDateHelper
 import JGProgressHUD
 
-public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver, UIImagePickerControllerDelegate, UINavigationControllerDelegate
+public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver, UIImagePickerControllerDelegate, UINavigationControllerDelegate, HCChatTableViewCellDelegate
 {
     static var HUD: JGProgressHUD?
     var monitor: ListMonitor<HCMessage>?
@@ -214,6 +214,7 @@ public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver
             cell.userAvatarImageView?.image = nil
             cell.timeLabel?.text = message?.messageDisplayTime()?.timeAgo()
             cell.messageTime = message?.messageDisplayTime()
+            cell.delegate = self
             if let messageTime = message?.messageDisplayTime()
             {
                 // update read time for this dialog. Badge will clear all messages are read
@@ -424,6 +425,38 @@ public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver
         }
         
         dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    // MARK: HCChatTableViewCellDelegate
+    
+    public func imageTapped(cell: HCChatTableViewCell) {
+        
+        if let indexPath = self.tableView.indexPathForCell(cell)
+        {
+            
+            let message = self.monitor?.objectsInSection(safeSectionIndex: indexPath.section)![indexPath.row]
+            
+            
+            if let m = message
+            {
+                if let customData = m.customData {
+                    
+                    if let attachment = HCMessageAttachment.getAttachmentFromMessage(dataString: customData) where attachment.attachmentType == HCMessageAttachmentType.Image.name()
+                    {
+                        if let url = attachment.url {
+                            let imageModalVC = HCImageModalViewController(url: url)
+                            imageModalVC.modalPresentationStyle = .OverCurrentContext
+                            imageModalVC.modalTransitionStyle = .CrossDissolve
+                            
+                            self.presentVC(imageModalVC)
+                        }
+                    }
+                    
+                }
+            }
+            
+        }
+        
     }
     
     // MARK: HUD
