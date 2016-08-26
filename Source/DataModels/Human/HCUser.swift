@@ -4,7 +4,7 @@ import CoreStore
 @objc(HCUser)
 public class HCUser: _HCUser {
     
-    static func findOrCreateUser(userID: String, transaction: AsynchronousDataTransaction!) -> HCUser
+    public static func findOrCreateUser(userID: String, transaction: AsynchronousDataTransaction!) -> HCUser
     {
         var user = transaction.fetchOne(
             From(HCUser),
@@ -18,7 +18,7 @@ public class HCUser: _HCUser {
         return user!
     }
     
-    static func processUserInfo(userInfo: [String: AnyObject], transaction: AsynchronousDataTransaction!) -> HCUser?
+    public static func processUserInfo(userInfo: [String: AnyObject], transaction: AsynchronousDataTransaction!) -> HCUser?
     {
         if let userID = userInfo["id"] as? String {
             

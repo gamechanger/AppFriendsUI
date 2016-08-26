@@ -24,7 +24,7 @@ public class HCMessage: _HCMessage {
         return false
     }
     
-    static func findOrCreateMessage(tempID tempID: String, transaction: AsynchronousDataTransaction) -> HCMessage
+    public static func findOrCreateMessage(tempID tempID: String, transaction: AsynchronousDataTransaction) -> HCMessage
     {
         if let message = transaction.fetchOne(From(HCMessage), Where("tempID", isEqualTo: tempID))
         {
@@ -38,7 +38,7 @@ public class HCMessage: _HCMessage {
         }
     }
 
-    static func findMessage(tempID: String, transaction: AsynchronousDataTransaction) -> HCMessage?
+    public static func findMessage(tempID: String, transaction: AsynchronousDataTransaction) -> HCMessage?
     {
         if let message = transaction.fetchOne(From(HCMessage), Where("tempID", isEqualTo: tempID))
         {
@@ -47,7 +47,7 @@ public class HCMessage: _HCMessage {
         return nil
     }
     
-    static func updateMessage(messageJSON: NSDictionary, message: HCMessage, transaction: AsynchronousDataTransaction!)
+    public static func updateMessage(messageJSON: NSDictionary, message: HCMessage, transaction: AsynchronousDataTransaction!)
     {
         
         if let dialogID = messageJSON["dialog_id"]
@@ -124,7 +124,7 @@ public class HCMessage: _HCMessage {
         }
     }
     
-    static func findOrCreateMessage(serverID messageID: String, transaction: AsynchronousDataTransaction!) -> HCMessage
+    public static func findOrCreateMessage(serverID messageID: String, transaction: AsynchronousDataTransaction!) -> HCMessage
     {
         if let message = transaction.fetchOne(From(HCMessage), Where("messageID", isEqualTo: "\(messageID)"))
         {
@@ -138,7 +138,7 @@ public class HCMessage: _HCMessage {
         }
     }
     
-    static func createMessage(messageJSON: NSDictionary, transaction: AsynchronousDataTransaction!) -> HCMessage
+    public static func createMessage(messageJSON: NSDictionary, transaction: AsynchronousDataTransaction!) -> HCMessage
     {
         let message = transaction.create(Into(HCMessage))
         self.updateMessage(messageJSON, message: message, transaction: transaction)

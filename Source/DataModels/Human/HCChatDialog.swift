@@ -6,7 +6,7 @@ import EZSwiftExtensions
 @objc(HCChatDialog)
 public class HCChatDialog: _HCChatDialog {
     
-    static func findOrCreateDialog(dialogID: String, members: [String], dialogTitle: String?, dialogType: String, transaction: AsynchronousDataTransaction)
+    public static func findOrCreateDialog(dialogID: String, members: [String], dialogTitle: String?, dialogType: String, transaction: AsynchronousDataTransaction)
     {
         var dialog = transaction.fetchOne(From(HCChatDialog), Where("dialogID", isEqualTo: dialogID))
         if dialog == nil
@@ -33,12 +33,12 @@ public class HCChatDialog: _HCChatDialog {
         }
     }
     
-    static func findDialog(dialogID: String, transaction: AsynchronousDataTransaction) -> HCChatDialog?
+    public static func findDialog(dialogID: String, transaction: AsynchronousDataTransaction) -> HCChatDialog?
     {
         return transaction.fetchOne(From(HCChatDialog), Where("dialogID", isEqualTo: dialogID))
     }
     
-    static func createDialog(dialogID: String, members: [String], groupTitle: String?, dialogType: String, completion: ((error: NSError?) -> ())? = nil)
+    public static func createDialog(dialogID: String, members: [String], groupTitle: String?, dialogType: String, completion: ((error: NSError?) -> ())? = nil)
     {
         CoreStoreManager.store()?.beginAsynchronous({ (transaction) in
             
@@ -64,7 +64,7 @@ public class HCChatDialog: _HCChatDialog {
         })
     }
     
-    func defaultGroupName() -> String
+    public func defaultGroupName() -> String
     {
         var title = ""
         let currentUserID = HCSDKCore.sharedInstance.currentUserID()
@@ -91,7 +91,7 @@ public class HCChatDialog: _HCChatDialog {
         return title
     }
     
-    static func groupNameFromMembers(members: [String], transaction: AsynchronousDataTransaction? = nil) -> String
+    public static func groupNameFromMembers(members: [String], transaction: AsynchronousDataTransaction? = nil) -> String
     {
         var title = ""
         let currentUserID = HCSDKCore.sharedInstance.currentUserID()
@@ -122,7 +122,7 @@ public class HCChatDialog: _HCChatDialog {
         return title
     }
     
-    static func incrementUnreadCount(dialogID: String, transaction: AsynchronousDataTransaction)
+    public static func incrementUnreadCount(dialogID: String, transaction: AsynchronousDataTransaction)
     {
         if let dialog = HCChatDialog.findDialog(dialogID, transaction: transaction) {
             if let unreadCount = dialog.unreadMessages?.integerValue
@@ -135,7 +135,7 @@ public class HCChatDialog: _HCChatDialog {
         }
     }
     
-    static func updateDialogLastMessage(dialogID: String, transaction: AsynchronousDataTransaction)
+    public static func updateDialogLastMessage(dialogID: String, transaction: AsynchronousDataTransaction)
     {
         let dialog = transaction.fetchOne(From(HCChatDialog), Where("dialogID", isEqualTo: dialogID))
         if let message = transaction.fetchOne(From(HCMessage), Where("dialogID", isEqualTo: dialogID), OrderBy(.Descending("receiveTime")))
