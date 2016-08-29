@@ -21,6 +21,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         
         styleApp ()
         
+        let appFriendsCore = HCSDKCore.sharedInstance
+        appFriendsCore.setValue(true, forKey: "useSandbox")
         
         return true
     }

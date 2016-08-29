@@ -19,6 +19,8 @@ class HCUserTableViewCell: UITableViewCell {
         self.contentView.backgroundColor = HCColorPalette.chatBackgroundColor
         self.separatorInset = UIEdgeInsetsZero
         self.layoutMargins = UIEdgeInsetsZero
+        self.userAvatarView.layer.masksToBounds = true
+        self.userAvatarView.layer.cornerRadius = self.userAvatarView.w/2
         
     }
 
