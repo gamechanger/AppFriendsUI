@@ -30,9 +30,14 @@ class ProfileViewController: UITableViewController {
         
         _userID = userID
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
         
         self.title = "Profile"
         
@@ -41,10 +46,6 @@ class ProfileViewController: UITableViewController {
         self.tabBarItem = customTabBarItem
         
         self.tableView.separatorColor = HCColorPalette.contactsTableSeparatorColor
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
         
         self.view.backgroundColor = UIColor(r: 13, g: 14, b: 40)
         

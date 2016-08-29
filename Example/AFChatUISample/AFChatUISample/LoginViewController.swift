@@ -121,7 +121,11 @@ class LoginViewController: HCBaseViewController {
     func goToMainView() {
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let mainVC = storyboard.instantiateViewControllerWithIdentifier("TabbarController")
+        let mainVC = storyboard.instantiateViewControllerWithIdentifier("TabbarController") as? UITabBarController
+        let profileNav = mainVC?.viewControllers![0] as? UINavigationController
+        let profileVC = ProfileViewController(userID: HCSDKCore.sharedInstance.currentUserID())
+        profileNav?.setViewControllers([profileVC], animated: true)
+        
         if let app = UIApplication.sharedApplication().delegate as? AppDelegate, let window = app.window {
             
             UIView.transitionWithView(window, duration: 0.3, options: .TransitionFlipFromLeft, animations: {
