@@ -49,7 +49,6 @@ class ProfileViewController: UITableViewController {
             self._chatButton?.badge = "\(count)"
         })
         
-        
         if let currentUserID = HCSDKCore.sharedInstance.currentUserID()
         {
             AppFriendsUserManager.sharedInstance.fetchUserInfo(currentUserID) { (response, error) in

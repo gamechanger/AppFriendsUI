@@ -40,15 +40,19 @@ public class HCUserSearchViewController: HCBaseViewController, UITableViewDelega
         
         HCUtils.registerNib(self.tableView, nibName: "HCUserTableViewCell", forCellReuseIdentifier: "HCUserTableViewCell")
         
-        let monitor = CoreStoreManager.store()!.monitorList(
-            From(HCUser),
-            OrderBy(.Ascending("userName")),
-            Tweak { (fetchRequest) -> Void in
-                fetchRequest.fetchBatchSize = 20
-            }
-        )
-        monitor.addObserver(self)
-        self.listMonitor = monitor
+        if let userID = currentUserID
+        {
+            let monitor = CoreStoreManager.store()!.monitorList(
+                From(HCUser),
+                Where("userID != %@", userID),
+                OrderBy(.Ascending("userName")),
+                Tweak { (fetchRequest) -> Void in
+                    fetchRequest.fetchBatchSize = 20
+                }
+            )
+            monitor.addObserver(self)
+            self.listMonitor = monitor
+        }
     }
 
     override public func didReceiveMemoryWarning() {
