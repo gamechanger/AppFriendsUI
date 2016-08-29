@@ -22,6 +22,15 @@ public class CoreStoreManager: NSObject {
     
     public func initialize(completion: ((success: Bool, error: NSError?) -> ())? = nil)
     {
+        if _dataStack != nil {
+            
+            if let complete = completion
+            {
+                complete(success: true, error: nil)
+            }
+            return
+        }
+        
         guard let bundle = HCUtils.coreDataBundle() else { return }
         _dataStack = DataStack(modelName: "AppFriendsUIModels", bundle: bundle, migrationChain: nil)
         

@@ -14,7 +14,41 @@ public class AppFriendsUserManager: NSObject {
 
     public static let sharedInstance = AppFriendsUserManager()
     
-    public func searchUser(query: String,  completion: ((response: AnyObject?, error: NSError?) -> ())? = nil) {
+    public func followerUser(userID: String, completion: ((response: AnyObject?, error: NSError?) -> ())? = nil) {
+    
+        let path = "/users/\(userID)/follow"
+        let appFriendsCore = HCSDKCore.sharedInstance
+        appFriendsCore.startRequest(httpMethod: "PUT", path: path, parameters: nil) { (response, error) in
+            
+            if let complete = completion {
+                complete(response: nil, error: error)
+            }
+        }
+    }
+    
+    public func unfollowUser(userID: String, completion: ((response: AnyObject?, error: NSError?) -> ())? = nil) {
+        
+        let path = "/users/\(userID)/unfollow"
+        let appFriendsCore = HCSDKCore.sharedInstance
+        appFriendsCore.startRequest(httpMethod: "PUT", path: path, parameters: nil) { (response, error) in
+            
+            if let complete = completion {
+                complete(response: nil, error: error)
+            }
+        }
+    }
+    
+    public func fetchFollowers(userID: String, completion: ((response: AnyObject?, error: NSError?) -> ())? = nil) {
+        
+        let path = "/users/\(userID)/followers"
+    }
+    
+    public func fetchFollowings(userID: String, completion: ((response: AnyObject?, error: NSError?) -> ())? = nil) {
+        
+        let path = "/users/\(userID)/followings"
+    }
+    
+    public func searchUser(query: String, completion: ((response: AnyObject?, error: NSError?) -> ())? = nil) {
 
         if let escapedQuery = query.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())
         {

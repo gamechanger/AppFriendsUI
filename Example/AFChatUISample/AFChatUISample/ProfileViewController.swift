@@ -45,62 +45,26 @@ class ProfileViewController: UITableViewController {
         // observe new message
         startObservingNewMessagesAndUpdateBadge()
         
-        // initialize AppFriends and layout info
-        _chatButton?.enabled = false
-        CoreStoreManager.sharedInstance.initialize { (success, error) in
-            
-            if success {
+        DialogsManager.sharedInstance.getTotalUnreadMessageCount({ (count) in
+            self._chatButton?.badge = "\(count)"
+        })
+        
+        
+        if let currentUserID = HCSDKCore.sharedInstance.currentUserID()
+        {
+            AppFriendsUserManager.sharedInstance.fetchUserInfo(currentUserID) { (response, error) in
                 
-                let appFriendsCore = HCSDKCore.sharedInstance
-                
-                // Hard code user info
-                appFriendsCore.loginWithUserInfo([
-                    HCSDKConstants.kUserID: "1000",
-                    HCSDKConstants.kUserName: "Hacknocraft"
-                    ])
-                { (response, error) in
+                if let json = response as? [String: AnyObject] {
                     
-                    if let err = error {
-                        NSLog("login error:\(err)")
+                    if let avatar = json[HCSDKConstants.kUserAvatar] as? String {
+                        self._userAvatarUR = avatar
                     }
-                    else {
-                        
-                        MessagingManager.startReceivingMessage()
-                        
-                        
-                        AppFriendsUserManager.sharedInstance.updateUserInfo("1000", userInfo: ["avatar": "http://findicons.com/files/icons/178/popo_emotions/128/hell_boy.png"], completion: { (response, error) in
-                            
-                            
-                            
-                            AppFriendsUserManager.sharedInstance.fetchUserInfo("1000") { (response, error) in
-                                
-                                if let json = response as? [String: AnyObject] {
-                                    
-                                    if let avatar = json["avatar"] as? String {
-                                        self._userAvatarUR = avatar
-                                    }
-                                    
-                                    if let userName = json["user_name"] as? String {
-                                        self._userName = userName
-                                    }
-                                    
-                                    self.tableView.reloadData()
-                                }
-                                
-                            }
-                            
-                        })
-                        
-                        AppFriendsUserManager.sharedInstance.fetchUserFriends("1000", completion: { (response, error) in
-                            
-                        })
-                        
-                        self._chatButton?.enabled = true
-                        DialogsManager.sharedInstance.getTotalUnreadMessageCount({ (count) in
-                            self._chatButton?.badge = "\(count)"
-                        })
-                        
+                    
+                    if let userName = json[HCSDKConstants.kUserName] as? String {
+                        self._userName = userName
                     }
+                    
+                    self.tableView.reloadData()
                 }
             }
         }

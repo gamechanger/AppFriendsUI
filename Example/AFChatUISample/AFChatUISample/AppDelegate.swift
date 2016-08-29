@@ -9,6 +9,7 @@
 import UIKit
 import AppFriendsCore
 import AppFriendsUI
+import EZSwiftExtensions
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDelegate {
@@ -20,14 +21,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         
         styleApp ()
         
-        let appFriendsCore = HCSDKCore.sharedInstance
-        appFriendsCore.enableDebug()
-        appFriendsCore.initialize(key: "U9x5pl32dZ7u87Nr75Wx0wtt", secret: "CSegECsEOz0E7PrR2SJ78wtt") { (success, error) in
-            
-            if !success {
-                NSLog("AppFriends initialization error:\(error?.localizedDescription)")
-            }
-        }
         
         return true
     }

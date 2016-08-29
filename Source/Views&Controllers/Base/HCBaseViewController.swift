@@ -45,7 +45,7 @@ public class HCBaseViewController: UIViewController {
         return HCBaseViewController.HUD
     }
     
-    func showProgress(progress: Float, message: String) {
+    public func showProgress(progress: Float, message: String) {
         
         let HUD = self.hud()
         HUD.textLabel.text = message
@@ -63,7 +63,7 @@ public class HCBaseViewController: UIViewController {
         }
     }
     
-    func showLoading (message: String?)
+    public func showLoading (message: String?)
     {
         let HUD = self.hud()
         HUD.textLabel.text = message
@@ -71,7 +71,7 @@ public class HCBaseViewController: UIViewController {
         HUD.showInView(self.view)
     }
     
-    func showErrorWithMessage(message: String?) {
+    public func showErrorWithMessage(message: String?) {
         
         let HUD = self.hud()
         
@@ -82,7 +82,7 @@ public class HCBaseViewController: UIViewController {
         HUD.dismissAfterDelay(2)
     }
     
-    func showSuccessWithMessage(message: String?) {
+    public func showSuccessWithMessage(message: String?) {
         
         let HUD = self.hud()
         
@@ -93,7 +93,7 @@ public class HCBaseViewController: UIViewController {
         HUD.dismissAfterDelay(2)
     }
     
-    func hideHUD () {
+    public func hideHUD () {
         let HUD = self.hud()
         HUD.dismiss()
         HCBaseViewController.HUD = nil

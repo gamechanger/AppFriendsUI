@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		29B5490EA424595616E85FCD /* Pods_AFChatUISample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D56BF437310542A82748575 /* Pods_AFChatUISample.framework */; };
 		AF2490C21D72C8E900CBAD84 /* UserSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2490C11D72C8E900CBAD84 /* UserSearchViewController.swift */; };
+		AF2DEBBA1D747FB500DA2609 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2DEBB91D747FB500DA2609 /* LoginViewController.swift */; };
 		AFC3F58A1D6BE1970098C316 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFC3F5891D6BE1970098C316 /* AppDelegate.swift */; };
 		AFC3F58C1D6BE1970098C316 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFC3F58B1D6BE1970098C316 /* ProfileViewController.swift */; };
 		AFC3F5911D6BE1970098C316 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AFC3F58F1D6BE1970098C316 /* Main.storyboard */; };
@@ -23,6 +24,7 @@
 		7792E9AAE8ADD14358CB08B9 /* Pods-AFChatUISample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AFChatUISample.release.xcconfig"; path = "Pods/Target Support Files/Pods-AFChatUISample/Pods-AFChatUISample.release.xcconfig"; sourceTree = "<group>"; };
 		AF2490B71D6CB09D00CBAD84 /* AppFriendsUI.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; name = AppFriendsUI.podspec; path = ../../AppFriendsUI.podspec; sourceTree = "<group>"; };
 		AF2490C11D72C8E900CBAD84 /* UserSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSearchViewController.swift; sourceTree = "<group>"; };
+		AF2DEBB91D747FB500DA2609 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		AFC3F5861D6BE1970098C316 /* AFChatUISample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AFChatUISample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AFC3F5891D6BE1970098C316 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AFC3F58B1D6BE1970098C316 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -95,6 +97,7 @@
 				AFE100661D6C3585002BA79D /* UserProfileTableViewCell.swift */,
 				AFE100671D6C3585002BA79D /* UserProfileTableViewCell.xib */,
 				AF2490C11D72C8E900CBAD84 /* UserSearchViewController.swift */,
+				AF2DEBB91D747FB500DA2609 /* LoginViewController.swift */,
 			);
 			path = AFChatUISample;
 			sourceTree = "<group>";
@@ -225,6 +228,7 @@
 				AFE100681D6C3585002BA79D /* UserProfileTableViewCell.swift in Sources */,
 				AF2490C21D72C8E900CBAD84 /* UserSearchViewController.swift in Sources */,
 				AFC3F58C1D6BE1970098C316 /* ProfileViewController.swift in Sources */,
+				AF2DEBBA1D747FB500DA2609 /* LoginViewController.swift in Sources */,
 				AFC3F58A1D6BE1970098C316 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
