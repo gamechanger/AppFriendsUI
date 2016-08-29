@@ -14,7 +14,7 @@ public class AppFriendsUserManager: NSObject {
 
     public static let sharedInstance = AppFriendsUserManager()
     
-    public func followerUser(userID: String, completion: ((response: AnyObject?, error: NSError?) -> ())? = nil) {
+    public func followUser(userID: String, completion: ((response: AnyObject?, error: NSError?) -> ())? = nil) {
     
         let path = "/users/\(userID)/follow"
         let appFriendsCore = HCSDKCore.sharedInstance

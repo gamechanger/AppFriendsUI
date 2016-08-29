@@ -148,7 +148,7 @@ class ProfileViewController: UITableViewController {
         {
             _followButton = UIButton(type: .Custom)
             _followButton?.frame = CGRectMake(0, 0, 30, 30)
-            _followButton?.setTitle("Follow", forState: .Normal)
+            _followButton?.setImage(UIImage(named: "follow"), forState: .Normal)
             _followButton?.addTarget(self, action: #selector(ProfileViewController.follow(_:)), forControlEvents: .TouchUpInside)
             
             let followBarItem = UIBarButtonItem(customView: _followButton!)
@@ -168,7 +168,38 @@ class ProfileViewController: UITableViewController {
     
     func follow(sender: AnyObject) {
         
+        if let userID = _userID {
+            AppFriendsUserManager.sharedInstance.followUser(userID, completion: { (response, error) in
+                
+                if let err = error
+                {
+                    self.showAlert(err.localizedDescription)
+                }
+                
+            })
+        }
     }
+    
+    func unfollow(sender: AnyObject) {
+        
+        if let userID = _userID {
+            AppFriendsUserManager.sharedInstance.unfollowUser(userID, completion: { (response, error) in
+                
+                if let err = error
+                {
+                    self.showAlert(err.localizedDescription)
+                }
+            })
+        }
+    }
+    
+    // MARK: show alert
+    
+    func showAlert(message: String)
+    {
+        
+    }
+    
     
     // MARK: - Table View
     
