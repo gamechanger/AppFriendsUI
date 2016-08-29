@@ -20,6 +20,9 @@ class UserProfileTableViewCell: UITableViewCell {
         self.userAvatarView.layer.borderColor = UIColor.whiteColor().CGColor
         self.userAvatarView.layer.borderWidth = 1
         self.userAvatarView.layer.cornerRadius = self.userAvatarView.frame.size.width/2
+        
+        self.separatorInset = UIEdgeInsetsZero
+        self.layoutMargins = UIEdgeInsetsZero
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

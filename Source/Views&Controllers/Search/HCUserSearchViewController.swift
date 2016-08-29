@@ -60,6 +60,13 @@ public class HCUserSearchViewController: HCBaseViewController, UITableViewDelega
         // Dispose of any resources that can be recreated.
     }
     
+    // MARK: - Convenient Method
+    
+    public func userAtIndexPath(indexPath: NSIndexPath) -> HCUser?
+    {
+        return self.listMonitor?.objectsInSection(safeSectionIndex: indexPath.section)![indexPath.row]
+    }
+    
     // MARK: - UITableViewDelegate, UITableViewDataSource
     
     public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -90,7 +97,7 @@ public class HCUserSearchViewController: HCBaseViewController, UITableViewDelega
         let cell = tableView.dequeueReusableCellWithIdentifier("HCUserTableViewCell", forIndexPath: indexPath) as! HCUserTableViewCell
         cell.selectionStyle = .None
         
-        if let user = self.listMonitor?.objectsInSection(safeSectionIndex: indexPath.section)![indexPath.row]
+        if let user = self.userAtIndexPath(indexPath)
         {
             cell.userNameLabel.text = user.userName
             if let avatar = user.avatar {

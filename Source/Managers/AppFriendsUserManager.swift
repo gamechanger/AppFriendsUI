@@ -63,16 +63,24 @@ public class AppFriendsUserManager: NSObject {
                         complete(response: nil, error: err)
                     }
                 }
-                else if let json = response as? [[String: AnyObject]]
+                else if let json = response as? [String: AnyObject]
                 {
-                    CoreStoreManager.store()?.beginAsynchronous({ (transaction) in
-                        
-                        for userJson in json
-                        {
-                            HCUser.processUserInfo(userJson, transaction: transaction)
-                        }
-                        
-                    })
+                    if let users = json["users"] as? [[String: AnyObject]]
+                    {
+                        CoreStoreManager.store()?.beginAsynchronous({ (transaction) in
+                            
+                            for userJson in users
+                            {
+                                HCUser.processUserInfo(userJson, transaction: transaction)
+                            }
+                            transaction.commit({ (result) in
+                                
+                                if let complete = completion {
+                                    complete(response: response, error: nil)
+                                }
+                            })
+                        })
+                    }
                 }
             }
         }

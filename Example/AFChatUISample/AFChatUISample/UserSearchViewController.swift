@@ -29,4 +29,15 @@ class UserSearchViewController: HCUserSearchViewController {
         self.title = "Search"
         
     }
+
+    // MARK: Table 
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        if let user = self.userAtIndexPath(indexPath)
+        {
+            let profileVC = ProfileViewController(userID: user.userID)
+            self.pushVC(profileVC)
+        }
+    }
 }
