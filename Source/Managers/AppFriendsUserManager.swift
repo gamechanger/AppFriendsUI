@@ -21,7 +21,38 @@ public class AppFriendsUserManager: NSObject {
         appFriendsCore.startRequest(httpMethod: "PUT", path: path, parameters: nil) { (response, error) in
             
             if let complete = completion {
-                complete(response: nil, error: error)
+                
+                if let err = error {
+                    if let complete = completion {
+                        complete(response: response, error: err)
+                    }
+                }
+                else {
+                    
+                    CoreStoreManager.store()?.beginAsynchronous({ (transaction) in
+                        
+                        if let currentUserID = HCSDKCore.sharedInstance.currentUserID()
+                        {
+                            let user = HCUser.findOrCreateUser(currentUserID, transaction: transaction)
+                            if var followingUsers = user.following as? [String] where !followingUsers.contains(userID)
+                            {
+                                followingUsers.append(userID)
+                                user.following = followingUsers
+                            }
+                            else {
+                                let followingUsers = [userID]
+                                user.following = followingUsers
+                            }
+                            
+                            transaction.commit({ (result) in
+                                
+                                if let complete = completion {
+                                    complete(response: response, error: nil)
+                                }
+                            })
+                        }
+                    })
+                }
             }
         }
     }
@@ -33,7 +64,33 @@ public class AppFriendsUserManager: NSObject {
         appFriendsCore.startRequest(httpMethod: "PUT", path: path, parameters: nil) { (response, error) in
             
             if let complete = completion {
-                complete(response: nil, error: error)
+                
+                if let err = error {
+                    if let complete = completion {
+                        complete(response: response, error: err)
+                    }
+                }
+                else {
+                    CoreStoreManager.store()?.beginAsynchronous({ (transaction) in
+                        
+                        if let currentUserID = HCSDKCore.sharedInstance.currentUserID()
+                        {
+                            let user = HCUser.findOrCreateUser(currentUserID, transaction: transaction)
+                            if var followingUsers = user.following as? [String]
+                            {
+                                followingUsers.removeObject(userID)
+                                user.following = followingUsers
+                            }
+                            
+                            transaction.commit({ (result) in
+                                
+                                if let complete = completion {
+                                    complete(response: response, error: nil)
+                                }
+                            })
+                        }
+                    })
+                }
             }
         }
     }

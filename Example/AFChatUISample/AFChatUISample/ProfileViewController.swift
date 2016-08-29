@@ -13,11 +13,12 @@ import CoreStore
 import Kingfisher
 import Google_Material_Design_Icons_Swift
 import FontAwesome_swift
+import RNLoadingButton_Swift
 
 class ProfileViewController: UITableViewController {
     
     var _chatButton: UIButton?
-    var _followButton: UIButton?
+    var _followButton: RNLoadingButton?
     
     var _userAvatarUR: String?
     var _userName: String?
@@ -136,6 +137,8 @@ class ProfileViewController: UITableViewController {
         
         if isCurrentUsr()
         {
+            // if it's the current user, we show the chat button
+            
             _chatButton = UIButton(type: .Custom)
             _chatButton?.frame = CGRectMake(0, 0, 30, 30)
             _chatButton?.setImage(UIImage(named: "chat"), forState: .Normal)
@@ -146,13 +149,36 @@ class ProfileViewController: UITableViewController {
         }
         else
         {
-            _followButton = UIButton(type: .Custom)
-            _followButton?.frame = CGRectMake(0, 0, 30, 30)
-            _followButton?.setImage(UIImage(named: "follow"), forState: .Normal)
-            _followButton?.addTarget(self, action: #selector(ProfileViewController.follow(_:)), forControlEvents: .TouchUpInside)
+            // if it's not the current user, we show the follow button
             
-            let followBarItem = UIBarButtonItem(customView: _followButton!)
-            self.navigationItem.rightBarButtonItem = followBarItem
+            if let currentUser = HCUser.currentUser() {
+                
+                _followButton = RNLoadingButton(type: .Custom)
+                _followButton?.frame = CGRectMake(0, 0, 30, 30)
+                _followButton?.activityIndicatorAlignment = .Center
+                _followButton?.hideImageWhenLoading = true
+                _followButton?.addTarget(self, action: #selector(ProfileViewController.followButtonTapped(_:)), forControlEvents: .TouchUpInside)
+                
+                if let followingUsers = currentUser.following as? [String], let userID = _userID
+                {
+                    if followingUsers.contains(userID)
+                    {
+                        _followButton?.setImage(UIImage(named: "unfollow"), forState: .Normal)
+                        
+                    }
+                    else {
+                        
+                        _followButton?.setImage(UIImage(named: "follow"), forState: .Normal)
+                        
+                    }
+                }
+                else {
+                    
+                    _followButton?.setImage(UIImage(named: "follow"), forState: .Normal)
+                }
+                let followBarItem = UIBarButtonItem(customView: _followButton!)
+                self.navigationItem.rightBarButtonItem = followBarItem
+            }
         }
     }
     
@@ -166,16 +192,43 @@ class ProfileViewController: UITableViewController {
         self.presentVC(nav)
     }
     
+    func followButtonTapped(sender: AnyObject) {
+        
+        if let currentUser = HCUser.currentUser() {
+            
+            if let followingUsers = currentUser.following as? [String], let userID = _userID
+            {
+                if followingUsers.contains(userID)
+                {
+                    self.unfollow(sender)
+                }
+                else {
+                    self.follow(sender)
+                }
+            }
+            else {
+                
+                self.follow(sender)
+            }
+        }
+    }
+    
     func follow(sender: AnyObject) {
         
         if let userID = _userID {
+            
+            _followButton?.loading = true
             AppFriendsUserManager.sharedInstance.followUser(userID, completion: { (response, error) in
                 
+                self._followButton?.loading = false
                 if let err = error
                 {
-                    self.showAlert(err.localizedDescription)
+                    self.showAlert("follow user failed", message: err.localizedDescription)
                 }
-                
+                else {
+                    self.showAlert("", message: "You are now following this user")
+                    self._followButton?.setImage(UIImage(named: "unfollow"), forState: .Normal)
+                }
             })
         }
     }
@@ -183,11 +236,18 @@ class ProfileViewController: UITableViewController {
     func unfollow(sender: AnyObject) {
         
         if let userID = _userID {
+            
+            _followButton?.loading = true
             AppFriendsUserManager.sharedInstance.unfollowUser(userID, completion: { (response, error) in
                 
+                self._followButton?.loading = false
                 if let err = error
                 {
-                    self.showAlert(err.localizedDescription)
+                    self.showAlert("Unfollow user failed", message: err.localizedDescription)
+                }
+                else {
+                    self.showAlert("", message: "You unfollowed this user")
+                    self._followButton?.setImage(UIImage(named: "follow"), forState: .Normal)
                 }
             })
         }
@@ -195,9 +255,13 @@ class ProfileViewController: UITableViewController {
     
     // MARK: show alert
     
-    func showAlert(message: String)
+    func showAlert(title: String, message: String)
     {
-        
+        let popup = UIAlertController(title: title, message: message, preferredStyle: .Alert)
+        popup.addAction(UIAlertAction(title: "Ok", style: .Cancel, handler: { (action) in
+            
+        }))
+        self.presentVC(popup)
     }
     
     
@@ -221,6 +285,7 @@ class ProfileViewController: UITableViewController {
     {
         let userProfileCell = tableView.dequeueReusableCellWithIdentifier("UserProfileTableViewCell", forIndexPath: indexPath) as! UserProfileTableViewCell
         
+        userProfileCell.selectionStyle = .None
         userProfileCell.usernameLabel.text = _userName
         if let avatar = _userAvatarUR {
             userProfileCell.userAvatarView.kf_setImageWithURL(NSURL(string: avatar))

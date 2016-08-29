@@ -25,7 +25,7 @@ public class HCContactTableViewCell: UITableViewCell {
         userAvatar.layer.cornerRadius = 4
         userAvatar.layer.masksToBounds = true
         userAvatar.layer.borderColor = UIColor.whiteColor().CGColor
-        userAvatar.layer.borderWidth = 3
+        userAvatar.layer.borderWidth = 2
         userAvatar.backgroundColor = HCColorPalette.avatarBackgroundColor
         userAvatar.contentMode = .ScaleAspectFit
     }

@@ -40,7 +40,8 @@ class LoginViewController: HCBaseViewController {
             else {
                 
                 // need to initialize Coredata for AppFriendsUI first
-                CoreStoreManager.sharedInstance.initialize({ (success, error) in
+                
+                AppFriendsUI.sharedInstance.initialize({ (success, error) in
                     
                     if success {
                         if appFriendsCore.isLogin() {

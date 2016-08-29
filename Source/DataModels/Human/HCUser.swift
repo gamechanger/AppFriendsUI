@@ -1,8 +1,20 @@
 import Foundation
 import CoreStore
+import AppFriendsCore
 
 @objc(HCUser)
 public class HCUser: _HCUser {
+    
+    public static func currentUser() -> HCUser? {
+        
+        if let userID = HCSDKCore.sharedInstance.currentUserID()
+        {
+            let currentUser = CoreStoreManager.store()?.fetchOne(From(HCUser), Where("userID", isEqualTo: userID))
+            return currentUser
+        }
+        
+        return nil
+    }
     
     public static func findOrCreateUser(userID: String, transaction: AsynchronousDataTransaction!) -> HCUser
     {

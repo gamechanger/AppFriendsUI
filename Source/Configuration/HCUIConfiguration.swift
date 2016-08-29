@@ -56,7 +56,7 @@ public class HCTitles {
     
     public static var channelTabTitle = "Channels"
     public static var dialogsTabTitle = "Dialogs"
-    public static var contactsTabTitle = "Contacts"
+    public static var contactsTabTitle = "Friends"
 }
 
 public class HCConstants {
