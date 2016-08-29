@@ -39,12 +39,22 @@ class LoginViewController: HCBaseViewController {
             }
             else {
                 
-                if appFriendsCore.isLogin() {
-                    self.fetchCurrentUserInfo()
-                }
-                else {
-                    self.layoutViews()
-                }
+                // need to initialize Coredata for AppFriendsUI first
+                CoreStoreManager.sharedInstance.initialize({ (success, error) in
+                    
+                    if success {
+                        if appFriendsCore.isLogin() {
+                            self.fetchCurrentUserInfo()
+                        }
+                        else {
+                            self.layoutViews()
+                        }
+                    }
+                    else {
+                        self.showErrorWithMessage(error?.localizedDescription)
+                    }
+                })
+                
             }
         }
     }
@@ -58,38 +68,28 @@ class LoginViewController: HCBaseViewController {
         
         dispatch_async(dispatch_get_main_queue()) { 
             
-            // need to initialize Coredata for AppFriendsUI first
-            CoreStoreManager.sharedInstance.initialize({ (success, error) in
+            let appFriendsCore = HCSDKCore.sharedInstance
+            if appFriendsCore.isLogin(), let currentUserID = appFriendsCore.currentUserID() {
                 
-                if success {
+                self.showLoading("loading user info")
+                AppFriendsUserManager.sharedInstance.fetchUserInfo(currentUserID, completion: { (response, error) in
                     
-                    let appFriendsCore = HCSDKCore.sharedInstance
-                    if appFriendsCore.isLogin(), let currentUserID = appFriendsCore.currentUserID() {
-                        
-                        self.showLoading("loading user info")
-                        AppFriendsUserManager.sharedInstance.fetchUserInfo(currentUserID, completion: { (response, error) in
-                            
-                            if let err = error {
-                                self.showErrorWithMessage(err.localizedDescription)
-                            }
-                            else
-                            {
-                                self.hideHUD()
-                                if let json = response as? [String: AnyObject]
-                                {
-                                    self.currentUserInfo[HCSDKConstants.kUserName] = json[HCSDKConstants.kUserName] as? String
-                                    self.currentUserInfo[HCSDKConstants.kUserAvatar] = json[HCSDKConstants.kUserAvatar] as? String
-                                    self.currentUserInfo[HCSDKConstants.kUserID] = json[HCSDKConstants.kUserID] as? String
-                                    self.layoutViews()
-                                }
-                            }
-                        })
+                    if let err = error {
+                        self.showErrorWithMessage(err.localizedDescription)
                     }
-                }
-                else {
-                    self.showErrorWithMessage(error?.localizedDescription)
-                }
-            })
+                    else
+                    {
+                        self.hideHUD()
+                        if let json = response as? [String: AnyObject]
+                        {
+                            self.currentUserInfo[HCSDKConstants.kUserName] = json[HCSDKConstants.kUserName] as? String
+                            self.currentUserInfo[HCSDKConstants.kUserAvatar] = json[HCSDKConstants.kUserAvatar] as? String
+                            self.currentUserInfo[HCSDKConstants.kUserID] = json[HCSDKConstants.kUserID] as? String
+                            self.layoutViews()
+                        }
+                    }
+                })
+            }
         }
     }
     
