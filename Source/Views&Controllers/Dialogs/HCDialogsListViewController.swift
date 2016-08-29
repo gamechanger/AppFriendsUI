@@ -14,7 +14,7 @@ import NSDate_TimeAgo
 import SESlideTableViewCell
 import DZNEmptyDataSet
 
-class HCDialogsListViewController: HCBaseViewController, UITableViewDelegate, UITableViewDataSource, ListObjectObserver, SESlideTableViewCellDelegate, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate
+public class HCDialogsListViewController: HCBaseViewController, UITableViewDelegate, UITableViewDataSource, ListObjectObserver, SESlideTableViewCellDelegate, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate
 {
     
     var monitor: ListMonitor<HCChatDialog>?
@@ -23,7 +23,7 @@ class HCDialogsListViewController: HCBaseViewController, UITableViewDelegate, UI
     var currentUserID: String?
     var emptyLabel: UILabel?
     
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         
         currentUserID = HCSDKCore.sharedInstance.currentUserID()
@@ -56,13 +56,13 @@ class HCDialogsListViewController: HCBaseViewController, UITableViewDelegate, UI
         }
     }
 
-    override func didReceiveMemoryWarning() {
+    override public func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
 
     // MARK: - DZNEmptyDataSetSource, DZNEmptyDataSetDelegate
-    func titleForEmptyDataSet(scrollView: UIScrollView!) -> NSAttributedString! {
+    public func titleForEmptyDataSet(scrollView: UIScrollView!) -> NSAttributedString! {
         
         let title = NSAttributedString(string: "No Active Conversations", attributes: [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName: HCFont.EmptyTableViewLabelFont])
         return title
@@ -71,7 +71,7 @@ class HCDialogsListViewController: HCBaseViewController, UITableViewDelegate, UI
     
     // MARK: - UITableViewDelegate, UITableViewDataSource
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         guard let numberOfRows = self.monitor?.numberOfObjectsInSection(safeSectionIndex: section) else {
             return 0
@@ -80,17 +80,17 @@ class HCDialogsListViewController: HCBaseViewController, UITableViewDelegate, UI
         return numberOfRows
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    public func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         
         return 1
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
         return 88
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         if let dialog = self.monitor?.objectsInSection(safeSectionIndex: indexPath.section)![indexPath.row]
         {
@@ -100,7 +100,7 @@ class HCDialogsListViewController: HCBaseViewController, UITableViewDelegate, UI
         }
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCellWithIdentifier("HCDialogTableViewCell", forIndexPath: indexPath) as! HCDialogTableViewCell
         cell.selectionStyle = .None
@@ -161,7 +161,7 @@ class HCDialogsListViewController: HCBaseViewController, UITableViewDelegate, UI
     }
     
     // MARK: SESlideTableViewCellDelegate
-    func slideTableViewCell(cell: SESlideTableViewCell!, didTriggerRightButton buttonIndex: NSInteger) {
+    public func slideTableViewCell(cell: SESlideTableViewCell!, didTriggerRightButton buttonIndex: NSInteger) {
         
         if let indexPath = tableView.indexPathForCell(cell)
         {
@@ -195,40 +195,40 @@ class HCDialogsListViewController: HCBaseViewController, UITableViewDelegate, UI
     
     // MARK: ListObserver
     
-    func listMonitorWillChange(monitor: ListMonitor<HCChatDialog>) {
+    public func listMonitorWillChange(monitor: ListMonitor<HCChatDialog>) {
         self.tableView.beginUpdates()
     }
     
-    func listMonitorDidChange(monitor: ListMonitor<HCChatDialog>) {
+    public func listMonitorDidChange(monitor: ListMonitor<HCChatDialog>) {
         self.tableView.endUpdates()
     }
     
-    func listMonitorWillRefetch(monitor: ListMonitor<HCChatDialog>) {
+    public func listMonitorWillRefetch(monitor: ListMonitor<HCChatDialog>) {
     }
     
-    func listMonitorDidRefetch(monitor: ListMonitor<HCChatDialog>) {
+    public func listMonitorDidRefetch(monitor: ListMonitor<HCChatDialog>) {
         self.tableView.reloadData()
     }
     
     // MARK: ListObjectObserver
     
-    func listMonitor(monitor: ListMonitor<HCChatDialog>, didInsertObject object: HCChatDialog, toIndexPath indexPath: NSIndexPath) {
+    public func listMonitor(monitor: ListMonitor<HCChatDialog>, didInsertObject object: HCChatDialog, toIndexPath indexPath: NSIndexPath) {
         
         self.tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
     }
     
-    func listMonitor(monitor: ListMonitor<HCChatDialog>, didDeleteObject object: HCChatDialog, fromIndexPath indexPath: NSIndexPath) {
+    public func listMonitor(monitor: ListMonitor<HCChatDialog>, didDeleteObject object: HCChatDialog, fromIndexPath indexPath: NSIndexPath) {
         
         self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
     }
     
-    func listMonitor(monitor: ListMonitor<HCChatDialog>, didUpdateObject object: HCChatDialog, atIndexPath indexPath: NSIndexPath) {
+    public func listMonitor(monitor: ListMonitor<HCChatDialog>, didUpdateObject object: HCChatDialog, atIndexPath indexPath: NSIndexPath) {
         
         self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
     }
     
     
-    func listMonitor(monitor: ListMonitor<HCChatDialog>, didMoveObject object: HCChatDialog, fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
+    public func listMonitor(monitor: ListMonitor<HCChatDialog>, didMoveObject object: HCChatDialog, fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
         
         self.tableView.deleteRowsAtIndexPaths([fromIndexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
         self.tableView.insertRowsAtIndexPaths([toIndexPath], withRowAnimation: UITableViewRowAnimation.Automatic)

@@ -6,7 +6,7 @@ import EZSwiftExtensions
 @objc(HCChatDialog)
 public class HCChatDialog: _HCChatDialog {
     
-    public static func findOrCreateDialog(dialogID: String, members: [String], dialogTitle: String?, dialogType: String, transaction: AsynchronousDataTransaction)
+    public static func findOrCreateDialog(dialogID: String, members: [String], dialogTitle: String?, dialogType: String, transaction: AsynchronousDataTransaction) -> HCChatDialog
     {
         var dialog = transaction.fetchOne(From(HCChatDialog), Where("dialogID", isEqualTo: dialogID))
         if dialog == nil
@@ -31,6 +31,8 @@ public class HCChatDialog: _HCChatDialog {
             let user = HCUser.findOrCreateUser(currentUserID, transaction: transaction)
             dialog!.addMembersObject(user)
         }
+        
+        return dialog!
     }
     
     public static func findDialog(dialogID: String, transaction: AsynchronousDataTransaction) -> HCChatDialog?
@@ -150,11 +152,15 @@ public class HCChatDialog: _HCChatDialog {
         if let readTime = self.lastMessageReadTime
         {
             let currentUserID = HCSDKCore.sharedInstance.currentUserID()
-            if let unreadMessages = transaction.fetchAll(From(HCMessage), Where("receiveTime > %@", readTime) && Where("dialogID", isEqualTo: self.dialogID) && Where("senderID != %@", currentUserID!))
+            let twoDaysAgo = NSDate().dateBySubtractingDays(HCConstants.oldestMessageDays)
+            if let unreadMessages = transaction.fetchAll(From(HCMessage), Where("receiveTime > %@", readTime) && Where("receiveTime > %@", twoDaysAgo) && Where("dialogID", isEqualTo: self.dialogID) && Where("senderID != %@", currentUserID!))
             {
                 self.unreadMessages = unreadMessages.count
+            }else {
+                self.unreadMessages = 0
             }
         }
+        self.unreadMessages = 0
     }
     
     static func updateReadMessageAtTime(time: NSDate, dialogID: String)

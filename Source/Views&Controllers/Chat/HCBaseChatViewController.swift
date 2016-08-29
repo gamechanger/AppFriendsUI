@@ -54,7 +54,7 @@ public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver
         HCUtils.registerNib(self.tableView, nibName: "HCChatImageTableViewCell", forCellReuseIdentifier: "HCChatImageTableViewCell")
         HCUtils.registerNib(self.tableView, nibName: "HCChatSystemMessageTableViewCell", forCellReuseIdentifier: "HCChatSystemMessageTableViewCell")
         
-        let twoDaysAgo = NSDate().dateBySubtractingDays(2)
+        let twoDaysAgo = NSDate().dateBySubtractingDays(HCConstants.oldestMessageDays)
         
         if let monitor = CoreStoreManager.store()?.monitorList(
             From(HCMessage),

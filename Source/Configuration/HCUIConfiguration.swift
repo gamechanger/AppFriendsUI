@@ -38,6 +38,8 @@ public class HCColorPalette {
     
     public static var closeButtonBgColor = UIColor.whiteColor()
     public static var closeButtonIconColor = UIColor.blackColor()
+    
+    public static var searchBarBgColor = UIColor(hexString: "0d0e28")
 }
 
 public class HCSize {
@@ -55,4 +57,8 @@ public class HCTitles {
     public static var channelTabTitle = "Channels"
     public static var dialogsTabTitle = "Dialogs"
     public static var contactsTabTitle = "Contacts"
+}
+
+public class HCConstants {
+    public static var oldestMessageDays = 2
 }

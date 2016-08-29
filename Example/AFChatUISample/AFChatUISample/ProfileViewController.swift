@@ -12,19 +12,29 @@ import AppFriendsCore
 import CoreStore
 import Kingfisher
 import Google_Material_Design_Icons_Swift
+import FontAwesome_swift
 
-class MasterViewController: UITableViewController {
+class ProfileViewController: UITableViewController {
     
-    var detailViewController: DetailViewController? = nil
     var _chatButton: UIButton?
     
     var _userAvatarUR: String?
     var _userName: String?
     
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        
+        self.title = "Profile"
+        
+        let tabBarImage = UIImage.fontAwesomeIconWithName(.User, textColor: UIColor.blackColor(), size: CGSizeMake(30, 30))
+        let customTabBarItem:UITabBarItem = UITabBarItem(title: "Profile", image: tabBarImage.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), selectedImage: tabBarImage)
+        self.tabBarItem = customTabBarItem
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = "AppFriends UI"
         self.view.backgroundColor = UIColor(r: 13, g: 14, b: 40)
         
         self.tableView.registerNib(UINib(nibName: "UserProfileTableViewCell", bundle: nil), forCellReuseIdentifier: "UserProfileTableViewCell")
@@ -137,7 +147,7 @@ class MasterViewController: UITableViewController {
         _chatButton = UIButton(type: .Custom)
         _chatButton?.frame = CGRectMake(0, 0, 30, 30)
         _chatButton?.setImage(UIImage(named: "chat"), forState: .Normal)
-        _chatButton?.addTarget(self, action: #selector(MasterViewController.chat(_:)), forControlEvents: .TouchUpInside)
+        _chatButton?.addTarget(self, action: #selector(ProfileViewController.chat(_:)), forControlEvents: .TouchUpInside)
         
         let chatBarItem = UIBarButtonItem(customView: _chatButton!)
         self.navigationItem.rightBarButtonItem = chatBarItem

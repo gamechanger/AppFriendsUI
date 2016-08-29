@@ -10,7 +10,7 @@ import UIKit
 import Google_Material_Design_Icons_Swift
 import Kingfisher
 
-class HCImageModalViewController: HCBaseViewController {
+public class HCImageModalViewController: HCBaseViewController {
 
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var closeButton: UIButton!
@@ -18,7 +18,7 @@ class HCImageModalViewController: HCBaseViewController {
     var imageURL: String!
     
     
-    init(url: String) {
+    public init(url: String) {
 
         imageURL = url
         super.init(nibName: "HCImageModalViewController", bundle: HCUtils.xibBundle())
@@ -28,7 +28,7 @@ class HCImageModalViewController: HCBaseViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
 
         view.opaque = false
@@ -49,7 +49,7 @@ class HCImageModalViewController: HCBaseViewController {
         imageView.kf_setImageWithURL(NSURL(string: imageURL))
     }
 
-    override func didReceiveMemoryWarning() {
+    override public func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }

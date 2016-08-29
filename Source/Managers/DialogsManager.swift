@@ -204,7 +204,8 @@ public class DialogsManager: NSObject {
                     {
                         if let dialogID = dialogInfo["id"] as? String, let name = dialogInfo["name"] as? String, let members = dialogInfo["members"] as? [String], let type = dialogInfo["type"] as? String
                         {
-                            HCChatDialog.findOrCreateDialog(dialogID, members: members, dialogTitle: name, dialogType: type, transaction: transaction)
+                            let dialog = HCChatDialog.findOrCreateDialog(dialogID, members: members, dialogTitle: name, dialogType: type, transaction: transaction)
+                            dialog.updateUnreadMessageCount(transaction)
                         }
                     }
                     

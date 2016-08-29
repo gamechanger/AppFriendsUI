@@ -14,6 +14,44 @@ public class AppFriendsUserManager: NSObject {
 
     public static let sharedInstance = AppFriendsUserManager()
     
+    public func searchUser(query: String,  completion: ((response: AnyObject?, error: NSError?) -> ())? = nil) {
+
+        if let escapedQuery = query.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())
+        {
+            let appFriendsCore = HCSDKCore.sharedInstance
+            let searchPath = "/users?search=\(escapedQuery)"
+            appFriendsCore.startRequest(httpMethod: "GET", path: searchPath, parameters: nil) { (response, error) in
+                
+                
+                if let err = error {
+                    
+                    if let complete = completion {
+                        complete(response: nil, error: err)
+                    }
+                }
+                else if let json = response as? [[String: AnyObject]]
+                {
+                    CoreStoreManager.store()?.beginAsynchronous({ (transaction) in
+                        
+                        for userJson in json
+                        {
+                            HCUser.processUserInfo(userJson, transaction: transaction)
+                        }
+                        
+                    })
+                }
+            }
+        }
+        else {
+            
+            let error = NSError(domain: "AppFriendsError", code: 1000, userInfo: [NSLocalizedDescriptionKey: "Invalid search query", NSLocalizedFailureReasonErrorKey: "Invalid search query"])
+            
+            if let complete = completion {
+                complete(response: nil, error: error)
+            }
+        }
+    }
+    
     public func fetchUserFriends(userID: String, completion: ((response: AnyObject?, error: NSError?) -> ())? = nil) {
         
         let appFriendsCore = HCSDKCore.sharedInstance

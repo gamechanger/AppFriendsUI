@@ -8,6 +8,7 @@
 
 import UIKit
 import AppFriendsCore
+import AppFriendsUI
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDelegate {
@@ -27,12 +28,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
                 NSLog("AppFriends initialization error:\(error?.localizedDescription)")
             }
         }
-        
-        // Override point for customization after application launch.
-        let splitViewController = self.window!.rootViewController as! UISplitViewController
-        let navigationController = splitViewController.viewControllers[splitViewController.viewControllers.count-1] as! UINavigationController
-        navigationController.topViewController!.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem()
-        splitViewController.delegate = self
         
         return true
     }
@@ -58,20 +53,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
-    // MARK: - Split view
-
-    func splitViewController(splitViewController: UISplitViewController, collapseSecondaryViewController secondaryViewController:UIViewController, ontoPrimaryViewController primaryViewController:UIViewController) -> Bool {
-        guard let secondaryAsNavController = secondaryViewController as? UINavigationController else { return false }
-        guard let topAsDetailController = secondaryAsNavController.topViewController as? DetailViewController else { return false }
-        if topAsDetailController.detailItem == nil {
-            // Return true to indicate that we have handled the collapse by doing nothing; the secondary controller will be discarded.
-            return true
-        }
-        return false
-    }
+    
+    // MARK: style the app
     
     func styleApp () {
+        
+        // style navigation bar
         
         let navigationBarAppearace = UINavigationBar.appearance()
         navigationBarAppearace.setBackgroundImage(UIImage(), forBarMetrics: .Default)
@@ -82,6 +69,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         UIApplication.sharedApplication().statusBarStyle = .LightContent
         UINavigationBar.appearance().tintColor = UIColor(r: 151, g: 160, b: 188)
         
+        
+        // style AppFriends UI components
+        
+        HCColorPalette.chatBackgroundColor = UIColor(hexString: "0d0e28")
+        HCColorPalette.SegmentSelectorOnBgColor = UIColor(hexString: "3c3a60")
     }
 
 }
