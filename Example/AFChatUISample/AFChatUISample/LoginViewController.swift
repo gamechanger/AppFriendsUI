@@ -32,7 +32,7 @@ class LoginViewController: HCBaseViewController {
         // initialize AppFriendsCore
         let appFriendsCore = HCSDKCore.sharedInstance
         appFriendsCore.enableDebug()
-        appFriendsCore.initialize(key: "U9x5pl32dZ7u87Nr75Wx0wtt", secret: "CSegECsEOz0E7PrR2SJ78wtt") { (success, error) in
+        appFriendsCore.initialize(key: "c3ZsINZMGHdGmbY3S6pcVgtt", secret: "FhsajDeh6XXBF143m82sKwtt") { (success, error) in
             
             if !success {
                 NSLog("AppFriends initialization error:\(error?.localizedDescription)")
@@ -195,6 +195,13 @@ class LoginViewController: HCBaseViewController {
             self.goToMainView()
         }
         else {
+            
+            if self.currentUserInfo[HCSDKConstants.kUserID] == nil {
+                self.currentUserInfo[HCSDKConstants.kUserID] = self.userIDTextField.text
+            }
+            if self.currentUserInfo[HCSDKConstants.kUserName] == nil {
+                self.currentUserInfo[HCSDKConstants.kUserName] = self.userNameTextField.text
+            }
             
             self.showLoading("logging in ...")
             appFriendsCore.loginWithUserInfo(self.currentUserInfo)

@@ -81,6 +81,11 @@ public class AppFriendsUserManager: NSObject {
                                 followingUsers.removeObject(userID)
                                 user.following = followingUsers
                             }
+                            if var friends = user.friends as? [String]
+                            {
+                                friends.removeObject(userID)
+                                user.friends = friends
+                            }
                             
                             transaction.commit({ (result) in
                                 
