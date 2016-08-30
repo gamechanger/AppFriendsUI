@@ -13,6 +13,8 @@ import AppFriendsCore
 
 public class MessagingManager: NSObject, HCSDKCoreSyncDelegate {
     
+    let messageCreateSem = dispatch_semaphore_create(1) // lock to serialize message creation
+    
     public static let sharedInstance = MessagingManager()
     
     public static func startReceivingMessage()
@@ -210,7 +212,9 @@ public class MessagingManager: NSObject, HCSDKCoreSyncDelegate {
         
         if let tempID = messageJSON["temp_id"] as? String
         {
-            CoreStoreManager.store()?.beginAsynchronous({ (transaction) in
+            CoreStoreManager.store()!.beginAsynchronous({ (transaction) in
+                
+                dispatch_semaphore_wait(self.messageCreateSem, DISPATCH_TIME_FOREVER)
                 let message = HCMessage.findOrCreateMessage(tempID: tempID, transaction: transaction)
                 HCMessage.updateMessage(messageJSON, message: message, transaction: transaction)
                 message.failed = false
@@ -230,7 +234,9 @@ public class MessagingManager: NSObject, HCSDKCoreSyncDelegate {
                     }
                 }
                 
-                transaction.commit()
+                transaction.commit({ (result) in
+                    dispatch_semaphore_signal(self.messageCreateSem)
+                })
             })
         }
         else if let messageID = messageJSON["id"] {

@@ -188,7 +188,7 @@ public class HCChatDialog: _HCChatDialog {
         if let dialog = transaction.fetchOne(From(HCChatDialog), Where("dialogID", isEqualTo: dialogID))
         {
             // update the lastMessageReadTime, if the time is later than saved time
-            if let readTime = dialog.lastMessageReadTime where readTime > time {
+            if let readTime = dialog.lastMessageReadTime where readTime >= time {
                 
             }
             else {
