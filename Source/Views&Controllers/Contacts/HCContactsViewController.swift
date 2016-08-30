@@ -94,16 +94,25 @@ public class HCContactsViewController: HCBaseViewController, ListObjectObserver 
             // find the existing or create an individual chat dialog
             CoreStoreManager.store()?.beginAsynchronous({ (transaction) in
                 
-                HCChatDialog.findOrCreateDialog(userID, members: [userID], dialogTitle: contact?.userName, dialogType: HCSDKConstants.kMessageTypeIndividual, transaction: transaction)
-                
-                transaction.commit({ (result) in
+                if HCChatDialog.findDialog(userID, transaction: transaction) != nil
+                {
+                    dispatch_async(dispatch_get_main_queue(), {
+                        self.showChatView(userID)
+                    })
+                }
+                else {
                     
-                    if result.boolValue
-                    {
-                        let chatView = HCDialogChatViewController(dialog: userID)
-                        self.navigationController?.pushViewController(chatView, animated: true)
-                    }
-                })
+                    HCChatDialog.findOrCreateDialog(userID, members: [userID], dialogTitle: contact?.userName, dialogType: HCSDKConstants.kMessageTypeIndividual, transaction: transaction)
+                    
+                    transaction.commit({ (result) in
+                        
+                        if result.boolValue
+                        {
+                            self.showChatView(userID)
+                        }
+                    })
+                }
+                
             })
         }
     }
@@ -121,6 +130,14 @@ public class HCContactsViewController: HCBaseViewController, ListObjectObserver 
         cell.rightImageView.image = nil
         
         return cell
+    }
+    
+    // MARK: go to chat
+    
+    func showChatView(dialogID: String) {
+        
+        let chatView = HCDialogChatViewController(dialog: dialogID)
+        self.navigationController?.pushViewController(chatView, animated: true)
     }
     
     // MARK: ListObserver

@@ -61,4 +61,6 @@ public class HCTitles {
 
 public class HCConstants {
     public static var oldestMessageDays = 2
+    public static var sidePanelSlideAnimationDuration = 0.25
+    public static var sidePanelWindowWidth: CGFloat = 300.0
 }

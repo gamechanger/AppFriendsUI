@@ -25,4 +25,21 @@ public class AppFriendsUI: NSObject {
             }
         }
     }
+    
+    public func presentVCInSidePanel(fromVC fromVC: UIViewController, showVC: UIViewController, direction: HCSideDirection? = .Right) {
+        
+        let animator = HCSidePanelAnimator()
+        let sidePanelVC = HCSidePanelViewController(animator: animator, contentVC: showVC)
+        
+        // make the back view controller co-exist
+        sidePanelVC.modalPresentationStyle = .OverCurrentContext
+        sidePanelVC.navigationController?.modalPresentationStyle = .OverCurrentContext
+        
+        if let d = direction {
+            sidePanelVC.slideDirection = d
+            animator.slideDirection = d
+        }
+        
+        fromVC.presentVC(sidePanelVC)
+    }
 }
