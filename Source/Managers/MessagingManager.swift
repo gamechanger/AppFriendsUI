@@ -221,7 +221,12 @@ public class MessagingManager: NSObject, HCSDKCoreSyncDelegate {
                 {
                     if message.senderID != currentUserID
                     {
-                        HCChatDialog.incrementUnreadCount(dialogID, transaction: transaction)
+                        if let dialog = HCChatDialog.findDialog(dialogID, transaction: transaction)
+                        {
+                            if message.receiveTime > dialog.lastMessageReadTime {
+                                HCChatDialog.incrementUnreadCount(dialogID, transaction: transaction)
+                            }
+                        }
                     }
                 }
                 
@@ -240,7 +245,12 @@ public class MessagingManager: NSObject, HCSDKCoreSyncDelegate {
                 {
                     if message.senderID != currentUserID
                     {
-                        HCChatDialog.incrementUnreadCount(dialogID, transaction: transaction)
+                        if let dialog = HCChatDialog.findDialog(dialogID, transaction: transaction)
+                        {
+                            if message.receiveTime > dialog.lastMessageReadTime {
+                                HCChatDialog.incrementUnreadCount(dialogID, transaction: transaction)
+                            }
+                        }
                     }
                 }
                 

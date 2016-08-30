@@ -51,6 +51,7 @@ class ProfileViewController: UITableViewController {
         self.view.backgroundColor = UIColor(r: 13, g: 14, b: 40)
         
         self.tableView.registerNib(UINib(nibName: "UserProfileTableViewCell", bundle: nil), forCellReuseIdentifier: "UserProfileTableViewCell")
+        self.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "TableViewCell")
             
         // create chat button
         layoutNavigationBarItem()
@@ -268,6 +269,7 @@ class ProfileViewController: UITableViewController {
     // MARK: - Table View
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        
         return 1
     }
     
@@ -275,23 +277,51 @@ class ProfileViewController: UITableViewController {
         
         if HCSDKCore.sharedInstance.isLogin() {
             
-            return 1
+            if self.isCurrentUsr() {
+                return 1
+            }
+            else {
+                return 2
+            }
         }
         
         return 0
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
-    {
-        let userProfileCell = tableView.dequeueReusableCellWithIdentifier("UserProfileTableViewCell", forIndexPath: indexPath) as! UserProfileTableViewCell
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        userProfileCell.selectionStyle = .None
-        userProfileCell.usernameLabel.text = _userName
-        if let avatar = _userAvatarUR {
-            userProfileCell.userAvatarView.kf_setImageWithURL(NSURL(string: avatar))
+        
+        // start a chat with this user
+        if indexPath.row == 1, let userID = _userID {
+            
+            let chatView = HCDialogChatViewController(dialog: userID)
+            chatView.hidesBottomBarWhenPushed = true
+            self.navigationController?.pushViewController(chatView, animated: true)
         }
         
-        return userProfileCell
+    }
+    
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
+    {
+        if indexPath.row == 0 {
+            
+            let userProfileCell = tableView.dequeueReusableCellWithIdentifier("UserProfileTableViewCell", forIndexPath: indexPath) as! UserProfileTableViewCell
+            
+            userProfileCell.selectionStyle = .None
+            userProfileCell.usernameLabel.text = _userName
+            if let avatar = _userAvatarUR {
+                userProfileCell.userAvatarView.kf_setImageWithURL(NSURL(string: avatar))
+            }
+            
+            return userProfileCell
+        }
+        else
+        {
+            let chatCell = tableView.dequeueReusableCellWithIdentifier("TableViewCell", forIndexPath: indexPath)
+            chatCell.accessoryType = .DisclosureIndicator
+            chatCell.textLabel!.text = "Chat"
+            return chatCell
+        }
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {

@@ -27,7 +27,7 @@ public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver
     
     let imagePicker = UIImagePickerController()
     
-    init(dialog: String) {
+    public init(dialog: String) {
         _dialogID = dialog
         if let dialog = CoreStoreManager.store()?.fetchOne(From(HCChatDialog), Where("dialogID", isEqualTo:_dialogID))
         {

@@ -9,7 +9,7 @@
 import UIKit
 import SESlideTableViewCell
 
-class HCDialogTableViewCell: SESlideTableViewCell {
+public class HCDialogTableViewCell: SESlideTableViewCell {
 
     @IBOutlet weak var dialogAvatarImageView: UIImageView!
     @IBOutlet weak var userNameLabel: UILabel!
@@ -19,7 +19,7 @@ class HCDialogTableViewCell: SESlideTableViewCell {
     var messageTime: NSDate?
     var addedRightButton = false
     
-    override func awakeFromNib() {
+    override public func awakeFromNib() {
         super.awakeFromNib()
         
         self.backgroundColor = HCColorPalette.chatBackgroundColor
@@ -27,7 +27,6 @@ class HCDialogTableViewCell: SESlideTableViewCell {
         self.separatorInset = UIEdgeInsetsZero
         self.layoutMargins = UIEdgeInsetsZero
         
-        dialogAvatarImageView.layer.cornerRadius = 4
         dialogAvatarImageView.backgroundColor = HCColorPalette.avatarBackgroundColor
         dialogAvatarImageView.contentMode = .ScaleAspectFit
         
@@ -36,13 +35,13 @@ class HCDialogTableViewCell: SESlideTableViewCell {
         }
     }
     
-    override func addRightButtonWithText(text: String!, textColor: UIColor!, backgroundColor: UIColor!) {
+    override public func addRightButtonWithText(text: String!, textColor: UIColor!, backgroundColor: UIColor!) {
         
         super.addRightButtonWithText(text, textColor: textColor, backgroundColor: backgroundColor)
         self.addedRightButton = true
     }
     
-    override func addRightButtonWithImage(image: UIImage!, backgroundColor: UIColor!) {
+    override public func addRightButtonWithImage(image: UIImage!, backgroundColor: UIColor!) {
         
         super.addRightButtonWithImage(image, backgroundColor: backgroundColor)
         self.addedRightButton = true
@@ -56,7 +55,7 @@ class HCDialogTableViewCell: SESlideTableViewCell {
         }
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
+    override public func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
