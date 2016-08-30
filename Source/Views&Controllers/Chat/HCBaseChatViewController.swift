@@ -29,9 +29,14 @@ public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver
     
     public init(dialog: String) {
         _dialogID = dialog
+        
         if let dialog = CoreStoreManager.store()?.fetchOne(From(HCChatDialog), Where("dialogID", isEqualTo:_dialogID))
         {
             _dialogType = dialog.type!
+        }
+        else {
+            
+            assert(false, "Please fetch the dialog info or create the dialog before starting chat")
         }
         
         super.init(tableViewStyle: .Plain)
