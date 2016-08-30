@@ -215,13 +215,15 @@ public class MessagingManager: NSObject, HCSDKCoreSyncDelegate {
             CoreStoreManager.store()!.beginAsynchronous({ (transaction) in
                 
                 dispatch_semaphore_wait(self.messageCreateSem, DISPATCH_TIME_FOREVER)
+                
+                let isNewMessage = HCMessage.findMessage(tempID, transaction: transaction) == nil
                 let message = HCMessage.findOrCreateMessage(tempID: tempID, transaction: transaction)
                 HCMessage.updateMessage(messageJSON, message: message, transaction: transaction)
                 message.failed = false
                 
+                // if this is a new message, update dialog unread message info
                 let currentUserID = HCSDKCore.sharedInstance.currentUserID()
-                // update dialog unread message info
-                if let dialogID = messageJSON["dialog_id"] as? String
+                if isNewMessage, let dialogID = messageJSON["dialog_id"] as? String
                 {
                     if message.senderID != currentUserID
                     {
