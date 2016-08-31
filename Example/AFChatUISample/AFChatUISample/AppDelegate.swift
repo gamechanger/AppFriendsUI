@@ -24,6 +24,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         let appFriendsCore = HCSDKCore.sharedInstance
         appFriendsCore.setValue(true, forKey: "useSandbox")
         
+        // Handle notification
+        if (launchOptions != nil) {
+            
+            // For remote Notification
+            if let remoteNotification = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as! [NSObject : AnyObject]? {
+                
+                self.processRemoteNotification(remoteNotification)
+            }
+        }
+        
         return true
     }
 
@@ -47,6 +57,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
 
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    }
+    
+    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject])
+    {
+        self.processRemoteNotification(userInfo)
+    }
+    
+    // MARK: process notification
+    
+    func processRemoteNotification(userInfo: [NSObject : AnyObject])
+    {
+        // Received remote notification.
+        // You can navigate app or process data here
+        
     }
     
     // MARK: style the app

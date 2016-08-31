@@ -37,6 +37,19 @@ public class MessagingManager: NSObject, HCSDKCoreSyncDelegate {
         }
     }
     
+    public func lastReceivedMessageIDInChannel(channelID: String) -> String?
+    {
+        if let currentUserID = HCSDKCore.sharedInstance.currentUserID()
+        {
+            if let lastMessage = CoreStoreManager.store()?.fetchOne(From(HCMessage), Where("dialogID == %@ && senderID != %@", channelID, currentUserID),OrderBy(.Descending("receiveTime")))
+            {
+                return lastMessage.messageID
+            }
+        }
+        
+        return nil
+    }
+    
     // MARK: Sending Image Message
     
     public func sendImageMessage(imageURL: String, dialogID: String, dialogType: String)
@@ -337,6 +350,10 @@ public class MessagingManager: NSObject, HCSDKCoreSyncDelegate {
                         self.processMessageMetadata(data)
                         self.processChatMessageJSON(returnedJSON)
                     }
+                }
+                else if dialogType == HCSDKConstants.kMessageTypeChannel {
+                    
+                    self.processChatMessageJSON(returnedJSON)
                 }
             }
             

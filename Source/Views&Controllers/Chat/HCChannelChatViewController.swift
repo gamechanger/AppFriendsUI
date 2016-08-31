@@ -8,6 +8,7 @@
 
 import UIKit
 import AppFriendsCore
+import EZSwiftExtensions
 
 public class HCChannelChatViewController: HCBaseChatViewController{
     
@@ -18,6 +19,7 @@ public class HCChannelChatViewController: HCBaseChatViewController{
         
         _dialogType = HCSDKConstants.kMessageTypeChannel
         
+        
     }
     
     required public init(coder decoder: NSCoder) {
@@ -27,9 +29,22 @@ public class HCChannelChatViewController: HCBaseChatViewController{
     override public func viewDidLoad() {
         
         super.viewDidLoad()
+        
+        NSTimer.runThisEvery(seconds: 140) { [weak self] (timer) in
+            self?.renewChannelSession()
+        }
+    }
+    
+    deinit {
+        
+        NSLog("%@", "????")
     }
 
     override public func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    func renewChannelSession() {
+        HCSDKCore.sharedInstance.renewSessionForPublicChannel(_dialogID)
     }
 }
