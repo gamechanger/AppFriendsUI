@@ -8,5 +8,6 @@ target 'AFChatUISample' do
   # Pods for AFChatUISample
   pod 'AppFriendsUI', :path => '../../../AppFriendsUI'
   pod 'RNLoadingButton-Swift'
+  pod 'OneSignal'
 
 end

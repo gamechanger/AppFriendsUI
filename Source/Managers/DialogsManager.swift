@@ -245,11 +245,11 @@ public class DialogsManager: NSObject {
                     complete(response: nil, error: err)
                 }
             }
-            else if let json = response {
+            else if let json = response as? [String: AnyObject] {
                 
-                if let dialogID = json["id"] as? String
+                if let dialogID = json["id"]
                 {
-                    HCChatDialog.createDialog(dialogID, members: userIDs, groupTitle: "", dialogType: HCSDKConstants.kMessageTypeGroup, completion: { (error) in
+                    HCChatDialog.createDialog(dialogID as! String, members: userIDs, groupTitle: "", dialogType: HCSDKConstants.kMessageTypeGroup, completion: { (error) in
                         
                         if let complete = completion {
                             complete(response: response, error: nil)

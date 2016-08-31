@@ -12,6 +12,7 @@ import AppFriendsCore
 import Kingfisher
 import Alamofire
 import FontAwesome_swift
+import OneSignal
 
 class LoginViewController: HCBaseViewController {
 
@@ -211,6 +212,12 @@ class LoginViewController: HCBaseViewController {
                     self.showErrorWithMessage(err.localizedDescription)
                 }
                 else {
+                    
+                    // register for push
+                    OneSignal.IdsAvailable({ (userID, token) in
+                        
+                        
+                    })
                     
                     if let currentUserID = HCSDKCore.sharedInstance.currentUserID(),
                         let avatar = self.currentUserInfo[HCSDKConstants.kUserAvatar]
