@@ -17,7 +17,7 @@ class GameStarterViewController: UIViewController {
         let customTabBarItem:UITabBarItem = UITabBarItem(title: "Game", image: tabBarImage.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), selectedImage: tabBarImage)
         self.tabBarItem = customTabBarItem
         
-        self.hidesBottomBarWhenPushed = true
+        self.hidesBottomBarWhenPushed = false
     }
     
     override func viewDidLoad() {
