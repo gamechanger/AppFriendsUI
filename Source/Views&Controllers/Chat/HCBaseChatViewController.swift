@@ -429,7 +429,8 @@ public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver
         picker.dismissViewControllerAnimated(true, completion: nil)
     }
     
-    public func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+    public func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject])
+    {
         if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
             
             let resultImage = pickedImage.resizeWithWidth(400)
@@ -447,7 +448,7 @@ public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver
             
         }
         
-        dismissViewControllerAnimated(true, completion: nil)
+        picker.dismissViewControllerAnimated(true, completion: nil)
     }
     
     // MARK: HCChatTableViewCellDelegate

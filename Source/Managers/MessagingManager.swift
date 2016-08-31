@@ -50,64 +50,9 @@ public class MessagingManager: NSObject, HCSDKCoreSyncDelegate {
         return nil
     }
     
-    // MARK: Sending Image Message
+    // MARK: Sending Message JSON 
     
-    public func sendImageMessage(imageURL: String, dialogID: String, dialogType: String)
-    {
-        let messageJSON = createImageMessageJSON(imageURL, dialogID: dialogID)
-        CoreStoreManager.store()?.beginAsynchronous({ (transaction) in
-            HCMessage.createMessage(messageJSON, transaction: transaction)
-            HCChatDialog.updateDialogLastMessage(dialogID, transaction: transaction)
-            transaction.commit()
-        })
-        
-        if dialogType == HCSDKConstants.kMessageTypeGroup
-        {
-            HCSDKCore.sharedInstance.sendMessage(messageJSON, dialogID: dialogID) { (response, error) in
-                
-                if let _ = error
-                {
-                    // report error?
-                    if let tempID = messageJSON["temp_id"] as? String
-                    {
-                        self.failMessage(tempID)
-                    }
-                }
-                else {
-                    self.processMessageJSONFromServer(response as? [String: AnyObject])
-                }
-            }
-        }
-        else if dialogType == HCSDKConstants.kMessageTypeIndividual
-        {
-            HCSDKCore.sharedInstance.sendMessage(messageJSON, userID: dialogID) { (response, error) in
-                
-                if let _ = error
-                {
-                    // report error?
-                    if let tempID = messageJSON["temp_id"] as? String
-                    {
-                        self.failMessage(tempID)
-                    }
-                }
-                else {
-                    self.processMessageJSONFromServer(response as? [String: AnyObject])
-                }
-            }
-        }
-    }
-    
-    // MARK: Sending Text Message
-    
-    public func sendTextMessage(text: String, dialogID: String, dialogType: String) {
-        
-        let messageJSON = createTextMessageJSON(text, dialogID: dialogID)
-        CoreStoreManager.store()?.beginAsynchronous({ (transaction) in
-            HCMessage.createMessage(messageJSON, transaction: transaction)
-            HCChatDialog.updateDialogLastMessage(dialogID, transaction: transaction)
-            transaction.commit()
-        })
-        
+    public func sendJSONMessage(messageJSON: NSDictionary, dialogID: String, dialogType: String) {
         
         if dialogType == HCSDKConstants.kMessageTypeGroup
         {
@@ -160,6 +105,34 @@ public class MessagingManager: NSObject, HCSDKCoreSyncDelegate {
                 }
             }
         }
+    }
+    
+    // MARK: Sending Image Message
+    
+    public func sendImageMessage(imageURL: String, dialogID: String, dialogType: String)
+    {
+        let messageJSON = createImageMessageJSON(imageURL, dialogID: dialogID)
+        CoreStoreManager.store()?.beginAsynchronous({ (transaction) in
+            HCMessage.createMessage(messageJSON, transaction: transaction)
+            HCChatDialog.updateDialogLastMessage(dialogID, transaction: transaction)
+            transaction.commit()
+        })
+        
+        self.sendJSONMessage(messageJSON, dialogID: dialogID, dialogType: dialogType)
+    }
+    
+    // MARK: Sending Text Message
+    
+    public func sendTextMessage(text: String, dialogID: String, dialogType: String) {
+        
+        let messageJSON = createTextMessageJSON(text, dialogID: dialogID)
+        CoreStoreManager.store()?.beginAsynchronous({ (transaction) in
+            HCMessage.createMessage(messageJSON, transaction: transaction)
+            HCChatDialog.updateDialogLastMessage(dialogID, transaction: transaction)
+            transaction.commit()
+        })
+        
+        self.sendJSONMessage(messageJSON, dialogID: dialogID, dialogType: dialogType)
     }
     
     // MARK: Create message JSON
