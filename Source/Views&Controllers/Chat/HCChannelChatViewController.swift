@@ -12,7 +12,7 @@ import AppFriendsCore
 public class HCChannelChatViewController: HCBaseChatViewController{
     
     
-    override init(dialog: String) {
+    override public init(dialog: String) {
         
         super.init(dialog: dialog)
         

@@ -26,7 +26,7 @@ public class ChannelsManager: NSObject {
             }
             else  if let channelInfo = response as? [String: AnyObject]
             {
-                
+                // add logic to process channel info here
                 
                 CoreStoreManager.store()?.beginAsynchronous({ (transaction) in
                     
