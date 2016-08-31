@@ -22,8 +22,8 @@ public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver
     static var HUD: JGProgressHUD?
     var monitor: ListMonitor<HCMessage>?
     var currentUserID: String?
-    private (set) var _dialogType: String = HCSDKConstants.kMessageTypeIndividual
-    private (set) var _dialogID: String = ""
+    internal var _dialogType: String = HCSDKConstants.kMessageTypeIndividual
+    internal var _dialogID: String = ""
     
     let imagePicker = UIImagePickerController()
     
