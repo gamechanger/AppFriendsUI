@@ -130,7 +130,23 @@ public class MessagingManager: NSObject, HCSDKCoreSyncDelegate {
                 }
             }
         }
-        
+        else if dialogType == HCSDKConstants.kMessageTypeChannel
+        {
+            HCSDKCore.sharedInstance.sendMessage(messageJSON, channelID: dialogID) { (response, error) in
+                
+                if let _ = error
+                {
+                    // report error?
+                    if let tempID = messageJSON["temp_id"] as? String
+                    {
+                        self.failMessage(tempID)
+                    }
+                }
+                else {
+                    self.processMessageJSONFromServer(response as? [String: AnyObject])
+                }
+            }
+        }
     }
     
     // MARK: Create message JSON

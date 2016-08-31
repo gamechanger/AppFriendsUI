@@ -25,30 +25,11 @@ public class HCDialogChatViewController: HCBaseChatViewController, HCGroupCreato
             self.navigationItem.rightBarButtonItem = moreItem
             self.navigationItem.rightBarButtonItem?.tintColor = HCColorPalette.navigationBarIconColor
         }
-        
-        updateTitle()
     }
 
     override public func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-    
-    func updateTitle() {
-        
-        let dialog = CoreStoreManager.store()?.fetchOne(From(HCChatDialog),
-                                                        Where("dialogID", isEqualTo: _dialogID))
-        let titleLabel = UILabel(x: 0, y: 0, w: 150, h: 30, fontSize: 17)
-        if let isEmpty = dialog?.title?.isEmpty where isEmpty == false {
-            titleLabel.text = dialog?.title
-        }else {
-            
-            titleLabel.text = dialog?.defaultGroupName()
-        }
-        titleLabel.backgroundColor = UIColor.clearColor()
-        titleLabel.textAlignment = .Center
-        titleLabel.textColor = HCColorPalette.navigationBarTitleColor
-        self.navigationItem.titleView = titleLabel
     }
     
     func moreButtonTapped()

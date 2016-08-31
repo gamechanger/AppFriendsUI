@@ -35,8 +35,7 @@ public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver
             _dialogType = dialog.type!
         }
         else {
-            
-            assert(false, "Please fetch the dialog info or create the dialog before starting chat")
+//            assert(false, "Please fetch the dialog info or create the dialog before starting chat")
         }
         
         super.init(tableViewStyle: .Plain)
@@ -75,11 +74,30 @@ public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver
         }
         
         configChatView()
+        
+        updateTitle()
     }
 
     override public func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func updateTitle() {
+        
+        let dialog = CoreStoreManager.store()?.fetchOne(From(HCChatDialog),
+                                                        Where("dialogID", isEqualTo: _dialogID))
+        let titleLabel = UILabel(x: 0, y: 0, w: 150, h: 30, fontSize: 17)
+        if let isEmpty = dialog?.title?.isEmpty where isEmpty == false {
+            titleLabel.text = dialog?.title
+        }else {
+            
+            titleLabel.text = dialog?.defaultGroupName()
+        }
+        titleLabel.backgroundColor = UIColor.clearColor()
+        titleLabel.textAlignment = .Center
+        titleLabel.textColor = HCColorPalette.navigationBarTitleColor
+        self.navigationItem.titleView = titleLabel
     }
     
     // override methods

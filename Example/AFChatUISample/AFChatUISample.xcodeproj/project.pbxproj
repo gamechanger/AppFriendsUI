@@ -15,8 +15,10 @@
 		AFC3F5911D6BE1970098C316 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AFC3F58F1D6BE1970098C316 /* Main.storyboard */; };
 		AFC3F5931D6BE1970098C316 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AFC3F5921D6BE1970098C316 /* Assets.xcassets */; };
 		AFC3F5961D6BE1970098C316 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AFC3F5941D6BE1970098C316 /* LaunchScreen.storyboard */; };
+		AFCA896D1D762C8500AE66F5 /* LiveGameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFCA896C1D762C8500AE66F5 /* LiveGameViewController.swift */; };
 		AFE100681D6C3585002BA79D /* UserProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE100661D6C3585002BA79D /* UserProfileTableViewCell.swift */; };
 		AFE100691D6C3585002BA79D /* UserProfileTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFE100671D6C3585002BA79D /* UserProfileTableViewCell.xib */; };
+		AFE5CE8F1D76373B009CA667 /* GameStarterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE5CE8E1D76373B009CA667 /* GameStarterViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,8 +34,10 @@
 		AFC3F5921D6BE1970098C316 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AFC3F5951D6BE1970098C316 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AFC3F5971D6BE1970098C316 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AFCA896C1D762C8500AE66F5 /* LiveGameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LiveGameViewController.swift; sourceTree = "<group>"; };
 		AFE100661D6C3585002BA79D /* UserProfileTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileTableViewCell.swift; sourceTree = "<group>"; };
 		AFE100671D6C3585002BA79D /* UserProfileTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserProfileTableViewCell.xib; sourceTree = "<group>"; };
+		AFE5CE8E1D76373B009CA667 /* GameStarterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameStarterViewController.swift; sourceTree = "<group>"; };
 		C514A5F553B260DB346A3F55 /* Pods-AFChatUISample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AFChatUISample.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AFChatUISample/Pods-AFChatUISample.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -98,6 +102,8 @@
 				AFE100671D6C3585002BA79D /* UserProfileTableViewCell.xib */,
 				AF2490C11D72C8E900CBAD84 /* UserSearchViewController.swift */,
 				AF2DEBB91D747FB500DA2609 /* LoginViewController.swift */,
+				AFCA896C1D762C8500AE66F5 /* LiveGameViewController.swift */,
+				AFE5CE8E1D76373B009CA667 /* GameStarterViewController.swift */,
 			);
 			path = AFChatUISample;
 			sourceTree = "<group>";
@@ -229,6 +235,8 @@
 				AF2490C21D72C8E900CBAD84 /* UserSearchViewController.swift in Sources */,
 				AFC3F58C1D6BE1970098C316 /* ProfileViewController.swift in Sources */,
 				AF2DEBBA1D747FB500DA2609 /* LoginViewController.swift in Sources */,
+				AFCA896D1D762C8500AE66F5 /* LiveGameViewController.swift in Sources */,
+				AFE5CE8F1D76373B009CA667 /* GameStarterViewController.swift in Sources */,
 				AFC3F58A1D6BE1970098C316 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
