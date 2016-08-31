@@ -24,7 +24,7 @@
         <!--Login View Controller-->
         <scene sceneID="5db-iV-LPe">
             <objects>
-                <viewController id="2vl-Ln-pi0" customClass="LoginViewController" customModule="AFChatUISample" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LoginViewController" id="2vl-Ln-pi0" customClass="LoginViewController" customModule="AFChatUISample" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="b5p-M0-xem"/>
                         <viewControllerLayoutGuide type="bottom" id="pjg-nK-S5n"/>

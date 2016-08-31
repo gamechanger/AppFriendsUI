@@ -147,6 +147,15 @@ class ProfileViewController: UITableViewController {
             
             let chatBarItem = UIBarButtonItem(customView: _chatButton!)
             self.navigationItem.rightBarButtonItem = chatBarItem
+            
+            
+            let logoutButton = UIButton(type: .Custom)
+            logoutButton.frame = CGRectMake(0, 0, 30, 30)
+            logoutButton.setImage(UIImage(named: "ic_logout"), forState: .Normal)
+            logoutButton.addTarget(self, action: #selector(ProfileViewController.logout(_:)), forControlEvents: .TouchUpInside)
+            
+            let logoutItem = UIBarButtonItem(customView: logoutButton)
+            self.navigationItem.leftBarButtonItem = logoutItem
         }
         else
         {
@@ -184,6 +193,25 @@ class ProfileViewController: UITableViewController {
     }
     
     // MARK: - Actions
+    
+    func logout(sender: AnyObject) {
+        
+        HCSDKCore.sharedInstance.logout()
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let loginVC = storyboard.instantiateViewControllerWithIdentifier("LoginViewController")
+        
+        if let app = UIApplication.sharedApplication().delegate as? AppDelegate, let window = app.window {
+            
+            UIView.transitionWithView(window, duration: 0.3, options: .TransitionFlipFromLeft, animations: {
+                
+                window.rootViewController = loginVC
+                
+                },completion: { (finished) in
+                    
+            })
+        }
+    }
     
     func chat(sender: AnyObject) {
         
