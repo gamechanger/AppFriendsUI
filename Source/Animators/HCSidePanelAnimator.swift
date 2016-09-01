@@ -8,6 +8,13 @@
 
 import UIKit
 
+
+class Interactor: UIPercentDrivenInteractiveTransition {
+    var hasStarted = false
+    var shouldFinish = false
+}
+
+
 @objc public enum HCSideDirection: Int {
     case Left, Right
 }
@@ -16,6 +23,7 @@ public class HCSidePanelAnimator: NSObject, UIViewControllerAnimatedTransitionin
 
     public var slideDirection: HCSideDirection = .Right
     public var presenting: Bool = true
+    let interactor = Interactor()
     
     // MARK: UIViewControllerAnimatedTransitioning
     
@@ -62,7 +70,7 @@ public class HCSidePanelAnimator: NSObject, UIViewControllerAnimatedTransitionin
                 UIView.animateWithDuration(HCConstants.sidePanelSlideAnimationDuration, animations: {
                     fromView.frame = originFrameForPanel
                 }, completion: { (finished) in
-                    transitionContext.completeTransition(true)
+                    transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
                 })
             }
         }
@@ -84,5 +92,9 @@ public class HCSidePanelAnimator: NSObject, UIViewControllerAnimatedTransitionin
     {
         self.presenting = false
         return self
+    }
+    
+    public func interactionControllerForDismissal(animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+        return interactor.hasStarted ? interactor : nil
     }
 }

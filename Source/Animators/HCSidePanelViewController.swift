@@ -17,6 +17,8 @@ public class HCSidePanelViewController: UIViewController {
     private var _animator: HCSidePanelAnimator
     private var _contentVC: UIViewController
     
+    var interactor:Interactor? = nil
+    
     public init(animator: HCSidePanelAnimator, contentVC: UIViewController) {
         _animator = animator
         _contentVC = contentVC
@@ -58,11 +60,49 @@ public class HCSidePanelViewController: UIViewController {
             
             self?.dismissVC(completion: nil)
         }
+        
+        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(HCSidePanelViewController.handlePanGesture))
+        self.panelDimissView.addGestureRecognizer(panGesture)
     }
 
     override public func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func handlePanGesture(sender: UIPanGestureRecognizer) {
+        
+        let percentThreshold:CGFloat = 0.4
+        
+        // convert x-position to side swipe progress (percentage)
+        let translation = sender.translationInView(view)
+        let horizontalMovement = translation.x / view.bounds.width
+        let rightMovement = fmaxf(Float(horizontalMovement), 0.0)
+        let rightMovementPercent = fminf(rightMovement, 1.0)
+        let progress = CGFloat(rightMovementPercent)
+        
+        guard let interactor = interactor else { return }
+        
+        switch sender.state {
+        case .Began:
+            interactor.hasStarted = true
+            dismissViewControllerAnimated(true, completion: nil)
+        case .Changed:
+            interactor.shouldFinish = progress > percentThreshold
+            interactor.updateInteractiveTransition(progress)
+        case .Cancelled:
+            interactor.hasStarted = false
+            interactor.cancelInteractiveTransition()
+        case .Ended:
+            interactor.hasStarted = false
+            if interactor.shouldFinish {
+                interactor.finishInteractiveTransition()
+            }else {
+                interactor.cancelInteractiveTransition()
+            }
+        default:
+            break
+        }
     }
 
     func addVC(contentVC: UIViewController) {

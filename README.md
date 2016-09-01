@@ -4,3 +4,8 @@ AppFriendsUI is an open source library which provides customizable UI components
 
 ### Example App
 You can checkout how to use this SDK together with the AppFriendsCore SDK by running the AFChatUISample app included in this repo.
+
+### Integration
+
+#### Step 1 - initialization
+#### Step 2 -

@@ -30,6 +30,7 @@ public class AppFriendsUI: NSObject {
         
         let animator = HCSidePanelAnimator()
         let sidePanelVC = HCSidePanelViewController(animator: animator, contentVC: showVC)
+        sidePanelVC.interactor = animator.interactor
         
         // make the back view controller co-exist
         sidePanelVC.modalPresentationStyle = .OverCurrentContext
