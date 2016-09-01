@@ -72,7 +72,7 @@ public class HCSidePanelViewController: UIViewController {
     
     func handlePanGesture(sender: UIPanGestureRecognizer) {
         
-        let percentThreshold:CGFloat = 0.4
+        let percentThreshold:CGFloat = 0.3
         
         // convert x-position to side swipe progress (percentage)
         let translation = sender.translationInView(view)

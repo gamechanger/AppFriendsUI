@@ -64,6 +64,17 @@ public class MessagingManager: NSObject, HCSDKCoreSyncDelegate {
     
     // MARK: Sending Message JSON 
     
+    public func sendMessageWithCustomJSON(displayText: String, customJSON: NSDictionary, dialogID: String, dialogType: String, completion: ((success: Bool?, error: NSError?) -> ())? = nil)
+    {
+        let messageJSON = basicMessageJSON(displayText, dialogID:  dialogID)
+        let senderJSON = createSenderJSON()
+        var customData = NSMutableDictionary()
+        customData["sender"] = senderJSON
+        customData.addEntriesFromDictionary(customJSON as [NSObject : AnyObject])
+        
+        messageJSON["custom_data"] = customData.toString()
+    }
+    
     public func sendJSONMessage(messageJSON: NSDictionary, dialogID: String, dialogType: String) {
         
         if dialogType == HCSDKConstants.kMessageTypeGroup
