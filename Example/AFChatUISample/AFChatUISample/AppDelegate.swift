@@ -59,11 +59,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
     
-    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject])
-    {
-        self.processRemoteNotification(userInfo)
-    }
     
+    // example of handling remote notification
+//    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject])
+//    {
+//        self.processRemoteNotification(userInfo)
+//    }
+
     // MARK: process notification
     
     func processRemoteNotification(userInfo: [NSObject : AnyObject])

@@ -50,6 +50,18 @@ public class MessagingManager: NSObject, HCSDKCoreSyncDelegate {
         return nil
     }
     
+    // MARK: clean all messages
+    public func clearMessages(completion: ((success: Bool?) -> ())? = nil) {
+        
+        CoreStoreManager.store()?.beginAsynchronous({ (transaction) in
+            
+            transaction.deleteAll(From(HCMessage))
+            transaction.commit({ (result) in
+                completion?(success: result.boolValue)
+            })
+        })
+    }
+    
     // MARK: Sending Message JSON 
     
     public func sendJSONMessage(messageJSON: NSDictionary, dialogID: String, dialogType: String) {
@@ -233,6 +245,7 @@ public class MessagingManager: NSObject, HCSDKCoreSyncDelegate {
                         {
                             if message.receiveTime > dialog.lastMessageReadTime {
                                 HCChatDialog.incrementUnreadCount(dialogID, transaction: transaction)
+                                HCChatDialog.updateDialogLastMessage(dialogID, transaction: transaction)
                             }
                         }
                     }
@@ -259,6 +272,7 @@ public class MessagingManager: NSObject, HCSDKCoreSyncDelegate {
                         {
                             if message.receiveTime > dialog.lastMessageReadTime {
                                 HCChatDialog.incrementUnreadCount(dialogID, transaction: transaction)
+                                HCChatDialog.updateDialogLastMessage(dialogID, transaction: transaction)
                             }
                         }
                     }
