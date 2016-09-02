@@ -38,7 +38,7 @@ public class HCDialogsListViewController: HCBaseViewController, UITableViewDeleg
         
         let monitor = CoreStoreManager.store()!.monitorList(
             From(HCChatDialog),
-            Where("ANY members.userID == %@", currentUserID!),
+            Where("ANY members.userID == %@", currentUserID!) && Where("customData == nil"),
             OrderBy(.Descending("lastMessageTime"), .Descending("createTime")),
             Tweak { (fetchRequest) -> Void in
                 fetchRequest.fetchBatchSize = 20
