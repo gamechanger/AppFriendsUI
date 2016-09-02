@@ -146,10 +146,10 @@
             </objects>
             <point key="canvasLocation" x="-1332" y="-5"/>
         </scene>
-        <!--Game Starter View Controller-->
+        <!--Demos-->
         <scene sceneID="ooY-O1-VnB">
             <objects>
-                <viewController id="SHG-dk-KfQ" customClass="GameStarterViewController" customModule="AFChatUISample" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Demos" id="SHG-dk-KfQ" customClass="GameStarterViewController" customModule="AFChatUISample" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="zWP-Eq-95k"/>
                         <viewControllerLayoutGuide type="bottom" id="Zl2-YU-CeJ"/>
@@ -158,26 +158,29 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gn2-ay-iDY">
-                                <rect key="frame" x="109" y="269" width="102" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="Knb-i3-cNB"/>
-                                    <constraint firstAttribute="width" constant="102" id="VNK-uE-Arl"/>
-                                </constraints>
-                                <state key="normal" title="See Live Game"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="V0U-7H-1Hj">
+                                <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
-                                    <segue destination="RvY-Jz-LmA" kind="show" id="D9X-KA-yvN"/>
+                                    <outlet property="dataSource" destination="SHG-dk-KfQ" id="9LL-25-Pc9"/>
+                                    <outlet property="delegate" destination="SHG-dk-KfQ" id="VN7-pZ-MYH"/>
                                 </connections>
-                            </button>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="Gn2-ay-iDY" firstAttribute="centerX" secondItem="KGw-3f-Nf9" secondAttribute="centerX" id="0VE-fF-2Wb"/>
-                            <constraint firstItem="Gn2-ay-iDY" firstAttribute="centerY" secondItem="KGw-3f-Nf9" secondAttribute="centerY" id="J4y-j7-aox"/>
+                            <constraint firstAttribute="trailing" secondItem="V0U-7H-1Hj" secondAttribute="trailing" id="7hb-HP-Wjb"/>
+                            <constraint firstItem="V0U-7H-1Hj" firstAttribute="leading" secondItem="KGw-3f-Nf9" secondAttribute="leading" id="iwC-Dh-cjT"/>
+                            <constraint firstAttribute="bottom" secondItem="V0U-7H-1Hj" secondAttribute="bottom" id="mU0-yS-ywE"/>
+                            <constraint firstItem="V0U-7H-1Hj" firstAttribute="top" secondItem="KGw-3f-Nf9" secondAttribute="top" constant="64" id="xFC-4r-Oa8"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Q6u-kl-EuB"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <connections>
+                        <outlet property="tableView" destination="V0U-7H-1Hj" id="wSG-lu-1nD"/>
+                        <segue destination="RvY-Jz-LmA" kind="show" identifier="WatchLiveGameSegue" id="G8c-Lh-6ek"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PRd-6b-cJO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -228,7 +231,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xca-Da-tuq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-535" y="-5"/>
+            <point key="canvasLocation" x="-501" y="-5"/>
         </scene>
         <!--Search-->
         <scene sceneID="paO-lH-xiE">

@@ -8,8 +8,10 @@
 
 import UIKit
 
-class GameStarterViewController: UIViewController {
-
+class GameStarterViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    
+    @IBOutlet weak var tableView: UITableView!
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
@@ -18,12 +20,14 @@ class GameStarterViewController: UIViewController {
         self.tabBarItem = customTabBarItem
         
         self.hidesBottomBarWhenPushed = false
+        
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
+        self.automaticallyAdjustsScrollViewInsets = false
+        self.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "TableViewCell")
     }
 
     override func didReceiveMemoryWarning() {
@@ -31,15 +35,48 @@ class GameStarterViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    // MARK: UITableViewDelegate, UITableViewDataSource
+    
+    
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        
+        return 1
     }
-    */
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        return 2
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        // start a chat with this user
+        if indexPath.row == 0 {
+            
+            self.performSegueWithIdentifier("WatchLiveGameSegue", sender: self)
+        }
+        else if indexPath.row == 1 {
+            
+            let storyboard = UIStoryboard(name: "ScheduleGame", bundle: nil)
+            let scheduleGameVC = storyboard.instantiateViewControllerWithIdentifier("ScheduledGamesList")
+            self.navigationController?.pushViewController(scheduleGameVC, animated: true)
+        }
+        
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
+    {
+        let cell = tableView.dequeueReusableCellWithIdentifier("TableViewCell", forIndexPath: indexPath)
+        if indexPath.row == 0 {
+            cell.accessoryType = .DisclosureIndicator
+            cell.textLabel!.text = "Watch Live Game"
+        }
+        else if indexPath.row == 1 {
+            cell.accessoryType = .DisclosureIndicator
+            cell.textLabel!.text = "Games"
+        }
+        return cell
+    }
 
 }

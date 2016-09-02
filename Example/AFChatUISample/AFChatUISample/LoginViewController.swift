@@ -13,7 +13,7 @@ import Kingfisher
 import Alamofire
 import FontAwesome_swift
 
-class LoginViewController: HCBaseViewController {
+class LoginViewController: BaseViewController {
 
     @IBOutlet weak var userAvatarImage: UIImageView!
     @IBOutlet weak var userIDTextField: UITextField!

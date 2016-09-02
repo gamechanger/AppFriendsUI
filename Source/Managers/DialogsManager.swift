@@ -206,6 +206,10 @@ public class DialogsManager: NSObject {
                         {
                             let dialog = HCChatDialog.findOrCreateDialog(dialogID, members: members, dialogTitle: name, dialogType: type, transaction: transaction)
                             dialog.updateUnreadMessageCount(transaction)
+                            
+                            if let customData = dialogInfo["custom_data"] as? String{
+                                dialog.customData = customData
+                            }
                         }
                     }
                     
@@ -224,7 +228,7 @@ public class DialogsManager: NSObject {
         }
     }
     
-    public func createGroupDialog(users: [String], completion: ((response: AnyObject?, error: NSError?) -> ())? = nil) {
+    public func createGroupDialog(users: [String], customJSON: NSDictionary? = nil, completion: ((response: AnyObject?, error: NSError?) -> ())? = nil) {
         
         var params = [String: AnyObject]()
         var userIDs = [String]()
@@ -236,6 +240,11 @@ public class DialogsManager: NSObject {
             }
         }
         params["members"] = userIDs
+        
+        if let json = customJSON {
+            
+            params["custom_data"] = json.toString()
+        }
         
         HCSDKCore.sharedInstance.startRequest(httpMethod: "POST", path: "/dialogs", parameters: params) { (response, error) in
             

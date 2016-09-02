@@ -10,6 +10,10 @@
 		29B5490EA424595616E85FCD /* Pods_AFChatUISample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D56BF437310542A82748575 /* Pods_AFChatUISample.framework */; };
 		AF2490C21D72C8E900CBAD84 /* UserSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2490C11D72C8E900CBAD84 /* UserSearchViewController.swift */; };
 		AF2DEBBA1D747FB500DA2609 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2DEBB91D747FB500DA2609 /* LoginViewController.swift */; };
+		AF2FB12E1D79E86C002B3C57 /* ScheduleGame.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AF2FB12D1D79E86C002B3C57 /* ScheduleGame.storyboard */; };
+		AF2FB1301D79E8FF002B3C57 /* ScheduleGameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2FB12F1D79E8FF002B3C57 /* ScheduleGameViewController.swift */; };
+		AF2FB1321D79E932002B3C57 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2FB1311D79E932002B3C57 /* BaseViewController.swift */; };
+		AF2FB1361D79EBFA002B3C57 /* GamesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2FB1351D79EBFA002B3C57 /* GamesListViewController.swift */; };
 		AFC3F58A1D6BE1970098C316 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFC3F5891D6BE1970098C316 /* AppDelegate.swift */; };
 		AFC3F58C1D6BE1970098C316 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFC3F58B1D6BE1970098C316 /* ProfileViewController.swift */; };
 		AFC3F5911D6BE1970098C316 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AFC3F58F1D6BE1970098C316 /* Main.storyboard */; };
@@ -27,6 +31,10 @@
 		AF2490B71D6CB09D00CBAD84 /* AppFriendsUI.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; name = AppFriendsUI.podspec; path = ../../AppFriendsUI.podspec; sourceTree = "<group>"; };
 		AF2490C11D72C8E900CBAD84 /* UserSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSearchViewController.swift; sourceTree = "<group>"; };
 		AF2DEBB91D747FB500DA2609 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		AF2FB12D1D79E86C002B3C57 /* ScheduleGame.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ScheduleGame.storyboard; sourceTree = "<group>"; };
+		AF2FB12F1D79E8FF002B3C57 /* ScheduleGameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleGameViewController.swift; sourceTree = "<group>"; };
+		AF2FB1311D79E932002B3C57 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		AF2FB1351D79EBFA002B3C57 /* GamesListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GamesListViewController.swift; sourceTree = "<group>"; };
 		AFC3F5861D6BE1970098C316 /* AFChatUISample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AFChatUISample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AFC3F5891D6BE1970098C316 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AFC3F58B1D6BE1970098C316 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -70,6 +78,17 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		AF2FB1381D7A21FF002B3C57 /* CustomDialogDemo */ = {
+			isa = PBXGroup;
+			children = (
+				AF2FB12D1D79E86C002B3C57 /* ScheduleGame.storyboard */,
+				AFE5CE8E1D76373B009CA667 /* GameStarterViewController.swift */,
+				AF2FB1351D79EBFA002B3C57 /* GamesListViewController.swift */,
+				AF2FB12F1D79E8FF002B3C57 /* ScheduleGameViewController.swift */,
+			);
+			name = CustomDialogDemo;
+			sourceTree = "<group>";
+		};
 		AFC3F57D1D6BE1970098C316 = {
 			isa = PBXGroup;
 			children = (
@@ -103,7 +122,8 @@
 				AF2490C11D72C8E900CBAD84 /* UserSearchViewController.swift */,
 				AF2DEBB91D747FB500DA2609 /* LoginViewController.swift */,
 				AFCA896C1D762C8500AE66F5 /* LiveGameViewController.swift */,
-				AFE5CE8E1D76373B009CA667 /* GameStarterViewController.swift */,
+				AF2FB1381D7A21FF002B3C57 /* CustomDialogDemo */,
+				AF2FB1311D79E932002B3C57 /* BaseViewController.swift */,
 			);
 			path = AFChatUISample;
 			sourceTree = "<group>";
@@ -178,6 +198,7 @@
 				AFC3F5961D6BE1970098C316 /* LaunchScreen.storyboard in Resources */,
 				AFC3F5931D6BE1970098C316 /* Assets.xcassets in Resources */,
 				AFC3F5911D6BE1970098C316 /* Main.storyboard in Resources */,
+				AF2FB12E1D79E86C002B3C57 /* ScheduleGame.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -238,10 +259,13 @@
 			files = (
 				AFE100681D6C3585002BA79D /* UserProfileTableViewCell.swift in Sources */,
 				AF2490C21D72C8E900CBAD84 /* UserSearchViewController.swift in Sources */,
+				AF2FB1301D79E8FF002B3C57 /* ScheduleGameViewController.swift in Sources */,
 				AFC3F58C1D6BE1970098C316 /* ProfileViewController.swift in Sources */,
 				AF2DEBBA1D747FB500DA2609 /* LoginViewController.swift in Sources */,
+				AF2FB1321D79E932002B3C57 /* BaseViewController.swift in Sources */,
 				AFCA896D1D762C8500AE66F5 /* LiveGameViewController.swift in Sources */,
 				AFE5CE8F1D76373B009CA667 /* GameStarterViewController.swift in Sources */,
+				AF2FB1361D79EBFA002B3C57 /* GamesListViewController.swift in Sources */,
 				AFC3F58A1D6BE1970098C316 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -19,7 +19,7 @@ public class HCDialogsListViewController: HCBaseViewController, UITableViewDeleg
     
     var monitor: ListMonitor<HCChatDialog>?
     
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet public weak var tableView: UITableView!
     var currentUserID: String?
     var emptyLabel: UILabel?
     
