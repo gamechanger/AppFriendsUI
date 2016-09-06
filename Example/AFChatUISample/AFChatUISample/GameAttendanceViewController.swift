@@ -16,8 +16,12 @@ struct AttendeesCategory {
     static let Pending = "Pending", Accepted = "Accepted", Rejected = "Rejected"
 }
 
-class GameAttendanceViewController: BaseViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, InviteUserViewControllerDelegate, ListObjectObserver {
+struct Actions {
+    static let Invite = "invite", Decision = "decision", Cancel = "cancel"
+}
 
+class GameAttendanceViewController: BaseViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, InviteUserViewControllerDelegate, ListObjectObserver, CancelActionButtonCellDelegate, ConfirmRejectTableViewCellDelegate
+{
     var gameAttendanceDialogID: String?
     var monitor: ListMonitor<HCMessage>?
     var messageMonitor: ListMonitor<HCMessage>?
@@ -46,6 +50,8 @@ class GameAttendanceViewController: BaseViewController, UICollectionViewDelegate
         {
             msgMonitor.addObserver(self)
             self.messageMonitor = msgMonitor
+            
+            self.processMessage(msgMonitor.objectsInAllSections())
         }
         
         self.edgesForExtendedLayout = .None
@@ -79,6 +85,64 @@ class GameAttendanceViewController: BaseViewController, UICollectionViewDelegate
         // Dispose of any resources that can be recreated.
     }
     
+    // MARK: Process messages
+    
+    func processMessage(messages: [HCMessage]) {
+        
+        for message in messages {
+            
+            if let customData = message.customData {
+                
+                if let messageInfo = HCUtils.dictionaryFromJsonString(customData), let action = messageInfo["action"] as? String
+                {
+                    if action == Actions.Invite {
+                        if let userIDs = messageInfo["invites"] as? [String] {
+                            var newUsers = [String]()
+                            for userID in userIDs {
+                                if !self.pendingUserIDs.contains(userID) && !self.acceptedUserIDs.contains(userID) && !self.rejectedUserIDs.contains(userID)
+                                {
+                                    newUsers.append(userID)
+                                }
+                            }
+                            self.pendingUserIDs.appendContentsOf(newUsers)
+                        }
+                    }
+                    else if action == Actions.Decision {
+                        if let accepted = messageInfo["accept"] as? Bool, let senderID = message.senderID {
+                            if accepted {
+                                if !self.acceptedUserIDs.contains(senderID) {
+                                    self.acceptedUserIDs.append(senderID)
+                                }
+                                if self.rejectedUserIDs.contains(senderID) {
+                                    self.rejectedUserIDs.removeObject(senderID)
+                                }
+                                if self.pendingUserIDs.contains(senderID) {
+                                    self.pendingUserIDs.removeObject(senderID)
+                                }
+                            }
+                            else {
+                                if self.acceptedUserIDs.contains(senderID) {
+                                    self.acceptedUserIDs.removeObject(senderID)
+                                }
+                                if !self.rejectedUserIDs.contains(senderID) {
+                                    self.rejectedUserIDs.append(senderID)
+                                }
+                                if self.pendingUserIDs.contains(senderID) {
+                                    self.pendingUserIDs.removeObject(senderID)
+                                }
+                            }
+                        }
+                    }
+                    else if action == Actions.Cancel {
+                        // TODO: handle cancel
+                    }
+                }
+            }
+        }
+        
+        self.collectionView.reloadData()
+    }
+    
     // MARK: ListObserver
     
     func listMonitorWillChange(monitor: ListMonitor<HCMessage>) {
@@ -91,40 +155,24 @@ class GameAttendanceViewController: BaseViewController, UICollectionViewDelegate
     }
     
     func listMonitorDidRefetch(monitor: ListMonitor<HCMessage>) {
-        
-        // after fetching message is complete, process them
-        
-        let messages = monitor.objectsInAllSections()
-        for message in messages {
-            
-        }
     }
     
     // MARK: ListObjectObserver
     
-    func listMonitor(monitor: ListMonitor<HCMessage>, didInsertObject object: HCMessage, toIndexPath indexPath: NSIndexPath) {
+    func listMonitor(monitor: ListMonitor<HCMessage>, didInsertObject object: HCMessage, toIndexPath indexPath: NSIndexPath)
+    {
         
         // new accept, reject response received
-        if let customData = object.customData {
-            
-            if let messageInfo = HCUtils.dictionaryFromJsonString(customData) {
-                
-            }
-        }
+        self.processMessage([object])
     }
     
     func listMonitor(monitor: ListMonitor<HCMessage>, didDeleteObject object: HCMessage, fromIndexPath indexPath: NSIndexPath) {
-        
     }
     
     func listMonitor(monitor: ListMonitor<HCMessage>, didUpdateObject object: HCMessage, atIndexPath indexPath: NSIndexPath) {
-        
     }
     
-    
     func listMonitor(monitor: ListMonitor<HCMessage>, didMoveObject object: HCMessage, fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-        
-        
     }
     
     // MARK: - Actions
@@ -157,12 +205,14 @@ class GameAttendanceViewController: BaseViewController, UICollectionViewDelegate
         if self.isOwner && indexPath.section == 3 {
             
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier("CancelActionButtonCell", forIndexPath: indexPath) as? CancelActionButtonCell
+            cell?.delegate = self
             
             return cell!
         }
         else if !self.isOwner && indexPath.section == 3 {
             
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier("ConfirmRejectTableViewCell", forIndexPath: indexPath) as? ConfirmRejectTableViewCell
+            cell?.delegate = self
             
             return cell!
         }
@@ -316,8 +366,57 @@ class GameAttendanceViewController: BaseViewController, UICollectionViewDelegate
     
     // MARK: custom message jsons
     
-    func inviteUsersJSON(userIDs: [String]) -> NSDictionary
-    {
-        return NSDictionary()
+    func inviteUsersJSON(userIDs: [String]) -> NSDictionary {
+        let json = NSMutableDictionary()
+        json["action"] = Actions.Invite
+        json["invites"] = userIDs
+        return json
+    }
+    
+    func decisionJSON(accept: Bool) -> NSDictionary {
+        let json = NSMutableDictionary()
+        json["action"] = Actions.Decision
+        json["accept"] = accept
+        return json
+    }
+    
+    func cancelJSON() -> NSDictionary {
+        let json = NSMutableDictionary()
+        json["action"] = Actions.Decision
+        return json
+    }
+    
+    // MARK: CancelActionButtonCellDelegate, ConfirmRejectTableViewCellDelegate
+    
+    func cancelButtonTapped(cell: CancelActionButtonCell) {
+        // TODO: implement cancel
+    }
+    
+    func rejectButtonTapped(cell: ConfirmRejectTableViewCell) {
+        
+        if let dialogID = self.gameAttendanceDialogID {
+            
+            let acceptedJSON = self.decisionJSON(false)
+            MessagingManager.sharedInstance.sendMessageWithCustomJSON("Rejected to join game\(self.gameTitle)", customJSON: acceptedJSON, dialogID: dialogID, dialogType: HCSDKConstants.kMessageTypeGroup, completion: { (success, error) in
+                
+                if let err = error {
+                    self.showErrorWithMessage(err.localizedDescription)
+                }
+            })
+        }
+    }
+    
+    func acceptButtonTapped(cell: ConfirmRejectTableViewCell) {
+        
+        if let dialogID = self.gameAttendanceDialogID {
+            
+            let acceptedJSON = self.decisionJSON(true)
+            MessagingManager.sharedInstance.sendMessageWithCustomJSON("Accepted to join game\(self.gameTitle)", customJSON: acceptedJSON, dialogID: dialogID, dialogType: HCSDKConstants.kMessageTypeGroup, completion: { (success, error) in
+                
+                if let err = error {
+                    self.showErrorWithMessage(err.localizedDescription)
+                }
+            })
+        }
     }
 }

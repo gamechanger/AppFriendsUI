@@ -8,10 +8,17 @@
 
 import UIKit
 
+@objc protocol ConfirmRejectTableViewCellDelegate {
+    func acceptButtonTapped(cell: ConfirmRejectTableViewCell)
+    func rejectButtonTapped(cell: ConfirmRejectTableViewCell)
+}
+
 class ConfirmRejectTableViewCell: UICollectionViewCell {
 
     @IBOutlet weak var rejectButton: UIButton!
     @IBOutlet weak var acceptButton: UIButton!
+    
+    weak var delegate: ConfirmRejectTableViewCellDelegate?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -27,4 +34,12 @@ class ConfirmRejectTableViewCell: UICollectionViewCell {
         self.acceptButton.layer.borderWidth = 2
     }
 
+    @IBAction func rejected(sender: AnyObject) {
+        self.delegate?.rejectButtonTapped(self)
+    }
+    
+    @IBAction func accepted(sender: AnyObject) {
+        self.delegate?.acceptButtonTapped(self)
+    }
+    
 }

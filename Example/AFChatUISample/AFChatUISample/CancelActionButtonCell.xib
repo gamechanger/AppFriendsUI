@@ -19,6 +19,9 @@
                         <state key="normal" title="Cancel">
                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         </state>
+                        <connections>
+                            <action selector="cancelButtonTapped:" destination="gTV-IL-0wX" eventType="touchUpInside" id="00m-pw-5YI"/>
+                        </connections>
                     </button>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>

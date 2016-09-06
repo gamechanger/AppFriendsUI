@@ -8,9 +8,15 @@
 
 import UIKit
 
+@objc protocol CancelActionButtonCellDelegate {
+    func cancelButtonTapped(cell: CancelActionButtonCell)
+}
+
 class CancelActionButtonCell: UICollectionViewCell {
 
     static let identifier = "CancelActionButtonCell"
+    
+    weak var delegate: CancelActionButtonCellDelegate?
     
     @IBOutlet weak var cancelButton: UIButton!
     
@@ -22,5 +28,8 @@ class CancelActionButtonCell: UICollectionViewCell {
         self.cancelButton.layer.borderColor = UIColor.whiteColor().CGColor
         self.cancelButton.layer.borderWidth = 2
     }
-
+    
+    @IBAction func cancelButtonTapped(sender: AnyObject) {
+        self.delegate?.cancelButtonTapped(self)
+    }
 }
