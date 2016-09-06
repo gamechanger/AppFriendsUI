@@ -11,6 +11,7 @@ import CoreStore
 import EZSwiftExtensions
 import AppFriendsCore
 
+
 public class DialogsManager: NSObject {
     
     public static let sharedInstance = DialogsManager()
@@ -97,7 +98,11 @@ public class DialogsManager: NSObject {
                     
                     if let dialogID = dialogInfo["id"] as? String, let name = dialogInfo["name"] as? String, let members = dialogInfo["members"] as? [String], let type = dialogInfo["type"] as? String
                     {
-                        HCChatDialog.findOrCreateDialog(dialogID, members: members, dialogTitle: name, dialogType: type, transaction: transaction)
+                        let dialog = HCChatDialog.findOrCreateDialog(dialogID, members: members, dialogTitle: name, dialogType: type, transaction: transaction)
+                        
+                        if let customData = dialogInfo["custom_data"] as? String{
+                            dialog.customData = customData
+                        }
                     }
                     
                     transaction.commit({ (result) in
@@ -202,6 +207,7 @@ public class DialogsManager: NSObject {
                     
                     for dialogInfo in json
                     {
+                        
                         if let dialogID = dialogInfo["id"] as? String, let name = dialogInfo["name"] as? String, let members = dialogInfo["members"] as? [String], let type = dialogInfo["type"] as? String
                         {
                             let dialog = HCChatDialog.findOrCreateDialog(dialogID, members: members, dialogTitle: name, dialogType: type, transaction: transaction)

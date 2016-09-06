@@ -17,7 +17,7 @@ import DZNEmptyDataSet
 public class HCDialogsListViewController: HCBaseViewController, UITableViewDelegate, UITableViewDataSource, ListObjectObserver, SESlideTableViewCellDelegate, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate
 {
     
-    var monitor: ListMonitor<HCChatDialog>?
+    public var monitor: ListMonitor<HCChatDialog>?
     
     @IBOutlet public weak var tableView: UITableView!
     var currentUserID: String?
@@ -36,29 +36,39 @@ public class HCDialogsListViewController: HCBaseViewController, UITableViewDeleg
         
         HCUtils.registerNib(self.tableView, nibName: "HCDialogTableViewCell", forCellReuseIdentifier: "HCDialogTableViewCell")
         
+        let monitor = self.dialogMonitor()
+        
+        monitor.addObserver(self)
+        self.monitor = monitor
+    }
+
+    public override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        DialogsManager.sharedInstance.fetchDialogs { (error) in
+            self.tableView.emptyDataSetSource = self
+            self.tableView.emptyDataSetDelegate = self
+            self.tableView.reloadEmptyDataSet()
+        }
+    }
+    
+    override public func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    public func dialogMonitor() -> ListMonitor<HCChatDialog>
+    {
         let monitor = CoreStoreManager.store()!.monitorList(
             From(HCChatDialog),
-            Where("ANY members.userID == %@", currentUserID!) && Where("customData == nil"),
+            Where("ANY members.userID == %@", currentUserID!) && Where("customData == nil || customData == %@", ""),
             OrderBy(.Descending("lastMessageTime"), .Descending("createTime")),
             Tweak { (fetchRequest) -> Void in
                 fetchRequest.fetchBatchSize = 20
             }
         )
         
-        monitor.addObserver(self)
-        self.monitor = monitor
-        
-        DialogsManager.sharedInstance.fetchDialogs { (error) in
-            
-            self.tableView.emptyDataSetSource = self
-            self.tableView.emptyDataSetDelegate = self
-            self.tableView.reloadEmptyDataSet()
-        }
-    }
-
-    override public func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        return monitor
     }
 
     // MARK: - DZNEmptyDataSetSource, DZNEmptyDataSetDelegate

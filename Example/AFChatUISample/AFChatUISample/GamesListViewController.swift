@@ -14,13 +14,13 @@ import AppFriendsUI
 
 class GamesListViewController: HCDialogsListViewController {
     
-    var monitor: ListMonitor<HCChatDialog>?
     var currentUserID: String?    
     
     override func viewDidLoad() {
-        super.viewDidLoad()
         
         currentUserID = HCSDKCore.sharedInstance.currentUserID()
+        
+        super.viewDidLoad()
         
         self.title = "Scheduled Games"
         
@@ -29,18 +29,7 @@ class GamesListViewController: HCDialogsListViewController {
         self.edgesForExtendedLayout = .None
         
         self.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "TableViewDetailCell")
-        
-        let monitor = CoreStoreManager.store()!.monitorList(
-            From(HCChatDialog),
-            Where("ANY members.userID == %@", currentUserID!) && Where("customData != nil"),
-            OrderBy(.Descending("lastMessageTime"), .Descending("createTime")),
-            Tweak { (fetchRequest) -> Void in
-                fetchRequest.fetchBatchSize = 20
-            }
-        )
-        
-        monitor.addObserver(self)
-        self.monitor = monitor
+    
     }
 
     override func didReceiveMemoryWarning() {
@@ -48,11 +37,24 @@ class GamesListViewController: HCDialogsListViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    override func dialogMonitor() -> ListMonitor<HCChatDialog>
+    {
+        let monitor = CoreStoreManager.store()!.monitorList(
+            From(HCChatDialog),
+            Where("ANY members.userID == %@", currentUserID!) && Where("customData != nil && customData != %@", ""),
+            OrderBy(.Descending("lastMessageTime"), .Descending("createTime")),
+            Tweak { (fetchRequest) -> Void in
+                fetchRequest.fetchBatchSize = 20
+            }
+        )
+        return monitor
+    }
+    
     // MARK: - DZNEmptyDataSetSource, DZNEmptyDataSetDelegate
     
     override func titleForEmptyDataSet(scrollView: UIScrollView!) -> NSAttributedString! {
         
-        let title = NSAttributedString(string: "No Scheduled Games", attributes: [NSForegroundColorAttributeName: UIColor.blackColor(), NSFontAttributeName: UIFont.systemFontOfSize(17)])
+        let title = NSAttributedString(string: "No Scheduled Games", attributes: [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName: UIFont.systemFontOfSize(17)])
         return title
     }
     
@@ -108,9 +110,26 @@ class GamesListViewController: HCDialogsListViewController {
         
         if let dialog = self.monitor?.objectsInSection(safeSectionIndex: indexPath.section)![indexPath.row]
         {
-            
+            selectedDialogID = dialog.dialogID
         }
         
+        self.performSegueWithIdentifier("GameAttendanceSegue", sender: self)
+        
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    }
+    
+    var selectedDialogID: String?
+    
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        if segue.identifier == "GameAttendanceSegue" {
+            
+            if let gameAttendanceVC = segue.destinationViewController as? GameAttendanceViewController {
+                
+                gameAttendanceVC.gameAttendanceDialogID = selectedDialogID
+            }
+            
+        }
     }
 }

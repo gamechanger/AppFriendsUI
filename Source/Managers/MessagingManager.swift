@@ -73,9 +73,11 @@ public class MessagingManager: NSObject, HCSDKCoreSyncDelegate {
         customData.addEntriesFromDictionary(customJSON as [NSObject : AnyObject])
         
         messageJSON["custom_data"] = customData.toString()
+        
+        self.sendJSONMessage(messageJSON, dialogID: dialogID, dialogType: dialogType, completion: completion)
     }
     
-    public func sendJSONMessage(messageJSON: NSDictionary, dialogID: String, dialogType: String) {
+    public func sendJSONMessage(messageJSON: NSDictionary, dialogID: String, dialogType: String, completion: ((success: Bool?, error: NSError?) -> ())? = nil) {
         
         if dialogType == HCSDKConstants.kMessageTypeGroup
         {
@@ -92,6 +94,7 @@ public class MessagingManager: NSObject, HCSDKCoreSyncDelegate {
                 else {
                     self.processMessageJSONFromServer(response as? [String: AnyObject])
                 }
+                completion?(success: error == nil, error: error)
             }
         }
         else if dialogType == HCSDKConstants.kMessageTypeIndividual
@@ -109,6 +112,7 @@ public class MessagingManager: NSObject, HCSDKCoreSyncDelegate {
                 else {
                     self.processMessageJSONFromServer(response as? [String: AnyObject])
                 }
+                completion?(success: error == nil, error: error)
             }
         }
         else if dialogType == HCSDKConstants.kMessageTypeChannel
@@ -126,6 +130,7 @@ public class MessagingManager: NSObject, HCSDKCoreSyncDelegate {
                 else {
                     self.processMessageJSONFromServer(response as? [String: AnyObject])
                 }
+                completion?(success: error == nil, error: error)
             }
         }
     }

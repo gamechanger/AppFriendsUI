@@ -14,6 +14,16 @@
 		AF2FB1301D79E8FF002B3C57 /* ScheduleGameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2FB12F1D79E8FF002B3C57 /* ScheduleGameViewController.swift */; };
 		AF2FB1321D79E932002B3C57 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2FB1311D79E932002B3C57 /* BaseViewController.swift */; };
 		AF2FB1361D79EBFA002B3C57 /* GamesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2FB1351D79EBFA002B3C57 /* GamesListViewController.swift */; };
+		AF2FB13C1D7A2421002B3C57 /* GameAttendanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2FB13B1D7A2421002B3C57 /* GameAttendanceViewController.swift */; };
+		AF2FB13F1D7A2C6E002B3C57 /* AttendanceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2FB13D1D7A2C6E002B3C57 /* AttendanceCell.swift */; };
+		AF2FB1401D7A2C6E002B3C57 /* AttendanceCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF2FB13E1D7A2C6E002B3C57 /* AttendanceCell.xib */; };
+		AF2FB1431D7A3C9C002B3C57 /* PlayerSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2FB1411D7A3C9C002B3C57 /* PlayerSectionHeaderView.swift */; };
+		AF2FB1441D7A3C9C002B3C57 /* PlayerSectionHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF2FB1421D7A3C9C002B3C57 /* PlayerSectionHeaderView.xib */; };
+		AF2FB1471D7A42AD002B3C57 /* CancelActionButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2FB1451D7A42AD002B3C57 /* CancelActionButtonCell.swift */; };
+		AF2FB1481D7A42AD002B3C57 /* CancelActionButtonCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF2FB1461D7A42AD002B3C57 /* CancelActionButtonCell.xib */; };
+		AF2FB14A1D7B3F56002B3C57 /* InviteUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2FB1491D7B3F56002B3C57 /* InviteUserViewController.swift */; };
+		AF2FB1521D7DC5D6002B3C57 /* ConfirmRejectTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2FB1501D7DC5D6002B3C57 /* ConfirmRejectTableViewCell.swift */; };
+		AF2FB1531D7DC5D6002B3C57 /* ConfirmRejectTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF2FB1511D7DC5D6002B3C57 /* ConfirmRejectTableViewCell.xib */; };
 		AFC3F58A1D6BE1970098C316 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFC3F5891D6BE1970098C316 /* AppDelegate.swift */; };
 		AFC3F58C1D6BE1970098C316 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFC3F58B1D6BE1970098C316 /* ProfileViewController.swift */; };
 		AFC3F5911D6BE1970098C316 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AFC3F58F1D6BE1970098C316 /* Main.storyboard */; };
@@ -35,6 +45,16 @@
 		AF2FB12F1D79E8FF002B3C57 /* ScheduleGameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleGameViewController.swift; sourceTree = "<group>"; };
 		AF2FB1311D79E932002B3C57 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		AF2FB1351D79EBFA002B3C57 /* GamesListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GamesListViewController.swift; sourceTree = "<group>"; };
+		AF2FB13B1D7A2421002B3C57 /* GameAttendanceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameAttendanceViewController.swift; sourceTree = "<group>"; };
+		AF2FB13D1D7A2C6E002B3C57 /* AttendanceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttendanceCell.swift; sourceTree = "<group>"; };
+		AF2FB13E1D7A2C6E002B3C57 /* AttendanceCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AttendanceCell.xib; sourceTree = "<group>"; };
+		AF2FB1411D7A3C9C002B3C57 /* PlayerSectionHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerSectionHeaderView.swift; sourceTree = "<group>"; };
+		AF2FB1421D7A3C9C002B3C57 /* PlayerSectionHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PlayerSectionHeaderView.xib; sourceTree = "<group>"; };
+		AF2FB1451D7A42AD002B3C57 /* CancelActionButtonCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CancelActionButtonCell.swift; sourceTree = "<group>"; };
+		AF2FB1461D7A42AD002B3C57 /* CancelActionButtonCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CancelActionButtonCell.xib; sourceTree = "<group>"; };
+		AF2FB1491D7B3F56002B3C57 /* InviteUserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InviteUserViewController.swift; sourceTree = "<group>"; };
+		AF2FB1501D7DC5D6002B3C57 /* ConfirmRejectTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmRejectTableViewCell.swift; sourceTree = "<group>"; };
+		AF2FB1511D7DC5D6002B3C57 /* ConfirmRejectTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConfirmRejectTableViewCell.xib; sourceTree = "<group>"; };
 		AFC3F5861D6BE1970098C316 /* AFChatUISample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AFChatUISample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AFC3F5891D6BE1970098C316 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AFC3F58B1D6BE1970098C316 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -85,8 +105,26 @@
 				AFE5CE8E1D76373B009CA667 /* GameStarterViewController.swift */,
 				AF2FB1351D79EBFA002B3C57 /* GamesListViewController.swift */,
 				AF2FB12F1D79E8FF002B3C57 /* ScheduleGameViewController.swift */,
+				AF2FB13B1D7A2421002B3C57 /* GameAttendanceViewController.swift */,
+				AF2FB13D1D7A2C6E002B3C57 /* AttendanceCell.swift */,
+				AF2FB13E1D7A2C6E002B3C57 /* AttendanceCell.xib */,
+				AF2FB1411D7A3C9C002B3C57 /* PlayerSectionHeaderView.swift */,
+				AF2FB1421D7A3C9C002B3C57 /* PlayerSectionHeaderView.xib */,
+				AF2FB14F1D7D34D1002B3C57 /* ActionCells */,
+				AF2FB1491D7B3F56002B3C57 /* InviteUserViewController.swift */,
 			);
 			name = CustomDialogDemo;
+			sourceTree = "<group>";
+		};
+		AF2FB14F1D7D34D1002B3C57 /* ActionCells */ = {
+			isa = PBXGroup;
+			children = (
+				AF2FB1451D7A42AD002B3C57 /* CancelActionButtonCell.swift */,
+				AF2FB1461D7A42AD002B3C57 /* CancelActionButtonCell.xib */,
+				AF2FB1501D7DC5D6002B3C57 /* ConfirmRejectTableViewCell.swift */,
+				AF2FB1511D7DC5D6002B3C57 /* ConfirmRejectTableViewCell.xib */,
+			);
+			name = ActionCells;
 			sourceTree = "<group>";
 		};
 		AFC3F57D1D6BE1970098C316 = {
@@ -194,11 +232,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AF2FB1401D7A2C6E002B3C57 /* AttendanceCell.xib in Resources */,
 				AFE100691D6C3585002BA79D /* UserProfileTableViewCell.xib in Resources */,
 				AFC3F5961D6BE1970098C316 /* LaunchScreen.storyboard in Resources */,
 				AFC3F5931D6BE1970098C316 /* Assets.xcassets in Resources */,
+				AF2FB1441D7A3C9C002B3C57 /* PlayerSectionHeaderView.xib in Resources */,
 				AFC3F5911D6BE1970098C316 /* Main.storyboard in Resources */,
 				AF2FB12E1D79E86C002B3C57 /* ScheduleGame.storyboard in Resources */,
+				AF2FB1531D7DC5D6002B3C57 /* ConfirmRejectTableViewCell.xib in Resources */,
+				AF2FB1481D7A42AD002B3C57 /* CancelActionButtonCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -259,10 +301,16 @@
 			files = (
 				AFE100681D6C3585002BA79D /* UserProfileTableViewCell.swift in Sources */,
 				AF2490C21D72C8E900CBAD84 /* UserSearchViewController.swift in Sources */,
+				AF2FB1521D7DC5D6002B3C57 /* ConfirmRejectTableViewCell.swift in Sources */,
 				AF2FB1301D79E8FF002B3C57 /* ScheduleGameViewController.swift in Sources */,
 				AFC3F58C1D6BE1970098C316 /* ProfileViewController.swift in Sources */,
 				AF2DEBBA1D747FB500DA2609 /* LoginViewController.swift in Sources */,
+				AF2FB1431D7A3C9C002B3C57 /* PlayerSectionHeaderView.swift in Sources */,
 				AF2FB1321D79E932002B3C57 /* BaseViewController.swift in Sources */,
+				AF2FB1471D7A42AD002B3C57 /* CancelActionButtonCell.swift in Sources */,
+				AF2FB13F1D7A2C6E002B3C57 /* AttendanceCell.swift in Sources */,
+				AF2FB14A1D7B3F56002B3C57 /* InviteUserViewController.swift in Sources */,
+				AF2FB13C1D7A2421002B3C57 /* GameAttendanceViewController.swift in Sources */,
 				AFCA896D1D762C8500AE66F5 /* LiveGameViewController.swift in Sources */,
 				AFE5CE8F1D76373B009CA667 /* GameStarterViewController.swift in Sources */,
 				AF2FB1361D79EBFA002B3C57 /* GamesListViewController.swift in Sources */,

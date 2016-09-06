@@ -60,7 +60,6 @@ class ScheduleGameViewController: BaseViewController {
                 self?.showErrorWithMessage(err.localizedDescription)
             }
             else {
-                self?.showSuccessWithMessage("Game Scheduled")
                 self?.navigationController?.popViewControllerAnimated(true)
             }
         }
