@@ -49,6 +49,9 @@ public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver
     override public func viewDidLoad() {
         super.viewDidLoad()
         
+        // update read time for this dialog. Badge will clear all messages are read
+        HCChatDialog.updateReadMessageAtTime(NSDate(), dialogID: _dialogID)
+        
         currentUserID = HCSDKCore.sharedInstance.currentUserID()
         
         self.tableView.separatorStyle = .None
