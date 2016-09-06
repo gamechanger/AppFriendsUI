@@ -94,6 +94,61 @@ public class AppFriendsUserManager: NSObject {
         }
     }
     
+    public func blockUser(userID: String, completion: ((response: AnyObject?, error: NSError?) -> ())? = nil) {
+
+        let path = "/users/\(userID)/block"
+        let appFriendsCore = HCSDKCore.sharedInstance
+        appFriendsCore.startRequest(httpMethod: "POST", path: path, parameters: nil) { (response, error) in
+            
+            if let err = error {
+                completion?(response: nil, error: err)
+            }
+            else {
+                
+                CoreStoreManager.store()?.beginAsynchronous({ (transaction) in
+                    
+                    let user = HCUser.findOrCreateUser(userID, transaction: transaction)
+                    user.blocked = true
+                    
+                    transaction.commit({ (result) in
+                        
+                        if let complete = completion {
+                            complete(response: response, error: nil)
+                        }
+                    })
+                })
+            }
+        }
+        
+    }
+    
+    public func unblockUser(userID: String, completion: ((response: AnyObject?, error: NSError?) -> ())? = nil) {
+        
+        let path = "/users/\(userID)/unblock"
+        let appFriendsCore = HCSDKCore.sharedInstance
+        appFriendsCore.startRequest(httpMethod: "POST", path: path, parameters: nil) { (response, error) in
+            
+            if let err = error {
+                completion?(response: nil, error: err)
+            }
+            else {
+                
+                CoreStoreManager.store()?.beginAsynchronous({ (transaction) in
+                    
+                    let user = HCUser.findOrCreateUser(userID, transaction: transaction)
+                    user.blocked = false
+                    
+                    transaction.commit({ (result) in
+                        
+                        if let complete = completion {
+                            complete(response: response, error: nil)
+                        }
+                    })
+                })
+            }
+        }
+    }
+    
     public func fetchFollowers(userID: String, completion: ((response: AnyObject?, error: NSError?) -> ())? = nil) {
         
         let path = "/users/\(userID)/followers"

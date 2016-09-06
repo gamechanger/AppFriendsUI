@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10174" systemVersion="15G31" minimumToolsVersion="Xcode 7.0">
+    <entity name="HCChannel" representedClassName="HCChannel" syncable="YES">
+        <attribute name="channelID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="customData" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="HCChatDialog" representedClassName="HCChatDialog" syncable="YES">
+        <attribute name="createTime" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="customData" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dialogID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lastMessageReadTime" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="lastMessageText" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lastMessageTime" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="unreadMessages" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <relationship name="members" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="HCUser" inverseName="dialogs" inverseEntity="HCUser" syncable="YES"/>
+    </entity>
+    <entity name="HCMessage" representedClassName="HCMessage" syncable="YES">
+        <attribute name="channelID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="customData" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dialogID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="failed" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="handled" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="messageID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="messageType" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="metadata" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="read" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="receiveTime" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="senderAvatar" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="senderID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="senderName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sentTime" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="tempID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="HCUser" representedClassName="HCUser" syncable="YES">
+        <attribute name="avatar" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="blocked" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="customData" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="followers" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="following" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="friends" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="userID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userName" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="dialogs" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="HCChatDialog" inverseName="members" inverseEntity="HCChatDialog" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="HCChannel" positionX="-54" positionY="-9" width="128" height="90"/>
+        <element name="HCChatDialog" positionX="-45" positionY="108" width="128" height="195"/>
+        <element name="HCMessage" positionX="-36" positionY="36" width="128" height="285"/>
+        <element name="HCUser" positionX="-45" positionY="90" width="128" height="195"/>
+    </elements>
+</model>

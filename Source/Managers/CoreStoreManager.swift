@@ -37,7 +37,7 @@ public class CoreStoreManager: NSObject {
         if let dataStack = _dataStack {
             
             dataStack.addStorage(
-                SQLiteStore(fileName: "AppFriendsUIModels.sqlite", localStorageOptions: .RecreateStoreOnModelMismatch),
+                SQLiteStore(fileName: "AppFriendsUIModels.sqlite", localStorageOptions: .AllowSynchronousLightweightMigration),
                 completion: { (result) -> Void in
                     
                     var error: NSError? = nil

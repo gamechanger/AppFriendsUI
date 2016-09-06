@@ -319,7 +319,6 @@ class ProfileViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        
         // start a chat with this user
         if indexPath.row == 1, let userID = _userID {
             
@@ -327,7 +326,36 @@ class ProfileViewController: UITableViewController {
             chatView.hidesBottomBarWhenPushed = true
             self.navigationController?.pushViewController(chatView, animated: true)
         }
-        
+        else if indexPath.row == 2, let userID = _userID {
+            
+            if let user = CoreStoreManager.store()?.fetchOne(From(HCUser), Where("userID == %@", userID))
+            {
+                if let blocked = user.blocked?.boolValue where blocked == true {
+                    
+                    AppFriendsUserManager.sharedInstance.unblockUser(userID, completion: { (response, error) in
+                        if let err = error {
+                            self.showAlert("Error", message: err.localizedDescription)
+                        }
+                        else {
+                            self.showAlert("Success", message: "You have unblocked the user")
+                            self.tableView.reloadData()
+                        }
+                    })
+                }
+                else {
+                    
+                    AppFriendsUserManager.sharedInstance.blockUser(userID, completion: { (response, error) in
+                        if let err = error {
+                            self.showAlert("Error", message: err.localizedDescription)
+                        }
+                        else {
+                            self.showAlert("Success", message: "You have blocked the user")
+                            self.tableView.reloadData()
+                        }
+                    })
+                }
+            }
+        }
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
@@ -354,8 +382,20 @@ class ProfileViewController: UITableViewController {
         else
         {
             let blockCell = tableView.dequeueReusableCellWithIdentifier("TableViewCell", forIndexPath: indexPath)
-            blockCell.accessoryType = .DisclosureIndicator
-            blockCell.textLabel!.text = "Block"
+            blockCell.accessoryType = .None
+            
+            if let userID = _userID, let user = CoreStoreManager.store()?.fetchOne(From(HCUser), Where("userID == %@", userID))
+            {
+                if let blocked = user.blocked?.boolValue where blocked == true {
+                    
+                    blockCell.textLabel!.text = "Unblock"
+                }
+                else {
+                    
+                    blockCell.textLabel!.text = "Block"
+                }
+            }
+            
             return blockCell
         }
     }

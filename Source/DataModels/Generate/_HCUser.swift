@@ -6,6 +6,7 @@ import CoreData
 
 public enum HCUserAttributes: String {
     case avatar = "avatar"
+    case blocked = "blocked"
     case customData = "customData"
     case email = "email"
     case followers = "followers"
@@ -46,6 +47,9 @@ public class _HCUser: NSManagedObject {
 
     @NSManaged public
     var avatar: String?
+
+    @NSManaged public
+    var blocked: NSNumber?
 
     @NSManaged public
     var customData: String?
