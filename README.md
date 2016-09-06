@@ -1,4 +1,4 @@
-## AppFriends UI
+# AppFriends UI
 
 AppFriendsUI is an open source library which provides customizable UI components and example usage of AppFriends. It's a great starting point to build an app using AppFriends. It can save you a lot of development hours. Besides UI components, this library also provides convenient methods for you to handles dialogs, send/receive messages and query for users. It uses CoreData to store dialogs and 
 
