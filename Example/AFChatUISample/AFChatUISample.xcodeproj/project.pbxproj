@@ -127,6 +127,16 @@
 			name = ActionCells;
 			sourceTree = "<group>";
 		};
+		AF583AB61D7F15E30040F8D1 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				AFC3F58B1D6BE1970098C316 /* ProfileViewController.swift */,
+				AFE100661D6C3585002BA79D /* UserProfileTableViewCell.swift */,
+				AFE100671D6C3585002BA79D /* UserProfileTableViewCell.xib */,
+			);
+			name = Profile;
+			sourceTree = "<group>";
+		};
 		AFC3F57D1D6BE1970098C316 = {
 			isa = PBXGroup;
 			children = (
@@ -150,13 +160,11 @@
 			isa = PBXGroup;
 			children = (
 				AFC3F5891D6BE1970098C316 /* AppDelegate.swift */,
-				AFC3F58B1D6BE1970098C316 /* ProfileViewController.swift */,
+				AF583AB61D7F15E30040F8D1 /* Profile */,
 				AFC3F58F1D6BE1970098C316 /* Main.storyboard */,
 				AFC3F5921D6BE1970098C316 /* Assets.xcassets */,
 				AFC3F5941D6BE1970098C316 /* LaunchScreen.storyboard */,
 				AFC3F5971D6BE1970098C316 /* Info.plist */,
-				AFE100661D6C3585002BA79D /* UserProfileTableViewCell.swift */,
-				AFE100671D6C3585002BA79D /* UserProfileTableViewCell.xib */,
 				AF2490C11D72C8E900CBAD84 /* UserSearchViewController.swift */,
 				AF2DEBB91D747FB500DA2609 /* LoginViewController.swift */,
 				AFCA896C1D762C8500AE66F5 /* LiveGameViewController.swift */,

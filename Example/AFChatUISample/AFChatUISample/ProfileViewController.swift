@@ -310,7 +310,7 @@ class ProfileViewController: UITableViewController {
                 return 1
             }
             else {
-                return 2
+                return 3
             }
         }
         
@@ -344,12 +344,19 @@ class ProfileViewController: UITableViewController {
             
             return userProfileCell
         }
-        else
+        else if indexPath.row == 1
         {
             let chatCell = tableView.dequeueReusableCellWithIdentifier("TableViewCell", forIndexPath: indexPath)
             chatCell.accessoryType = .DisclosureIndicator
             chatCell.textLabel!.text = "Chat"
             return chatCell
+        }
+        else
+        {
+            let blockCell = tableView.dequeueReusableCellWithIdentifier("TableViewCell", forIndexPath: indexPath)
+            blockCell.accessoryType = .DisclosureIndicator
+            blockCell.textLabel!.text = "Block"
+            return blockCell
         }
     }
     
