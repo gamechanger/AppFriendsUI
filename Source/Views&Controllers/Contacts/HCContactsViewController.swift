@@ -34,7 +34,8 @@ public class HCContactsViewController: HCBaseViewController, ListObjectObserver 
         
         if let userID = currentUserID {
             
-            AppFriendsUserManager.sharedInstance.fetchUserFriends(userID, completion: { (response, error) in
+            let userManager = AppFriendsUserManager.sharedInstance;
+            userManager.fetchUserFriends(userID, completion: { (response, error) in
                 let user = CoreStoreManager.store()?.fetchOne(From(HCUser),
                     Where("userID", isEqualTo: self.currentUserID!))
                 
