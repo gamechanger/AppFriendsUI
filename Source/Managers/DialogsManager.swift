@@ -44,7 +44,7 @@ public class DialogsManager: NSObject {
                 var total = 0
                 let currentUserID = HCSDKCore.sharedInstance.currentUserID()
                 if let dialogs = transaction.fetchAll(From(HCChatDialog),
-                    Where("ANY members.userID == %@", currentUserID!))
+                    Where("ANY members.userID == %@", currentUserID!) && Where("customData == nil || customData == %@", ""))
                 {
                     for dialog in dialogs where dialog.unreadMessages != nil{
                         total += dialog.unreadMessages!.integerValue

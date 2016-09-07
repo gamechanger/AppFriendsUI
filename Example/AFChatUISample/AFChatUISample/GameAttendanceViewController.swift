@@ -394,6 +394,7 @@ class GameAttendanceViewController: BaseViewController, UICollectionViewDelegate
     
     func rejectButtonTapped(cell: ConfirmRejectTableViewCell) {
         
+        self.showLoading("")
         if let dialogID = self.gameAttendanceDialogID {
             
             let acceptedJSON = self.decisionJSON(false)
@@ -402,6 +403,7 @@ class GameAttendanceViewController: BaseViewController, UICollectionViewDelegate
                 if let err = error {
                     self.showErrorWithMessage(err.localizedDescription)
                 }
+                self.hideHUD()
             })
         }
     }
@@ -410,12 +412,14 @@ class GameAttendanceViewController: BaseViewController, UICollectionViewDelegate
         
         if let dialogID = self.gameAttendanceDialogID {
             
+            self.showLoading("")
             let acceptedJSON = self.decisionJSON(true)
             MessagingManager.sharedInstance.sendMessageWithCustomJSON("Accepted to join game\(self.gameTitle)", customJSON: acceptedJSON, dialogID: dialogID, dialogType: HCSDKConstants.kMessageTypeGroup, completion: { (success, error) in
                 
                 if let err = error {
                     self.showErrorWithMessage(err.localizedDescription)
                 }
+                self.hideHUD()
             })
         }
     }
