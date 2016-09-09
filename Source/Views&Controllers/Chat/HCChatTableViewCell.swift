@@ -22,7 +22,7 @@ public class HCChatTableViewCell: UITableViewCell {
     static let kChatCellTopMargin: CGFloat = 16.0
     static let kChatCellBottomMargin: CGFloat = 20.0
     static let kChatCellLeftMargin: CGFloat = 53.0
-    static let kChatCellRightMargin: CGFloat = 39.0
+    static let kChatCellRightMargin: CGFloat = 47.0
     static let kChatCellMinimumHeight: CGFloat = 71.0
     static let kChatCellAvatarHeight: CGFloat = 25
     static let kImageCellHeight: CGFloat = 172.0

@@ -333,11 +333,6 @@ public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver
             
             var width = tableView.frame.size.width - HCChatTableViewCell.kChatCellLeftMargin - HCChatTableViewCell.kChatCellRightMargin
             
-            if message.sendingFailed() {
-                // leave room for the failed button
-                width -= 20
-            }
-            
             var height = HCChatTableViewCell.kChatCellTopMargin + HCChatTableViewCell.kChatCellBottomMargin
             let text = message.text
             if let textBounds = text?.boundingRectWithSize(CGSizeMake(width, CGFloat.max), options: .UsesLineFragmentOrigin, attributes: attributes, context: nil)
