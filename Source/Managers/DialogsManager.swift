@@ -11,7 +11,6 @@ import CoreStore
 import EZSwiftExtensions
 import AppFriendsCore
 
-
 public class DialogsManager: NSObject {
     
     public static let sharedInstance = DialogsManager()
@@ -56,6 +55,20 @@ public class DialogsManager: NSObject {
                 })
             })
         }
+    }
+    
+    // MARK: Typing Indicators
+    
+    public func startTyping(dialogID: String, dialogType: String) {
+        
+        let typingJSON = MessagingManager.sharedInstance.createTypingJSON("start typing", typing: true, dialogID: dialogID)
+        MessagingManager.sharedInstance.sendJSONMessage(typingJSON, dialogID: dialogID, dialogType: dialogType)
+    }
+    
+    public func endTyping(dialogID: String, dialogType: String) {
+        
+        let typingJSON = MessagingManager.sharedInstance.createTypingJSON("stop typing", typing: false, dialogID: dialogID)
+        MessagingManager.sharedInstance.sendJSONMessage(typingJSON, dialogID: dialogID, dialogType: dialogType)
     }
     
     // MARK: Dialogs

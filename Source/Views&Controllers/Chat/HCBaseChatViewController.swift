@@ -17,13 +17,15 @@ import EZSwiftExtensions
 import AFDateHelper
 import JGProgressHUD
 
-public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver, UIImagePickerControllerDelegate, UINavigationControllerDelegate, HCChatTableViewCellDelegate
+public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver, UIImagePickerControllerDelegate, UINavigationControllerDelegate, HCChatTableViewCellDelegate, MessagingManagerDelegate
 {
     static var HUD: JGProgressHUD?
     var monitor: ListMonitor<HCMessage>?
     var currentUserID: String?
     internal var _dialogType: String = HCSDKConstants.kMessageTypeIndividual
     internal var _dialogID: String = ""
+    
+    var isTyping: Bool = false
     
     let imagePicker = UIImagePickerController()
     
@@ -44,6 +46,10 @@ public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver
     
     required public init(coder decoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    deinit {
+        self.textInputbar.removeObserver(self, forKeyPath: "edting", context: nil)
     }
     
     override public func viewDidLoad() {
@@ -79,6 +85,8 @@ public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver
         configChatView()
         
         updateTitle()
+        
+        MessagingManager.sharedInstance.delegate = self
     }
 
     override public func didReceiveMemoryWarning() {
@@ -118,6 +126,9 @@ public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver
             MessagingManager.sharedInstance.sendTextMessage(text, dialogID: _dialogID, dialogType: _dialogType)
         }
         
+        self.isTyping = false
+        DialogsManager.sharedInstance.endTyping(self._dialogID, dialogType: self._dialogType)
+        
         super.didPressRightButton(sender)
     }
 
@@ -143,6 +154,31 @@ public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver
             self.imagePicker.sourceType = .PhotoLibrary
             self.imagePicker.allowsEditing = true
             self.presentViewController(self.imagePicker, animated: true, completion: nil)
+        }
+    }
+    
+    // MARK: Typing
+    
+    public override func textViewDidChange(textView: UITextView) {
+        
+        if !self.isTyping && textView.text.length > 0
+        {
+            self.isTyping = true
+            DialogsManager.sharedInstance.startTyping(self._dialogID, dialogType: self._dialogType)
+        }
+        else if self.isTyping && textView.text.length == 0
+        {
+            self.isTyping = false
+            DialogsManager.sharedInstance.endTyping(self._dialogID, dialogType: self._dialogType)
+        }
+    }
+    
+    public func didUpdateTypingStatus(dialogID: String, userName: String, typing: Bool) {
+        
+        if typing {
+            self.typingIndicatorView?.insertUsername(userName)
+        } else {
+            self.typingIndicatorView?.removeUsername(userName)
         }
     }
     

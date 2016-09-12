@@ -11,9 +11,22 @@ import CoreStore
 import EZSwiftExtensions
 import AppFriendsCore
 
+
+@objc public protocol MessagingManagerDelegate {
+    
+    optional func didUpdateTypingStatus(dialogID: String, userName: String, typing: Bool)
+}
+
+
 public class MessagingManager: NSObject, HCSDKCoreSyncDelegate {
     
     let messageCreateSem = dispatch_semaphore_create(1) // lock to serialize message creation
+    
+    public weak var delegate: MessagingManagerDelegate?
+    
+    // constants
+    public let action_start_typing = "action_start_typing"
+    public let action_stop_typing = "action_stop_typing"
     
     public static let sharedInstance = MessagingManager()
     
@@ -33,7 +46,35 @@ public class MessagingManager: NSObject, HCSDKCoreSyncDelegate {
         
         for messageJSON in messages
         {
-            self.processMessageJSONFromServer(messageJSON)
+            var shouldProcessMessageJSON = true
+            
+            if let dialogID = messageJSON["dialog_id"] as? String, let customData = messageJSON["custom_data"] as? String
+            {
+                if let customJSON = HCUtils.dictionaryFromJsonString(customData)
+                {
+                    if let action = customJSON["action"] as? String, let senderJSON = customJSON["sender"]
+                    {
+                        shouldProcessMessageJSON = false
+                        
+                        if action == action_start_typing, let delegate = self.delegate, let senderName = senderJSON["user_name"] as? String, let senderID = senderJSON["id"] as? String
+                        {
+                            if senderID != HCSDKCore.sharedInstance.currentUserID() {
+                                delegate.didUpdateTypingStatus?(dialogID, userName: senderName, typing: true)
+                            }
+                        }
+                        else if action == action_stop_typing, let delegate = self.delegate, let senderName = senderJSON["user_name"] as? String, let senderID = senderJSON["id"] as? String
+                        {
+                            if senderID != HCSDKCore.sharedInstance.currentUserID() {
+                                delegate.didUpdateTypingStatus?(dialogID, userName: senderName, typing: false)
+                            }
+                        }
+                    }
+                }
+            }
+            
+            if shouldProcessMessageJSON {
+                self.processMessageJSONFromServer(messageJSON)
+            }
         }
     }
     
@@ -213,6 +254,21 @@ public class MessagingManager: NSObject, HCSDKCoreSyncDelegate {
             messageJSON["avatar"] = ""
         }
         
+        return messageJSON
+    }
+    
+    public func createTypingJSON(text: String, typing: Bool, dialogID: String) -> NSDictionary
+    {
+        let messageJSON = MessagingManager.sharedInstance.basicMessageJSON(text, dialogID:  dialogID)
+        let customData = NSMutableDictionary()
+        customData["sender"] = MessagingManager.sharedInstance.createSenderJSON()
+        if typing {
+            customData["action"] = action_start_typing
+        }
+        else {
+            customData["action"] = action_stop_typing
+        }
+        messageJSON["custom_data"] = customData.toString()
         return messageJSON
     }
     
