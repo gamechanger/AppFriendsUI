@@ -40,6 +40,22 @@ public class MessagingManager: NSObject, HCSDKCoreSyncDelegate {
         super.init()
     }
     
+    func isActionMessage(messageJSON: [String : AnyObject]) -> Bool {
+        
+        if let dialogID = messageJSON["dialog_id"] as? String, let customData = messageJSON["custom_data"] as? String
+        {
+            if let customJSON = HCUtils.dictionaryFromJsonString(customData)
+            {
+                if let action = customJSON["action"] as? String
+                {
+                    return true
+                }
+            }
+        }
+        
+        return false
+    }
+    
     // MARK: HCSDKCoreSyncDelegate
     
     public func messagesReceived(messages: [[String : AnyObject]]) {
@@ -295,6 +311,10 @@ public class MessagingManager: NSObject, HCSDKCoreSyncDelegate {
     }
     
     func processChatMessageJSON(messageJSON: [String: AnyObject]) {
+        
+        if isActionMessage(messageJSON) {
+            return
+        }
         
         if let tempID = messageJSON["temp_id"] as? String
         {
