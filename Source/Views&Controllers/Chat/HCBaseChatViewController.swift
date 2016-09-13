@@ -48,10 +48,6 @@ public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver
         fatalError("init(coder:) has not been implemented")
     }
     
-    deinit {
-        self.textInputbar.removeObserver(self, forKeyPath: "edting", context: nil)
-    }
-    
     override public func viewDidLoad() {
         super.viewDidLoad()
         
