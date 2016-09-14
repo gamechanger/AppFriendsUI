@@ -16,6 +16,15 @@ public class HCUser: _HCUser {
         return nil
     }
     
+    public static func findUser(userID: String, transaction: AsynchronousDataTransaction!) -> HCUser?
+    {
+        var user = transaction.fetchOne(
+            From(HCUser),
+            Where("userID", isEqualTo: userID)
+        )
+        return user
+    }
+    
     public static func findOrCreateUser(userID: String, transaction: AsynchronousDataTransaction!) -> HCUser
     {
         var user = transaction.fetchOne(

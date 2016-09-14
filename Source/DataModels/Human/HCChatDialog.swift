@@ -23,6 +23,9 @@ public class HCChatDialog: _HCChatDialog {
         
         for userID in members
         {
+            if HCUser.findUser(userID, transaction: transaction) == nil {
+                AppFriendsUserManager.sharedInstance.fetchUserInfo(userID)
+            }
             let user = HCUser.findOrCreateUser(userID, transaction: transaction)
             dialog!.addMembersObject(user)
         }
