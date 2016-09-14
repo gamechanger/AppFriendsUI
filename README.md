@@ -86,3 +86,6 @@ HCColorPalette.SegmentSelectorOnBgColor = UIColor(hexString: "3c3a60")
 
 If more advanced customizations are needed, you can sub class components of AppFriendsUI. 
 
+## Logout
+When you want to switch user, don't forget to log out the user by 
+`AppFriendsUI.sharedInstance.logout()`
