@@ -196,8 +196,7 @@ class ProfileViewController: UITableViewController {
     
     func logout(sender: AnyObject) {
         
-        HCSDKCore.sharedInstance.logout()
-        MessagingManager.sharedInstance.clearMessages()
+        AppFriendsUI.sharedInstance.logout()
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let loginVC = storyboard.instantiateViewControllerWithIdentifier("LoginViewController")

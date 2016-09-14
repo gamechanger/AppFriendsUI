@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AppFriendsCore
 
 public class AppFriendsUI: NSObject {
     
@@ -24,6 +25,12 @@ public class AppFriendsUI: NSObject {
                 completion?(success: success, error: error)
             }
         }
+    }
+    
+    public func logout() {
+        
+        HCSDKCore.sharedInstance.logout()
+        MessagingManager.sharedInstance.clearMessages()
     }
     
     public func presentVCInSidePanel(fromVC fromVC: UIViewController, showVC: UIViewController, direction: HCSideDirection? = .Right) {

@@ -146,7 +146,8 @@ class LoginViewController: BaseViewController {
         
         let appFriendsCore = HCSDKCore.sharedInstance
         if appFriendsCore.isLogin() {
-            appFriendsCore.logout()
+            
+            AppFriendsUI.sharedInstance.logout()
             
             // reset the view after logout
             currentUserInfo.removeAll()

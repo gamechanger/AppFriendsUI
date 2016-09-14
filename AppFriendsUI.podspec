@@ -27,7 +27,7 @@ s.resource	 	= "Source/AppFriendsResources.bundle"
 # 7
 s.dependency 'FontAwesome.swift'
 s.dependency 'Google-Material-Design-Icons-Swift'
-s.dependency 'Kingfisher'
+s.dependency 'Kingfisher', '~> 2.6.0'
 s.dependency 'SlackTextViewController'
 s.dependency 'NSDate+TimeAgo'
 s.dependency 'CLTokenInputView'
