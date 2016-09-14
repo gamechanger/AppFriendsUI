@@ -31,6 +31,7 @@ public class AppFriendsUI: NSObject {
         
         HCSDKCore.sharedInstance.logout()
         MessagingManager.sharedInstance.clearMessages()
+        DialogsManager.sharedInstance.clearDialogs()
     }
     
     public func presentVCInSidePanel(fromVC fromVC: UIViewController, showVC: UIViewController, direction: HCSideDirection? = .Right) {

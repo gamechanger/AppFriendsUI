@@ -170,6 +170,18 @@ public class DialogsManager: NSObject {
         }
     }
     
+    // MARK: clean all dialogs
+    func clearDialogs(completion: ((success: Bool?) -> ())? = nil) {
+        
+        CoreStoreManager.store()?.beginAsynchronous({ (transaction) in
+            
+            transaction.deleteAll(From(HCChatDialog))
+            transaction.commit({ (result) in
+                completion?(success: result.boolValue)
+            })
+        })
+    }
+    
     public func leaveGroupDialog(dialogID: String, completion: ((error: NSError?) -> ())? = nil)
     {
         
