@@ -192,6 +192,20 @@ public class MessagingManager: NSObject, HCSDKCoreSyncDelegate {
         }
     }
     
+    // MARK: Sending Video Message
+    
+    public func sendVideoMessage(videoStreamURL: String, videoThumbnailURL: String, dialogID: String, dialogType: String)
+    {
+        let messageJSON = createVideoMessageJSON(videoStreamURL, thumbnail: videoThumbnailURL, dialogID: dialogID)
+        CoreStoreManager.store()?.beginAsynchronous({ (transaction) in
+            HCMessage.createMessage(messageJSON, transaction: transaction)
+            HCChatDialog.updateDialogLastMessage(dialogID, transaction: transaction)
+            transaction.commit()
+        })
+        
+        self.sendJSONMessage(messageJSON, dialogID: dialogID, dialogType: dialogType)
+    }
+    
     // MARK: Sending Image Message
     
     public func sendImageMessage(imageURL: String, dialogID: String, dialogType: String)
@@ -239,6 +253,18 @@ public class MessagingManager: NSObject, HCSDKCoreSyncDelegate {
         let messageJSON = basicMessageJSON(text, dialogID:  dialogID)
         let senderJSON = createSenderJSON()
         messageJSON["custom_data"] = ["sender": senderJSON].toString()
+        return messageJSON
+    }
+    
+    public func createVideoMessageJSON(videoStreamURL: String, thumbnail: String, dialogID: String) -> NSDictionary
+    {
+        let messageJSON = basicMessageJSON("[video]", dialogID:  dialogID)
+        let senderJSON = createSenderJSON()
+        let attachmentJSON = createVideoPayloadJSON(videoStreamURL, thumbnail: thumbnail)
+        let customData = NSMutableDictionary()
+        customData["sender"] = senderJSON
+        customData["attachment"] = attachmentJSON
+        messageJSON["custom_data"] = customData.toString()
         return messageJSON
     }
     
@@ -293,6 +319,15 @@ public class MessagingManager: NSObject, HCSDKCoreSyncDelegate {
         let attachmentJSON = NSMutableDictionary()
         attachmentJSON["type"] = "image"
         attachmentJSON["payload"] = ["url": imageURL]
+        
+        return attachmentJSON
+    }
+    
+    public func createVideoPayloadJSON(videoStreamURL: String, thumbnail: String) -> NSDictionary {
+        
+        let attachmentJSON = NSMutableDictionary()
+        attachmentJSON["type"] = "video"
+        attachmentJSON["payload"] = ["url": videoStreamURL, "thumbnail": thumbnail]
         
         return attachmentJSON
     }

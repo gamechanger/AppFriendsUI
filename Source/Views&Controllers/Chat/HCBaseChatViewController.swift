@@ -16,6 +16,9 @@ import NSDate_TimeAgo
 import EZSwiftExtensions
 import AFDateHelper
 import JGProgressHUD
+import MobileCoreServices
+import AVKit
+import AVFoundation
 
 public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver, UIImagePickerControllerDelegate, UINavigationControllerDelegate, HCChatTableViewCellDelegate, MessagingManagerDelegate
 {
@@ -61,6 +64,7 @@ public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver
         
         HCUtils.registerNib(self.tableView, nibName: "HCChatTextTableViewCell", forCellReuseIdentifier: "HCChatTextTableViewCell")
         HCUtils.registerNib(self.tableView, nibName: "HCChatImageTableViewCell", forCellReuseIdentifier: "HCChatImageTableViewCell")
+        HCUtils.registerNib(self.tableView, nibName: "HCChatVideoTableViewCell", forCellReuseIdentifier: "HCChatVideoTableViewCell")
         HCUtils.registerNib(self.tableView, nibName: "HCChatSystemMessageTableViewCell", forCellReuseIdentifier: "HCChatSystemMessageTableViewCell")
         
         let twoDaysAgo = NSDate().dateBySubtractingDays(HCConstants.oldestMessageDays)
@@ -130,17 +134,26 @@ public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver
 
     public override func didPressLeftButton(sender: AnyObject?) {
         
+        pickImageToSend()
+    }
+    
+    // MARK: send media
+    
+    func pickImageToSend() {
+        
         if UIImagePickerController.isSourceTypeAvailable(.Camera)
         {
             let popup = UIAlertController(title: "Pick image", message: "", preferredStyle: .ActionSheet)
             
             popup.addAction(UIAlertAction(title: "Take a new picture", style: .Default, handler: { (action) in
                 self.imagePicker.sourceType = .Camera
+                self.imagePicker.mediaTypes = [kUTTypeImage as String, kUTTypeMovie as String]
                 self.imagePicker.allowsEditing = false
                 self.presentViewController(self.imagePicker, animated: true, completion: nil)
             }))
             popup.addAction(UIAlertAction(title: "Choose from photo library", style: .Default, handler: { (action) in
                 self.imagePicker.sourceType = .PhotoLibrary
+                self.imagePicker.mediaTypes = [kUTTypeImage as String, kUTTypeMovie as String]
                 self.imagePicker.allowsEditing = false
                 self.presentViewController(self.imagePicker, animated: true, completion: nil)
             }))
@@ -148,7 +161,8 @@ public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver
         }
         else {
             self.imagePicker.sourceType = .PhotoLibrary
-            self.imagePicker.allowsEditing = true
+            self.imagePicker.mediaTypes = [kUTTypeImage as String, kUTTypeMovie as String]
+            self.imagePicker.allowsEditing = false
             self.presentViewController(self.imagePicker, animated: true, completion: nil)
         }
     }
@@ -234,7 +248,13 @@ public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver
                         tableCell?.contentImageView?.kf_setImageWithURL(NSURL(string: url))
                     }
                 }
-
+                else if let attachment = HCVideoAttachment.getAttachmentFromMessage(dataString: customData) where attachment.attachmentType == HCMessageAttachmentType.Video.name()
+                {
+                    tableCell = self.tableView.dequeueReusableCellWithIdentifier("HCChatVideoTableViewCell", forIndexPath: indexPath) as? HCChatTableViewCell
+                    if let thumbnail = attachment.thumbnail {
+                        tableCell?.contentImageView?.kf_setImageWithURL(NSURL(string: thumbnail))
+                    }
+                }
             }
         }
         
@@ -353,7 +373,8 @@ public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver
         {
             if let customData = message.customData
             {
-                if let attachment = HCMessageAttachment.getAttachmentFromMessage(dataString: customData) where attachment.attachmentType == HCMessageAttachmentType.Image.name()
+                if let attachment = HCMessageAttachment.getAttachmentFromMessage(dataString: customData) where attachment.attachmentType == HCMessageAttachmentType.Image.name() ||
+                    attachment.attachmentType == HCMessageAttachmentType.Video.name()
                 {
                     return HCChatTableViewCell.kImageCellHeight
                 }
@@ -363,7 +384,7 @@ public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver
             
             let attributes = self.messagingCellAttributes()
             
-            var width = tableView.frame.size.width - HCChatTableViewCell.kChatCellLeftMargin - HCChatTableViewCell.kChatCellRightMargin
+            let width = tableView.frame.size.width - HCChatTableViewCell.kChatCellLeftMargin - HCChatTableViewCell.kChatCellRightMargin
             
             var height = HCChatTableViewCell.kChatCellTopMargin + HCChatTableViewCell.kChatCellBottomMargin
             let text = message.text
@@ -467,8 +488,13 @@ public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver
             
             HCSDKCore.sharedInstance.uploadImage(resultImage, completion: { (imagePublicID, error) in
                 
-                let fullImageURL = HCSDKCore.sharedInstance.fullImage(imagePublicID)
-                MessagingManager.sharedInstance.sendImageMessage(fullImageURL, dialogID: self._dialogID, dialogType: self._dialogType)
+                if let err = error {
+                    self.showErrorWithMessage(err.localizedDescription)
+                }
+                else {
+                    let fullImageURL = HCSDKCore.sharedInstance.fullImage(imagePublicID)
+                    MessagingManager.sharedInstance.sendImageMessage(fullImageURL, dialogID: self._dialogID, dialogType: self._dialogType)
+                }
                 
             }, progress: { (percentage) in
                 
@@ -477,13 +503,35 @@ public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver
             })
             
         }
+        else if let pickedVideoPath = info[UIImagePickerControllerMediaURL] as? NSURL
+        {
+            if let videoData = NSData(contentsOfURL: pickedVideoPath) {
+                
+                HCSDKCore.sharedInstance.uploadVideo(videoData, completion: { (imagePublicID, error) in
+                
+                    if let err = error {
+                        self.showErrorWithMessage(err.localizedDescription)
+                    }
+                    else {
+                        let videoStreamURL = HCSDKCore.sharedInstance.videoStreamingURL(imagePublicID)
+                        let videoThumbnailURL = HCSDKCore.sharedInstance.videoThumbnailURL(imagePublicID)
+                        MessagingManager.sharedInstance.sendVideoMessage(videoStreamURL, videoThumbnailURL: videoThumbnailURL, dialogID: self._dialogID, dialogType: self._dialogType)
+                    }
+                    
+                }, progress: { (percentage) in
+                        
+                        let progress = Float(percentage)/100.0
+                        self.showProgress(progress, message: "Uploading ...")
+                })
+            }
+        }
         
         picker.dismissViewControllerAnimated(true, completion: nil)
     }
     
     // MARK: HCChatTableViewCellDelegate
     
-    public func imageTapped(cell: HCChatTableViewCell) {
+    public func attachmentTapped(cell: HCChatTableViewCell) {
         
         if let indexPath = self.tableView.indexPathForCell(cell)
         {
@@ -498,6 +546,7 @@ public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver
                     if let attachment = HCMessageAttachment.getAttachmentFromMessage(dataString: customData) where attachment.attachmentType == HCMessageAttachmentType.Image.name()
                     {
                         if let url = attachment.url {
+                            
                             let imageModalVC = HCImageModalViewController(url: url)
                             imageModalVC.modalPresentationStyle = .OverCurrentContext
                             imageModalVC.modalTransitionStyle = .CrossDissolve
@@ -505,12 +554,23 @@ public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver
                             self.presentVC(imageModalVC)
                         }
                     }
-                    
+                    else if let attachment = HCVideoAttachment.getAttachmentFromMessage(dataString: customData) where attachment.attachmentType == HCMessageAttachmentType.Video.name()
+                    {
+                        if let url = attachment.url {
+                            
+                            if let videoStreamURL = NSURL(string: url) {
+                                let videoController = AVPlayerViewController()
+                                videoController.player = AVPlayer(URL: videoStreamURL)
+                                
+                                self.presentViewController(videoController, animated: true, completion: { 
+                                    videoController.player?.play()
+                                })
+                            }
+                        }
+                    }
                 }
             }
-            
         }
-        
     }
     
     // MARK: HUD
