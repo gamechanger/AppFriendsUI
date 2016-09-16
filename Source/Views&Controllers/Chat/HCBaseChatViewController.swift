@@ -162,6 +162,7 @@ public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver
         else {
             self.imagePicker.sourceType = .PhotoLibrary
             self.imagePicker.mediaTypes = [kUTTypeImage as String, kUTTypeMovie as String]
+            self.imagePicker.videoMaximumDuration = 200 // can send max 2 mins video
             self.imagePicker.allowsEditing = false
             self.presentViewController(self.imagePicker, animated: true, completion: nil)
         }
@@ -482,46 +483,77 @@ public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver
     
     public func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject])
     {
-        if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
+        if info[UIImagePickerControllerMediaType] as! String == "public.image" {
             
-            let resultImage = pickedImage.resizeWithWidth(400)
-            
-            HCSDKCore.sharedInstance.uploadImage(resultImage, completion: { (imagePublicID, error) in
+            if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
                 
-                if let err = error {
-                    self.showErrorWithMessage(err.localizedDescription)
-                }
-                else {
-                    let fullImageURL = HCSDKCore.sharedInstance.fullImage(imagePublicID)
-                    MessagingManager.sharedInstance.sendImageMessage(fullImageURL, dialogID: self._dialogID, dialogType: self._dialogType)
-                }
+                let resultImage = pickedImage.resizeWithWidth(400)
                 
-            }, progress: { (percentage) in
-                
-                let progress = Float(percentage)/100.0
-                self.showProgress(progress, message: "Uploading ...")
-            })
-            
-        }
-        else if let pickedVideoPath = info[UIImagePickerControllerMediaURL] as? NSURL
-        {
-            if let videoData = NSData(contentsOfURL: pickedVideoPath) {
-                
-                HCSDKCore.sharedInstance.uploadVideo(videoData, completion: { (imagePublicID, error) in
-                
+                HCSDKCore.sharedInstance.uploadImage(resultImage, completion: { (imagePublicID, error) in
+                    
                     if let err = error {
                         self.showErrorWithMessage(err.localizedDescription)
                     }
                     else {
-                        let videoStreamURL = HCSDKCore.sharedInstance.videoStreamingURL(imagePublicID)
-                        let videoThumbnailURL = HCSDKCore.sharedInstance.videoThumbnailURL(imagePublicID)
-                        MessagingManager.sharedInstance.sendVideoMessage(videoStreamURL, videoThumbnailURL: videoThumbnailURL, dialogID: self._dialogID, dialogType: self._dialogType)
+                        let fullImageURL = HCSDKCore.sharedInstance.fullImage(imagePublicID)
+                        MessagingManager.sharedInstance.sendImageMessage(fullImageURL, dialogID: self._dialogID, dialogType: self._dialogType)
                     }
                     
-                }, progress: { (percentage) in
+                    }, progress: { (percentage) in
                         
                         let progress = Float(percentage)/100.0
                         self.showProgress(progress, message: "Uploading ...")
+                })
+                
+            }
+        }
+        else if info[UIImagePickerControllerMediaType] as! CFString == kUTTypeMovie ||
+                info[UIImagePickerControllerMediaType] as! CFString == kUTTypeVideo
+        {
+            if let pickedVideoPath = info[UIImagePickerControllerMediaURL] as? NSURL
+            {
+                let compressedURL = NSURL.fileURLWithPath(NSTemporaryDirectory() + NSUUID().UUIDString + ".m4v")
+                HCUtils.compressVideoAsset(pickedVideoPath, outputURL: compressedURL, handler: { (session) in
+                    
+                    switch session.status {
+                    case .Unknown:
+                        break
+                    case .Waiting:
+                        break
+                    case .Exporting:
+                        let progress = Float(session.progress)/100.0
+                        dispatch_async(dispatch_get_main_queue(), {
+                            self.showProgress(progress, message: "Compressing ...")
+                        })
+                        
+                        break
+                    case .Completed:
+                        if let videoData = NSData(contentsOfURL: compressedURL) {
+                            
+                            HCSDKCore.sharedInstance.uploadVideo(videoData, completion: { (imagePublicID, error) in
+                                
+                                if let err = error {
+                                    self.showErrorWithMessage(err.localizedDescription)
+                                }
+                                else {
+                                    let videoStreamURL = HCSDKCore.sharedInstance.videoStreamingURL(imagePublicID)
+                                    let videoThumbnailURL = HCSDKCore.sharedInstance.videoThumbnailURL(imagePublicID)
+                                    MessagingManager.sharedInstance.sendVideoMessage(videoStreamURL, videoThumbnailURL: videoThumbnailURL, dialogID: self._dialogID, dialogType: self._dialogType)
+                                }
+                                
+                                }, progress: { (percentage) in
+                                    
+                                    let progress = Float(percentage)/100.0
+                                    self.showProgress(progress, message: "Uploading ...")
+                            })
+                        }
+                        
+                    case .Failed:
+                        self.showErrorWithMessage(session.error?.localizedDescription)
+                        break
+                    case .Cancelled:
+                        break
+                    }
                 })
             }
         }
@@ -598,7 +630,9 @@ public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver
             HCBaseViewController.HUD = nil
         }
         else {
-            HUD.showInView(self.view)
+            if !HUD.visible {
+                HUD.showInView(self.view)
+            }
         }
     }
     

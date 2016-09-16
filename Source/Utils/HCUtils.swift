@@ -7,9 +7,31 @@
 //
 
 import UIKit
+import AVFoundation
 
 public class HCUtils: NSObject {
 
+    static func compressVideoAsset(inputURL: NSURL, outputURL: NSURL, handler:(session: AVAssetExportSession)-> Void)
+    {
+        let  urlAsset = AVURLAsset(URL: inputURL, options: nil)
+        
+        if let exportSession = AVAssetExportSession(asset: urlAsset, presetName: AVAssetExportPresetMediumQuality)
+        {
+            
+            exportSession.outputURL = outputURL
+            
+            exportSession.outputFileType = AVFileTypeQuickTimeMovie
+            
+            exportSession.shouldOptimizeForNetworkUse = true
+            
+            exportSession.exportAsynchronouslyWithCompletionHandler { () -> Void in
+                
+                handler(session: exportSession)
+            }
+            
+        }
+    }
+    
     public static func createUniqueID() -> String
     {
         return NSUUID().UUIDString
