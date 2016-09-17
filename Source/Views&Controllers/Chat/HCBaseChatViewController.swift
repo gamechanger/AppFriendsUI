@@ -157,6 +157,10 @@ public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver
                 self.imagePicker.allowsEditing = false
                 self.presentViewController(self.imagePicker, animated: true, completion: nil)
             }))
+            popup.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: { [weak popup](action) in
+                
+                popup?.dismissVC(completion: nil)
+            }))
             self.presentVC(popup)
         }
         else {
@@ -513,7 +517,7 @@ public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver
             if let pickedVideoPath = info[UIImagePickerControllerMediaURL] as? NSURL
             {
                 let compressedURL = NSURL.fileURLWithPath(NSTemporaryDirectory() + NSUUID().UUIDString + ".m4v")
-                HCUtils.compressVideoAsset(pickedVideoPath, outputURL: compressedURL, handler: { (session) in
+                let compressSession = HCUtils.compressVideoAsset(pickedVideoPath, outputURL: compressedURL, handler: { (session) in
                     
                     switch session.status {
                     case .Unknown:
@@ -521,19 +525,19 @@ public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver
                     case .Waiting:
                         break
                     case .Exporting:
-                        let progress = Float(session.progress)/100.0
-                        dispatch_async(dispatch_get_main_queue(), {
-                            self.showProgress(progress, message: "Compressing ...")
-                        })
-                        
                         break
                     case .Completed:
                         if let videoData = NSData(contentsOfURL: compressedURL) {
                             
+                            dispatch_async(dispatch_get_main_queue(), {
+                                self.hideHUD()
+                            })
                             HCSDKCore.sharedInstance.uploadVideo(videoData, completion: { (imagePublicID, error) in
                                 
                                 if let err = error {
-                                    self.showErrorWithMessage(err.localizedDescription)
+                                    dispatch_async(dispatch_get_main_queue(), {
+                                        self.showErrorWithMessage(err.localizedDescription)
+                                    })
                                 }
                                 else {
                                     let videoStreamURL = HCSDKCore.sharedInstance.videoStreamingURL(imagePublicID)
@@ -544,7 +548,9 @@ public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver
                                 }, progress: { (percentage) in
                                     
                                     let progress = Float(percentage)/100.0
-                                    self.showProgress(progress, message: "Uploading ...")
+                                    dispatch_async(dispatch_get_main_queue(), {
+                                        self.showProgress(progress, message: "Uploading ...")
+                                    })
                             })
                         }
                         
@@ -555,10 +561,34 @@ public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver
                         break
                     }
                 })
+                
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.updateCompressingProgress(compressSession)
+                })
             }
         }
         
         picker.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    // MARK: monitor compressing progress
+    
+    func updateCompressingProgress(compressSession: AVAssetExportSession?)
+    {
+        if let cs = compressSession {
+            
+            self.showProgress(cs.progress, message: "Compressing ...")
+        }
+        
+        if compressSession?.status == .Exporting || compressSession?.status == .Waiting {
+            
+            let delay = 0.5
+            NSTimer.runThisAfterDelay(seconds: delay, queue: dispatch_get_main_queue()) { [weak self] in
+                
+                self?.updateCompressingProgress(compressSession)
+            }
+        }
+        
     }
     
     // MARK: HCChatTableViewCellDelegate
@@ -619,21 +649,19 @@ public class HCBaseChatViewController: SLKTextViewController, ListObjectObserver
     func showProgress(progress: Float, message: String) {
         
         let HUD = self.hud()
-        HUD.textLabel.text = message
-        
-        HUD.indicatorView = JGProgressHUDPieIndicatorView(HUDStyle: .Dark)
-        HUD.setProgress(progress, animated: true)
         
         if progress >= 1 {
             
             HUD.dismiss()
             HCBaseViewController.HUD = nil
         }
-        else {
-            if !HUD.visible {
-                HUD.showInView(self.view)
-            }
+        else if !HUD.visible {
+            HUD.indicatorView = JGProgressHUDPieIndicatorView(HUDStyle: .Dark)
+            HUD.textLabel.text = message
+            HUD.showInView(self.view)
         }
+        
+        HUD.setProgress(progress, animated: true)
     }
     
     func showLoading (message: String?)

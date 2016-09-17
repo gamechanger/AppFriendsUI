@@ -11,7 +11,7 @@ import AVFoundation
 
 public class HCUtils: NSObject {
 
-    static func compressVideoAsset(inputURL: NSURL, outputURL: NSURL, handler:(session: AVAssetExportSession)-> Void)
+    static func compressVideoAsset(inputURL: NSURL, outputURL: NSURL, handler:(session: AVAssetExportSession)-> Void) -> AVAssetExportSession?
     {
         let  urlAsset = AVURLAsset(URL: inputURL, options: nil)
         
@@ -20,7 +20,7 @@ public class HCUtils: NSObject {
             
             exportSession.outputURL = outputURL
             
-            exportSession.outputFileType = AVFileTypeQuickTimeMovie
+            exportSession.outputFileType = AVFileTypeMPEG4
             
             exportSession.shouldOptimizeForNetworkUse = true
             
@@ -29,7 +29,11 @@ public class HCUtils: NSObject {
                 handler(session: exportSession)
             }
             
+            return exportSession
+            
         }
+        
+        return nil
     }
     
     public static func createUniqueID() -> String
