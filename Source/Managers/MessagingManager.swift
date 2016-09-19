@@ -253,6 +253,7 @@ public class MessagingManager: NSObject, HCSDKCoreSyncDelegate {
         let messageJSON = basicMessageJSON(text, dialogID:  dialogID)
         let senderJSON = createSenderJSON()
         messageJSON["custom_data"] = ["sender": senderJSON].toString()
+        messageJSON["send_push"] = true
         return messageJSON
     }
     
@@ -265,6 +266,7 @@ public class MessagingManager: NSObject, HCSDKCoreSyncDelegate {
         customData["sender"] = senderJSON
         customData["attachment"] = attachmentJSON
         messageJSON["custom_data"] = customData.toString()
+        messageJSON["send_push"] = true
         return messageJSON
     }
     
@@ -277,6 +279,7 @@ public class MessagingManager: NSObject, HCSDKCoreSyncDelegate {
         customData["sender"] = senderJSON
         customData["attachment"] = attachmentJSON
         messageJSON["custom_data"] = customData.toString()
+        messageJSON["send_push"] = true
         return messageJSON
     }
     
@@ -311,6 +314,7 @@ public class MessagingManager: NSObject, HCSDKCoreSyncDelegate {
             customData["action"] = action_stop_typing
         }
         messageJSON["custom_data"] = customData.toString()
+        messageJSON["send_push"] = false
         return messageJSON
     }
     
