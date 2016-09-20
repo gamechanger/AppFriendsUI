@@ -13,18 +13,35 @@ public class AppFriendsUI: NSObject {
     
     public static let sharedInstance = AppFriendsUI()
     
-    public func initialize(completion: ((success: Bool, error: NSError?) -> ())? = nil)
+    public func initialize(appKey: String, secret: String, completion: ((success: Bool, error: NSError?) -> ())? = nil)
     {
-        CoreStoreManager.sharedInstance.initialize { (success, error) in
         
-            if success {
-                MessagingManager.startReceivingMessage()
-                completion?(success: success, error: nil)
-            }
-            else {
+        // initialize core first
+        
+        let appFriendsCore = HCSDKCore.sharedInstance
+        appFriendsCore.initialize(key: appKey, secret: secret) { (success, error) in
+            
+            if !success {
                 completion?(success: success, error: error)
             }
+            else {
+                
+                // need to initialize Coredata for AppFriendsUI first
+                
+                CoreStoreManager.sharedInstance.initialize { (success, error) in
+                    
+                    if success {
+                        MessagingManager.startReceivingMessage()
+                        completion?(success: success, error: nil)
+                    }
+                    else {
+                        completion?(success: success, error: error)
+                    }
+                }
+                
+            }
         }
+        
     }
     
     public func logout() {
