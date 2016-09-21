@@ -11,9 +11,7 @@ import AppFriendsUI
 import AppFriendsCore
 import CoreStore
 import Kingfisher
-import Google_Material_Design_Icons_Swift
 import FontAwesome_swift
-import RNLoadingButton_Swift
 
 class ProfileViewController: UITableViewController {
     

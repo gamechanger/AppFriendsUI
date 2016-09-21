@@ -56,7 +56,7 @@ public class HCSidePanelAnimator: NSObject, UIViewControllerAnimatedTransitionin
             }
             
             if (presenting) { // presenting
-                containerView?.addSubview(toView)
+                containerView.addSubview(toView)
                 toView.frame = fromView.frame;
                 toView.frame = originFrameForPanel
                 UIView.animateWithDuration(HCConstants.sidePanelSlideAnimationDuration, animations: { 

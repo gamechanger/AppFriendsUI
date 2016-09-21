@@ -125,7 +125,7 @@ public class MessagingManager: NSObject, HCSDKCoreSyncDelegate {
     {
         let messageJSON = basicMessageJSON(displayText, dialogID:  dialogID)
         let senderJSON = createSenderJSON()
-        var customData = NSMutableDictionary()
+        let customData = NSMutableDictionary()
         customData["sender"] = senderJSON
         customData.addEntriesFromDictionary(customJSON as [NSObject : AnyObject])
         

@@ -8,7 +8,6 @@
 
 import UIKit
 import FontAwesome_swift
-import Google_Material_Design_Icons_Swift
 
 public class HCChatContainerViewController: HCBaseViewController, HCGroupCreatorViewControllerDelegate {
     

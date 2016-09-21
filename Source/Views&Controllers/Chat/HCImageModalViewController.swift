@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Google_Material_Design_Icons_Swift
 import Kingfisher
 
 public class HCImageModalViewController: HCBaseViewController {
