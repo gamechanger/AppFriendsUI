@@ -16,8 +16,8 @@ import FontAwesome_swift
 class LoginViewController: BaseViewController {
 
     @IBOutlet weak var userAvatarImage: UIImageView!
-    //@IBOutlet weak var userIDTextField: UITextField!
-    //@IBOutlet weak var userNameTextField: UITextField!
+    @IBOutlet weak var userIDTextField: UITextField?
+    @IBOutlet weak var userNameTextField: UITextField?
     @IBOutlet weak var leftButton: UIButton!
     @IBOutlet weak var rightButton: UIButton!
 
