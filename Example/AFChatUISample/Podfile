@@ -6,13 +6,8 @@ target 'AFChatUISample' do
   use_frameworks!
 
   # Pods for AFChatUISample
-  pod 'AppFriendsUI', :git => 'https://github.com/laeroah/AppFriendsUI.git', :branch => 'swift2.3'
-  pod 'AppFriendsCore', :git => 'https://github.com/laeroah/AppFriendsCoreFramework.git', :branch => 'swift2.3'
-  pod 'AFDateHelper', :git => 'https://github.com/laeroah/DateExtension.git'
-  pod 'FontAwesome.swift', :git => 'https://github.com/thii/FontAwesome.swift.git', :branch => 'swift-2.3'
-  pod 'EZSwiftExtensions', :git => 'https://github.com/goktugyil/EZSwiftExtensions.git', :branch => 'Swift2.3'
-  pod 'Socket.IO-Client-Swift', :git => 'https://github.com/socketio/socket.io-client-swift.git', :branch => 'swift2.3'
-  
+  pod 'AppFriendsUI', :path => '../../../AppFriendsUI'
+  pod 'RNLoadingButton-Swift'
 
 end
 
@@ -21,18 +16,6 @@ target 'AFObjcSample' do
     use_frameworks!
     
     # Pods for AFChatUISample
-    pod 'AppFriendsUI', :git => 'https://github.com/laeroah/AppFriendsUI.git', :branch => 'swift2.3'
-    pod 'AppFriendsCore', :git => 'https://github.com/laeroah/AppFriendsCoreFramework.git', :branch => 'swift2.3'
-    pod 'AFDateHelper', :git => 'https://github.com/laeroah/DateExtension.git'
-    pod 'FontAwesome.swift', :git => 'https://github.com/thii/FontAwesome.swift.git', :branch => 'swift-2.3'
-    pod 'EZSwiftExtensions', :git => 'https://github.com/goktugyil/EZSwiftExtensions.git', :branch => 'Swift2.3'
-    pod 'Socket.IO-Client-Swift', :git => 'https://github.com/socketio/socket.io-client-swift.git', :branch => 'swift2.3'
-end
-
-post_install do |installer|
-    installer.pods_project.targets.each do |target|
-        target.build_configurations.each do |configuration|
-            configuration.build_settings['SWIFT_VERSION'] = "2.3"
-        end
-    end
+    pod 'AppFriendsUI', :path => '../../../AppFriendsUI'
+    
 end
