@@ -44,31 +44,22 @@ class LoginViewController: BaseViewController {
 
         userAvatarImage.layer.cornerRadius = userAvatarImage.w/2
         userAvatarImage.layer.masksToBounds = true
-
-        // initialize AppFriendsCore
-        let appFriendsCore = HCSDKCore.sharedInstance
-        appFriendsCore.enableDebug()
-        appFriendsCore.initialize(key: "c3ZsINZMGHdGmbY3S6pcVgtt", secret: "FhsajDeh6XXBF143m82sKwtt") { (success, error) in
-
-            if !success {
-                NSLog("AppFriends initialization error:\(error?.localizedDescription)")
-            } else {
-
-                // need to initialize Coredata for AppFriendsUI first
-
-                AppFriendsUI.sharedInstance.initialize({ (success, error) in
-
-                    if success {
-                        if appFriendsCore.isLogin() {
-                            self.fetchCurrentUserInfo()
-                        } else {
-                            self.layoutViews()
-                        }
-                    } else {
-                        self.showErrorWithMessage(error?.localizedDescription)
-                    }
-                })
-
+        
+        // need to initialize Coredata for AppFriendsUI first
+        
+        AppFriendsUI.sharedInstance.initialize("c3ZsINZMGHdGmbY3S6pcVgtt", secret: "FhsajDeh6XXBF143m82sKwtt") { (success, error) in
+            
+            if success {
+                let appFriendsCore = HCSDKCore.sharedInstance
+                if appFriendsCore.isLogin() {
+                    self.fetchCurrentUserInfo()
+                }
+                else {
+                    self.layoutViews()
+                }
+            }
+            else {
+                self.showErrorWithMessage(error?.localizedDescription)
             }
         }
     }

@@ -14,7 +14,7 @@ import Google_Material_Design_Icons_Swift
 
 @objc
 public protocol HCChatTableViewCellDelegate {
-    func imageTapped(cell: HCChatTableViewCell)
+    func attachmentTapped(cell: HCChatTableViewCell)
 }
 
 public class HCChatTableViewCell: UITableViewCell {
@@ -34,6 +34,7 @@ public class HCChatTableViewCell: UITableViewCell {
     @IBOutlet weak var contentBackgroundBubble: UIImageView?
     @IBOutlet weak var contentImageView: UIImageView?
     @IBOutlet weak var failedButton: UIButton?
+    @IBOutlet weak var videoPlayIcon: UILabel?
     
     weak var delegate: HCChatTableViewCellDelegate?
     
@@ -41,6 +42,15 @@ public class HCChatTableViewCell: UITableViewCell {
     
     override public func awakeFromNib() {
         super.awakeFromNib()
+        
+        if let playIcon = videoPlayIcon
+        {
+            playIcon.layer.cornerRadius = playIcon.w/2
+            playIcon.layer.masksToBounds = true
+            playIcon.font = UIFont.systemFontOfSize(50)
+            playIcon.GMDIcon = GMDType.GMDPlayCircleOutline
+            playIcon.textColor = HCColorPalette.chatVideoPlayIconColor
+        }
         
         if let avatarView = userAvatarImageView
         {
@@ -79,7 +89,7 @@ public class HCChatTableViewCell: UITableViewCell {
     func imageTapped() {
         
         if let d = self.delegate {
-            d.imageTapped(self)
+            d.attachmentTapped(self)
         }
     }
     
@@ -109,7 +119,6 @@ public class HCChatTableViewCell: UITableViewCell {
     func setbubbleColor(color: UIColor) {
         
         self.contentBackgroundBubble?.backgroundColor = color
-        self.contentImageView?.backgroundColor = color
         
 //        self.contentBackgroundBubble.image = (self.contentBackgroundBubble.image?.imageWithRenderingMode(.AlwaysTemplate))!
 //        self.contentBackgroundBubble.tintColor = color

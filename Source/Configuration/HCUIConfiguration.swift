@@ -20,6 +20,7 @@ public class HCColorPalette {
     public static var chatOutMessageBubbleColor = UIColor(hexString: "93d4f0")
     public static var chatInMessageBubbleColor = UIColor(hexString: "5e62bc")
     public static var chatMessageFailedButtonColor = UIColor(hexString: "f2433d")
+    public static var chatVideoPlayIconColor = UIColor.blackColor()
     
     public static var avatarBackgroundColor = UIColor.init(white: 1, alpha: 0.3)
     

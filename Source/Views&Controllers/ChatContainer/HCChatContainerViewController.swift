@@ -191,17 +191,19 @@ public class HCChatContainerViewController: HCBaseViewController, HCGroupCreator
             self.showLoading("")
             DialogsManager.sharedInstance.createGroupDialog(users, completion: { (response, error) in
                 
-                if let err = error {
-                    self.showErrorWithMessage(err.localizedDescription)
-                } else {
-                    self.hideHUD()
-                    if let json = response {
-                        let dialogID = json["id"] as! String
-                        let groupChatVC = HCDialogChatViewController(dialog: dialogID)
-                        self.navigationController?.pushViewController(groupChatVC, animated: true)
+                dispatch_async(dispatch_get_main_queue())
+                {
+                    if let err = error {
+                        self.showErrorWithMessage(err.localizedDescription)
+                    } else {
+                        self.hideHUD()
+                        if let json = response {
+                            let dialogID = json["id"] as! String
+                            let groupChatVC = HCDialogChatViewController(dialog: dialogID)
+                            self.navigationController?.pushViewController(groupChatVC, animated: true)
+                        }
                     }
                 }
-                
             })
         }
     }
