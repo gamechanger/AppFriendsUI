@@ -8,7 +8,7 @@ target 'AFChatUISample' do
   # Pods for AFChatUISample
   pod 'AppFriendsUI', :path => '../../../AppFriendsUI'
   pod 'AppFriendsCore', :git => 'https://github.com/laeroah/AppFriendsCoreFramework.git', :branch => 'swift2.3'
-  pod 'AFDateHelper', :git => 'https://github.com/melvitax/DateHelper.git', :tag => '3.4.2'
+  pod 'AFDateHelper', :git => 'https://github.com/laeroah/DateExtension.git'
   pod 'FontAwesome.swift', :git => 'https://github.com/thii/FontAwesome.swift.git', :branch => 'swift-2.3'
   pod 'EZSwiftExtensions', :git => 'https://github.com/goktugyil/EZSwiftExtensions.git', :branch => 'Swift2.3'
   pod 'Socket.IO-Client-Swift', :git => 'https://github.com/socketio/socket.io-client-swift.git', :branch => 'swift2.3'
@@ -22,7 +22,7 @@ target 'AFObjcSample' do
     # Pods for AFChatUISample
     pod 'AppFriendsUI', :path => '../../../AppFriendsUI'
     pod 'AppFriendsCore', :git => 'https://github.com/laeroah/AppFriendsCoreFramework.git', :branch => 'swift2.3'
-    pod 'AFDateHelper', :git => 'https://github.com/melvitax/DateHelper.git', :tag => '3.4.2'
+    pod 'AFDateHelper', :git => 'https://github.com/laeroah/DateExtension.git'
     pod 'FontAwesome.swift', :git => 'https://github.com/thii/FontAwesome.swift.git', :branch => 'swift-2.3'
     pod 'EZSwiftExtensions', :git => 'https://github.com/goktugyil/EZSwiftExtensions.git', :branch => 'Swift2.3'
     pod 'Socket.IO-Client-Swift', :git => 'https://github.com/socketio/socket.io-client-swift.git', :branch => 'swift2.3'
