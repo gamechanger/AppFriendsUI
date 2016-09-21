@@ -9,7 +9,6 @@
 import UIKit
 import AppFriendsUI
 import AppFriendsCore
-import Google_Material_Design_Icons_Swift
 import FontAwesome_swift
 
 class UserSearchViewController: HCUserSearchViewController {

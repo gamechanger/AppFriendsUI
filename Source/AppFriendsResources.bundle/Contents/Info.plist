@@ -3,9 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>BuildMachineOSBuild</key>
-	<string>15G31</string>
-	<key>CFBundleDevelopmentRegion</key>
-	<string>en</string>
+	<string>15G1004</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.hacknocraft.AppFriendsResources</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -23,21 +21,16 @@
 	<key>DTCompiler</key>
 	<string>com.apple.compilers.llvm.clang.1_0</string>
 	<key>DTPlatformBuild</key>
-	<string>7D1014</string>
+	<string>8A218a</string>
 	<key>DTPlatformVersion</key>
 	<string>GM</string>
 	<key>DTSDKBuild</key>
-	<string>15E60</string>
+	<string>16A300</string>
 	<key>DTXcode</key>
-	<string>0731</string>
+	<string>0800</string>
 	<key>DTXcodeBuild</key>
-	<string>7D1014</string>
+	<string>8A218a</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2016 Hacknocraft. All rights reserved.</string>
-	<key>UIDeviceFamily</key>
-	<array>
-		<integer>1</integer>
-		<integer>2</integer>
-	</array>
 </dict>
 </plist>

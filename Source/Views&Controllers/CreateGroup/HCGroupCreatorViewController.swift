@@ -10,7 +10,6 @@ import UIKit
 import CLTokenInputView
 import CoreStore
 import FontAwesome_swift
-import Google_Material_Design_Icons_Swift
 
 @objc
 public protocol HCGroupCreatorViewControllerDelegate {

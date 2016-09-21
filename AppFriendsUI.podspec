@@ -20,13 +20,12 @@ s.author = { "Hao Wang" => "hao.wang@hacknocraft.com" }
 s.homepage = "http://appfriends.me"
 
 # 6 - framework location
-s.source = { :git => "https://github.com/laeroah/AppFriendsUI.git", :tag => "1.0.23"}
+s.source        = { :git => "https://github.com/laeroah/AppFriendsUI.git", :tag => "1.0.23"}
 s.source_files 	= "Source/**/*.{swift,xib}"
 s.resource	 	= "Source/AppFriendsResources.bundle"
 
 # 7
 s.dependency 'FontAwesome.swift'
-s.dependency 'Google-Material-Design-Icons-Swift'
 s.dependency 'Kingfisher', '~> 2.6.0'
 s.dependency 'SlackTextViewController'
 s.dependency 'NSDate+TimeAgo'

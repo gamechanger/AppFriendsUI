@@ -10,7 +10,6 @@ import UIKit
 import SlackTextViewController
 import EZSwiftExtensions
 import NSDate_TimeAgo
-import Google_Material_Design_Icons_Swift
 
 @objc
 public protocol HCChatTableViewCellDelegate {

@@ -20,6 +20,10 @@
 		<data>
 		7TeZduBtonKa4hum4HafAks0KZg=
 		</data>
+		<key>Resources/GMDIcons.ttf</key>
+		<data>
+		2h2XD3RHbvbCyGmpXkK50ZP4vtQ=
+		</data>
 	</dict>
 	<key>files2</key>
 	<dict>
@@ -65,6 +69,17 @@
 			<key>hash2</key>
 			<data>
 			gK57jyM93CcLVmptC2VbdIt/XyQAmWBZqvDRXqEC4mo=
+			</data>
+		</dict>
+		<key>Resources/GMDIcons.ttf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			2h2XD3RHbvbCyGmpXkK50ZP4vtQ=
+			</data>
+			<key>hash2</key>
+			<data>
+			Z2pMARxdDHZDfdbQwSE8gLKAUvY1rSuxGBsvR6+/VZc=
 			</data>
 		</dict>
 	</dict>

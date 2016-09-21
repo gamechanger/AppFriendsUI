@@ -9,7 +9,6 @@
 import UIKit
 import AppFriendsCore
 import CoreStore
-import Google_Material_Design_Icons_Swift
 
 public class HCDialogChatViewController: HCBaseChatViewController, HCGroupCreatorViewControllerDelegate {
 
